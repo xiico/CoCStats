@@ -7,19 +7,34 @@ module.exports = function (app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function (req, res) {
-        //res.render('index.ejs',{
-        res.render('index', {
-            user: req.user, // get the user out of session and pass to template
-            url: req.url
-        }); // load the index.ejs file
+        if (req.user && req.user.clans.length > 0) {
+            Clan.findOne({ tag: req.user.clans[0].tag }, function (err, clan) {
+                if (err)
+                    throw err;
+                if (clan) {
+                    res.render('index', {
+                        user: req.user, // get the user out of session and pass to template
+                        url: req.url,
+                        clan: clan
+                    }); // load the index.ejs file
+                }
+            });
+        }
+        else {
+            //res.render('index.ejs',{
+            res.render('index', {
+                user: req.user, // get the user out of session and pass to template
+                url: req.url
+            }); // load the index.ejs file
+        }
     });
 
     app.post('/', function (req, res) {
         if (req.body.clanTag) {
-            for (var index = 0; index < req.user.clans.length; index++) 
+            for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
-            
-            req.user.clans.push({tag:req.body.clanTag,active:true});
+
+            req.user.clans.push({ tag: req.body.clanTag, active: true });
             req.user.save();
         }
         //res.render('index.ejs',{

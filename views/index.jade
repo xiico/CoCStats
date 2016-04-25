@@ -17,14 +17,27 @@ block content
                   
           ul(class="nav nav-tabs")
             each tab in user.clans 
-              li(class={active:tab.active}) #[a(data-toggle="tab" href="#tab" + (user.clans.indexOf(tab)))=tab.tag]
-            if user.clans.length < 4
+              li(class={active:tab.active}) #[a(data-toggle="tab" href="/#tab" + (user.clans.indexOf(tab)))=tab.tag]
+            if user.clans.length < 3
               li #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-plus-sign")] Add clan]
           div(class="tab-content")
             each cnt in user.clans 
               div(id="tab" + (user.clans.indexOf(cnt)) class="tab-pane fade in " + (cnt.active ? "active" : ""))
-                h3= cnt.tag
-                p= cnt.tag
+                div(class="media")
+                  div(class="media-left")
+                    image(src=clan.badgeUrls.small )
+                  div(class="media-body")
+                    ul(class="list-group")
+                      li(class="list-group-item")
+                        h4(class="media-heading")= (user.clans.indexOf(cnt) == 0 ? clan.name : cnt.tag)
+                        = (user.clans.indexOf(cnt) == 0 ? clan.description : cnt.tag)
+                      if(user.clans.indexOf(cnt) == 0)
+                        li(class="list-group-item")
+                          span(class="badge")= clan.type
+                          strong Clan type:
+                        li(class="list-group-item")
+                          span(class="badge")= clan.clanPoints
+                          strong Clan Points:
             div(id="addClan" class="tab-pane fade")
               h3 You can add more clans here.
               div(class="input-group")
@@ -39,3 +52,15 @@ block content
       a(href="/auth/facebook" class="btn btn-primary authButtons") #[span(class="fa fa-facebook")]  Facebook
       a(href="/auth/twitter" class="btn btn-info authButtons") #[span(class="fa fa-twitter")]  Twitter
       a(href="/auth/google" class="btn btn-danger authButtons") #[span(class="fa fa-google-plus")]  Google
+ 
+  script.
+        // Javascript to enable link to tab
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+        } 
+        
+        // Change hash for page-reload
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        })
