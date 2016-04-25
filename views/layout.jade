@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")
+    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
+    <!-- load bootstrap css -->
+    link(rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+    <!-- load fontawesome -->
+    style.
+        body {padding-top: 16px;}   
+        .authButtons {margin-left:2px;margin-right:2px;}
+
+  body  
+    div(class="container")
+      nav(class="navbar navbar-inverse")
+        div(class="container-fluid")
+          div(class="navbar-header")
+            button(type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar")
+              span(class="icon-bar")
+              span(class="icon-bar")
+              span(class="icon-bar")
+            a(class="navbar-brand" href="#") CoC Clan Manager
+          div(class="collapse navbar-collapse" id="myNavbar")
+            ul(class="nav navbar-nav")              
+              li(class={active: url === "/"}) #[a(href="/") Home ]
+              li(class={active: url === "/profile"}) #[a(href="/profile") Profile]              
+            ul(class="nav navbar-nav navbar-right")
+              if !user 
+                li #[a(href="#") #[span(class="glyphicon glyphicon-user")] Sign Up]
+                li #[a(href="#") #[span(class="glyphicon glyphicon-log-in")] Login]
+              else
+              
+                li #[a(href="#") #[span(class="glyphicon glyphicon-user")] #{user.local.email}]
+      block content

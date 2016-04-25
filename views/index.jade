@@ -1,0 +1,41 @@
+extends layout
+ 
+
+block content
+  div(class="jumbotron")
+    //h1 #[span(class="fa fa-lock")] Node Authentication
+    // show any messages that come back with authentication
+    if user
+      form(action="/" method="post")
+        if user.clans.length == 0
+          div(class="alert alert-info" role="alert") You have no clans added yet. Add one to start managing it.
+            div(class="input-group")
+              input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
+              span(class="input-group-btn")
+                button(class="btn btn-default" type="submit") Go!
+        else
+                  
+          ul(class="nav nav-tabs")
+            each tab in user.clans 
+              li(class={active:tab.active}) #[a(data-toggle="tab" href="#tab" + (user.clans.indexOf(tab)))=tab.tag]
+            if user.clans.length < 4
+              li #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-plus-sign")] Add clan]
+          div(class="tab-content")
+            each cnt in user.clans 
+              div(id="tab" + (user.clans.indexOf(cnt)) class="tab-pane fade in " + (cnt.active ? "active" : ""))
+                h3= cnt.tag
+                p= cnt.tag
+            div(id="addClan" class="tab-pane fade")
+              h3 You can add more clans here.
+              div(class="input-group")
+                input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
+                span(class="input-group-btn")
+                  button(class="btn btn-default" type="submit") Go!
+    else
+      p Login or Register with:
+      
+      a(href="/login" class="btn btn-default authButtons") #[span(class="fa fa-user")]  Local Login
+      a(href="/signup" class="btn btn-default authButtons") #[span(class="fa fa-user")]  Local Signup
+      a(href="/auth/facebook" class="btn btn-primary authButtons") #[span(class="fa fa-facebook")]  Facebook
+      a(href="/auth/twitter" class="btn btn-info authButtons") #[span(class="fa fa-twitter")]  Twitter
+      a(href="/auth/google" class="btn btn-danger authButtons") #[span(class="fa fa-google-plus")]  Google
