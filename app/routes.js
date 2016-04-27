@@ -1,5 +1,6 @@
 // load up the clan model
 var Clan = require('../app/models/clan');
+var clans = [];
 
 module.exports = function (app, passport) {
 
@@ -8,14 +9,18 @@ module.exports = function (app, passport) {
     // =====================================
     app.get('/', function (req, res) {
         if (req.user && req.user.clans.length > 0) {
-            Clan.findOne({ tag: req.user.clans[0].tag }, function (err, clan) {
+            var search = [];
+            for (var index = 0; index < req.user.clans.length; index++)
+                search[search.length] = req.user.clans[index].tag;
+            //{ $in: [<value1>, <value2>, ... <valueN> ] }
+            Clan.find({ tag: { $in: search } }, function (err, clans) {
                 if (err)
                     throw err;
-                if (clan) {
+                if (clans) {
                     res.render('index', {
                         user: req.user, // get the user out of session and pass to template
                         url: req.url,
-                        clan: clan
+                        clans: clans
                     }); // load the index.ejs file
                 }
             });
@@ -30,12 +35,24 @@ module.exports = function (app, passport) {
     });
 
     app.post('/', function (req, res) {
-        if (req.body.clanTag) {
+        if (req.body.addTag) {
             for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
 
-            req.user.clans.push({ tag: req.body.clanTag, active: true });
+            req.user.clans.push({ tag: req.body.addTag, active: true });
             req.user.save();
+        }
+        if (req.body.delTag) {
+            var indexToRemove = -1;
+            for (var index = 0; index < req.user.clans.length; index++) {
+                if (req.user.clans[index].tag == req.body.delTag)
+                    indexToRemove = index;
+            }
+
+            if (indexToRemove >= 0) {
+                req.user.clans.splice(indexToRemove, 1);
+                req.user.save();
+            }
         }
         //res.render('index.ejs',{
         res.render('index', {

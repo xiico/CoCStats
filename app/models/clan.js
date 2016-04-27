@@ -28,7 +28,17 @@ var clanSchema = mongoose.Schema({
     memberList: [
         {
             tag: String,
+            name: String,
+            role: String,
             trophies: Number,
+            league: {
+                name: String,
+                iconUrls: {
+                    tiny: String
+                }
+            },
+            donations: Number,
+            donationsReceived: Number
         }
     ],
     history: [{

@@ -20,30 +20,72 @@ block content
               li(class={active:tab.active}) #[a(data-toggle="tab" href="/#tab" + (user.clans.indexOf(tab)))=tab.tag]
             if user.clans.length < 3
               li #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-plus-sign")] Add clan]
+            if user.clans.length > 0
+              li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Del clan]              
           div(class="tab-content")
-            each cnt in user.clans 
-              div(id="tab" + (user.clans.indexOf(cnt)) class="tab-pane fade in " + (cnt.active ? "active" : ""))
-                div(class="media")
+            each cnt, i in user.clans 
+              div(id="tab" + (i) class="tab-pane fade in " + (cnt.active ? "active" : ""))
+                //Principal
+                div(class="media" style="margin-top:15px;")                   
                   div(class="media-left")
-                    image(src=clan.badgeUrls.small )
+                    image(src=clans[i].badgeUrls.small)
                   div(class="media-body")
                     ul(class="list-group")
                       li(class="list-group-item")
-                        h4(class="media-heading")= (user.clans.indexOf(cnt) == 0 ? clan.name : cnt.tag)
-                        = (user.clans.indexOf(cnt) == 0 ? clan.description : cnt.tag)
-                      if(user.clans.indexOf(cnt) == 0)
-                        li(class="list-group-item")
-                          span(class="badge")= clan.type
-                          strong Clan type:
-                        li(class="list-group-item")
-                          span(class="badge")= clan.clanPoints
-                          strong Clan Points:
+                        h4(class="media-heading")= clans[i].name
+                        = clans[i].description
+                    table(class="table table-condensed")
+                      tbody
+                        tr
+                          td #[strong Clan type:]
+                          td= clans[i].type                            
+                        tr
+                          td #[strong Clan Points:]
+                          td= clans[i].clanPoints
+                        tr
+                          td #[strong Location:]
+                          td= clans[i].location.name
+                        tr
+                          td #[strong War Frequency:]
+                          td= clans[i].warFrequency
+                        tr
+                          td #[strong Clan Level:]
+                          td= clans[i].clanLevel
+                        tr
+                          td #[strong War Wins:]
+                          td= clans[i].warWins
+                        tr
+                          td #[strong War Wins Streak:]
+                          td= clans[i].warWinStreak
+                        tr
+                          td #[strong Required Trophies:]
+                          td= clans[i].requiredTrophies    
+                //Members
+                div(class="panel panel-default")
+                  div(class="panel-heading") Members:
+                  div(class="panel-body table-responsive")
+                    table(class="table table-condensed")
+                      tbody      
+                        each member, k in clans[i].memberList
+                          tr
+                            td #[image(src=member.league.iconUrls.tiny title=member.league.name)]
+                            td #[div= member.name] #[div= member.role]                                                          
+                            td= member.trophies
+                            td= member.donations
+                            td= member.donationsReceived
+                            td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
             div(id="addClan" class="tab-pane fade")
               h3 You can add more clans here.
               div(class="input-group")
-                input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
+                input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
                 span(class="input-group-btn")
                   button(class="btn btn-default" type="submit") Go!
+            div(id="delClan" class="tab-pane fade")
+              h3 Choose a clan to delete.
+              div(class="input-group")
+                input(type="text" class="form-control" placeholder="Put your clan tag here..." name="delTag")
+                span(class="input-group-btn")
+                  button(class="btn btn-default" type="submit") Go!                  
     else
       p Login or Register with:
       
@@ -51,16 +93,4 @@ block content
       a(href="/signup" class="btn btn-default authButtons") #[span(class="fa fa-user")]  Local Signup
       a(href="/auth/facebook" class="btn btn-primary authButtons") #[span(class="fa fa-facebook")]  Facebook
       a(href="/auth/twitter" class="btn btn-info authButtons") #[span(class="fa fa-twitter")]  Twitter
-      a(href="/auth/google" class="btn btn-danger authButtons") #[span(class="fa fa-google-plus")]  Google
- 
-  script.
-        // Javascript to enable link to tab
-        var url = document.location.toString();
-        if (url.match('#')) {
-            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
-        } 
-        
-        // Change hash for page-reload
-        $('.nav-tabs a').on('shown.bs.tab', function (e) {
-            window.location.hash = e.target.hash;
-        })
+      a(href="/auth/google" class="btn btn-danger authButtons") #[span(class="fa fa-google-plus")]  Google 
