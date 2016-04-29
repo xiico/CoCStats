@@ -1,5 +1,6 @@
 // load up the clan model
 var Clan = require('../app/models/clan');
+var localization = require('../config/localization');
 var clans = [];
 
 module.exports = function (app, passport) {
@@ -7,7 +8,7 @@ module.exports = function (app, passport) {
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
-    app.get('/', function (req, res) {
+    app.get('/:lang?/', function (req, res) {
         if (req.user && req.user.clans.length > 0) {
             var search = [];
             for (var index = 0; index < req.user.clans.length; index++)
@@ -34,7 +35,29 @@ module.exports = function (app, passport) {
         }
     });
 
-    app.post('/', function (req, res) {
+    // =====================================
+    // CLANS DETAILS =======================
+    // =====================================
+    app.get('/:lang?/clans/:id', function (req, res) {
+        if (req.user && req.user.clans.length > 0) {
+            Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
+                if (err)
+                    throw err;
+                if (clan) {
+                    res.render('clan', {
+                        user: req.user, // get the user out of session and pass to template
+                        url: req.url,
+                        clan: clan,
+                        _: function (msgid) {
+                            return localization(msgid,(!req.params.lang ? "en" : req.params.lang));
+                        }
+                    }); // load the index.ejs file
+                }
+            });
+        }
+    });
+
+    app.post('/:lang?/', function (req, res) {
         if (req.body.addTag) {
             for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
@@ -64,13 +87,13 @@ module.exports = function (app, passport) {
     // LOGIN ===============================
     // =====================================
     // show the login form
-    app.get('/login', function (req, res) {
+    app.get('/:lang?/login', function (req, res) {
 
         // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') });
     });
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
+    app.post('/:lang?/login', passport.authenticate('local-login', {
         successRedirect: '/profile', // redirect to the secure profile section
         failureRedirect: '/login', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
@@ -83,13 +106,13 @@ module.exports = function (app, passport) {
     // SIGNUP ==============================
     // =====================================
     // show the signup form
-    app.get('/signup', function (req, res) {
+    app.get('/:lang?/signup', function (req, res) {
 
         // render the page and pass in any flash data if it exists
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.post('/:lang?/signup', passport.authenticate('local-signup', {
         successRedirect: '/profile', // redirect to the secure profile section
         failureRedirect: '/signup', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
@@ -103,7 +126,7 @@ module.exports = function (app, passport) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/profile', isLoggedIn, function (req, res) {
+    app.get('/:lang?/profile', isLoggedIn, function (req, res) {
         res.render('profile', {
             //res.render('profile.ejs', {
             user: req.user, // get the user out of session and pass to template
@@ -111,7 +134,7 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.post('/profile', isLoggedIn, function (req, res) {
+    app.post('/:lang?/profile', isLoggedIn, function (req, res) {
         res.render('profile', {
             //res.render('profile.ejs', {
             user: req.user, // get the user out of session and pass to template
@@ -164,7 +187,7 @@ module.exports = function (app, passport) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function (req, res) {
+    app.get('/:lang?/logout', function (req, res) {
         req.logout();
         res.redirect('/');
     });

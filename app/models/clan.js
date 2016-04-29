@@ -11,7 +11,8 @@ var clanSchema = mongoose.Schema({
     location: {
         id: Number,
         name: String,
-        isCountry: Boolean
+        isCountry: Boolean,
+        countryCode: String
     },
     badgeUrls: {
         small: String,

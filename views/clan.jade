@@ -1,0 +1,54 @@
+extends layout
+ 
+
+block content
+  div(class="jumbotron")
+    //Principal
+    div(class="media" style="margin-top:15px;")                   
+      div(class="media-left")
+        image(src=clan.badgeUrls.small)
+      div(class="media-body")
+        ul(class="list-group")
+          li(class="list-group-item")
+            h4(class="media-heading")= clan.name
+            = clan.description
+        table(class="table table-condensed")
+          tbody
+            tr
+              td #[strong= _("Clan Type")+":"]
+              td= clan.type                            
+            tr
+              td #[strong= _("Clan Points")+":"]
+              td= clan.clanPoints
+            tr
+              td #[strong= _("Location")+":"]
+              td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Brazil")]
+            tr
+              td #[strong War Frequency:]
+              td= clan.warFrequency
+            tr
+              td #[strong Clan Level:]
+              td= clan.clanLevel
+            tr
+              td #[strong War Wins:]
+              td= clan.warWins
+            tr
+              td #[strong War Wins Streak:]
+              td= clan.warWinStreak
+            tr
+              td #[strong Required Trophies:]
+              td= clan.requiredTrophies    
+    //Members
+    div(class="panel panel-default")
+      div(class="panel-heading") Members:
+      div(class="panel-body table-responsive")
+        table(class="table table-condensed")
+          tbody      
+            each member, k in clan.memberList
+              tr
+                td #[image(src=member.league.iconUrls.tiny title=member.league.name)]
+                td #[div= member.name] #[div= member.role]                                                          
+                td= member.trophies
+                td= member.donations
+                td= member.donationsReceived
+                td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)   
