@@ -32,6 +32,7 @@ var clanSchema = mongoose.Schema({
             name: String,
             role: String,
             trophies: Number,
+            expLevel: Number,
             league: {
                 name: String,
                 iconUrls: {

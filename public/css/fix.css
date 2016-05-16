@@ -1,0 +1,13 @@
+.table>tbody>tr>td{
+    vertical-align: middle;
+}
+
+.panel-body td:nth-of-type(3)
+{
+    background:url(../images/level.png);
+    background-size: 36px 36px;
+    background-repeat: no-repeat;
+    background-position:0 4px;   
+    text-align: center;
+    width: 36px;
+}  

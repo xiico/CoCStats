@@ -37,8 +37,8 @@ block content
                     table(class="table table-condensed")
                       tbody
                         tr
-                          td #[strong Clan type:]
-                          td= clans[i].type                            
+                          td #[strong Clan Level:]
+                          td= clans[i].clanLevel                           
                         tr
                           td #[strong Clan Points:]
                           td= clans[i].clanPoints
@@ -46,34 +46,8 @@ block content
                           td #[strong Location:]
                           td= clans[i].location.name
                         tr
-                          td #[strong War Frequency:]
-                          td= clans[i].warFrequency
-                        tr
-                          td #[strong Clan Level:]
-                          td= clans[i].clanLevel
-                        tr
-                          td #[strong War Wins:]
-                          td= clans[i].warWins
-                        tr
-                          td #[strong War Wins Streak:]
-                          td= clans[i].warWinStreak
-                        tr
-                          td #[strong Required Trophies:]
-                          td= clans[i].requiredTrophies    
-                //Members
-                div(class="panel panel-default")
-                  div(class="panel-heading") Members:
-                  div(class="panel-body table-responsive")
-                    table(class="table table-condensed")
-                      tbody      
-                        each member, k in clans[i].memberList
-                          tr
-                            td #[image(src=member.league.iconUrls.tiny title=member.league.name)]
-                            td #[div= member.name] #[div= member.role]                                                          
-                            td= member.trophies
-                            td= member.donations
-                            td= member.donationsReceived
-                            td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
+                          td
+                          td #[a(class="btn btn-primary" href="/clans/"+ user.clans[i].tag.replace('#','') style="float:right;margin-top:10px;") Details]
             div(id="addClan" class="tab-pane fade")
               h3 You can add more clans here.
               div(class="input-group")
@@ -81,11 +55,12 @@ block content
                 span(class="input-group-btn")
                   button(class="btn btn-default" type="submit") Go!
             div(id="delClan" class="tab-pane fade")
-              h3 Choose a clan to delete.
-              div(class="input-group")
-                input(type="text" class="form-control" placeholder="Put your clan tag here..." name="delTag")
-                span(class="input-group-btn")
-                  button(class="btn btn-default" type="submit") Go!                  
+              h3 Choose a clan to delete. 
+                div(class="form-group")
+                  select(class="form-control" id="clanToDel")
+                    each cnt, i in user.clans 
+                      option(value=cnt.tag)= clans[i].name
+                button(class="btn btn-primary" type="submit" style="float:right;") Remove                  
     else
       p Login or Register with:
       

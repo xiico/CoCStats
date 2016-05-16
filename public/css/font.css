@@ -1,0 +1,33 @@
+
+@font-face {
+    font-family: superCellMagic;
+    src: url(../fonts/Supercell-magic-webfont.ttf);
+}
+
+.superCellFont
+{
+  font-family:superCellMagic;
+  color: white;
+  text-shadow:
+   0px -1px 0 #000,   
+   1px -1px 0 #000,
+    1px 0px 0 #000,
+    1px 1px 0 #000,
+    
+    0px 2px 0 #000,    
+    1px 2px 0 #000,
+   -1px 2px 0 #000,
+    
+    0px 3px 0 #000,    
+    1px 3px 0 #000,
+   -1px 3px 0 #000,
+    
+   -1px 1px 0 #000,
+   -1px 0px 0 #000,
+  -1px -1px 0 #000;
+}
+
+.fontSmall
+{
+  font-size: .75em;
+}

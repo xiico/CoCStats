@@ -2,6 +2,18 @@
 var Clan = require('../app/models/clan');
 var localization = require('../config/localization');
 var clans = [];
+var clanRoles = function(clanRole){
+    switch (clanRole) {
+        case "admin":
+            return "Elder";
+        case "leader":
+            return "Leader";    
+        case "coLeader":
+            return "Co-Leader";
+        case "member":
+            return "Member";            
+    }
+}
 
 module.exports = function (app, passport) {
 
@@ -21,7 +33,8 @@ module.exports = function (app, passport) {
                     res.render('index', {
                         user: req.user, // get the user out of session and pass to template
                         url: req.url,
-                        clans: clans
+                        clans: clans,
+                        clanRoles: clanRoles
                     }); // load the index.ejs file
                 }
             });
@@ -38,7 +51,7 @@ module.exports = function (app, passport) {
     // =====================================
     // CLANS DETAILS =======================
     // =====================================
-    app.get('/:lang?/clans/:id', function (req, res) {
+    app.get('/:lang?/clans/:id', isLoggedIn, function (req, res) {
         if (req.user && req.user.clans.length > 0) {
             Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
                 if (err)
@@ -50,14 +63,15 @@ module.exports = function (app, passport) {
                         clan: clan,
                         _: function (msgid) {
                             return localization(msgid,(!req.params.lang ? "en" : req.params.lang));
-                        }
+                        },
+                        clanRoles: clanRoles
                     }); // load the index.ejs file
                 }
             });
         }
     });
 
-    app.post('/:lang?/', function (req, res) {
+    app.post('/:lang?/', isLoggedIn, function (req, res) {
         if (req.body.addTag) {
             for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
@@ -94,7 +108,7 @@ module.exports = function (app, passport) {
     });
     // process the login form
     app.post('/:lang?/login', passport.authenticate('local-login', {
-        successRedirect: '/profile', // redirect to the secure profile section
+        successRedirect: '/', // redirect to the secure profile section
         failureRedirect: '/login', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));

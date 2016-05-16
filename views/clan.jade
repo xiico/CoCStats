@@ -24,31 +24,32 @@ block content
               td #[strong= _("Location")+":"]
               td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Brazil")]
             tr
-              td #[strong War Frequency:]
+              td #[strong= _("War Frequency")+":"]
               td= clan.warFrequency
             tr
-              td #[strong Clan Level:]
+              td #[strong= _("Clan Level")+":"]
               td= clan.clanLevel
             tr
-              td #[strong War Wins:]
+              td #[strong= _("War Wins")+":"]
               td= clan.warWins
             tr
-              td #[strong War Wins Streak:]
+              td #[strong= _("War Wins Streak")+":"]
               td= clan.warWinStreak
             tr
-              td #[strong Required Trophies:]
+              td #[strong= _("Required Trophies")+":"]
               td= clan.requiredTrophies    
     //Members
     div(class="panel panel-default")
-      div(class="panel-heading") Members:
+      div(class="panel-heading")= _("Members")+":"
       div(class="panel-body table-responsive")
         table(class="table table-condensed")
           tbody      
             each member, k in clan.memberList
               tr
                 td #[image(src=member.league.iconUrls.tiny title=member.league.name)]
-                td #[div= member.name] #[div= member.role]                                                          
-                td= member.trophies
+                td #[div(class="superCellFont fontSmall") #[span= member.name]] #[div= _(clanRoles(member.role))]         
+                td(class="superCellFont fontSmall")= member.expLevel                                                 
+                td(class="superCellFont")= member.trophies
                 td= member.donations
                 td= member.donationsReceived
                 td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)   
