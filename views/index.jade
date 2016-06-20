@@ -57,7 +57,7 @@ block content
             div(id="delClan" class="tab-pane fade")
               h3 Choose a clan to delete. 
                 div(class="form-group")
-                  select(class="form-control" id="clanToDel")
+                  select(class="form-control" id="clanToDel" name='clanToDel')
                     each cnt, i in user.clans 
                       option(value=cnt.tag)= clans[i].name
                 button(class="btn btn-primary" type="submit" style="float:right;") Remove                  

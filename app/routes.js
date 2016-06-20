@@ -72,17 +72,18 @@ module.exports = function (app, passport) {
     });
 
     app.post('/:lang?/', isLoggedIn, function (req, res) {
-        if (req.body.addTag) {
+        if (req.body.addTag || req.body.clanTag) {
+            var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag; 
             for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
 
-            req.user.clans.push({ tag: req.body.addTag, active: true });
+            req.user.clans.push({ tag: newTag, active: true });
             req.user.save();
         }
-        if (req.body.delTag) {
+        if (req.body.clanToDel) {
             var indexToRemove = -1;
             for (var index = 0; index < req.user.clans.length; index++) {
-                if (req.user.clans[index].tag == req.body.delTag)
+                if (req.user.clans[index].tag == req.body.clanToDel)
                     indexToRemove = index;
             }
 
@@ -91,11 +92,31 @@ module.exports = function (app, passport) {
                 req.user.save();
             }
         }
-        //res.render('index.ejs',{
-        res.render('index', {
-            user: req.user, // get the user out of session and pass to template
-            url: req.url
-        }); // load the index.ejs file
+        if (req.user && req.user.clans.length > 0) {
+            var search = [];
+            for (var index = 0; index < req.user.clans.length; index++)
+                search[search.length] = req.user.clans[index].tag;
+            //{ $in: [<value1>, <value2>, ... <valueN> ] }
+            Clan.find({ tag: { $in: search } }, function (err, clans) {
+                if (err)
+                    throw err;
+                if (clans) {
+                    res.render('index', {
+                        user: req.user, // get the user out of session and pass to template
+                        url: req.url,
+                        clans: clans,
+                        clanRoles: clanRoles
+                    }); // load the index.ejs file
+                }
+            });
+        }
+        else {
+            //res.render('index.ejs',{
+            res.render('index', {
+                user: req.user, // get the user out of session and pass to template
+                url: req.url
+            }); // load the index.ejs file
+        }
     });
     // =====================================
     // LOGIN ===============================
