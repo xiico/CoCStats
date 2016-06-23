@@ -43,22 +43,23 @@ module.exports = function (app, passport) {
             // do whatever we want with the response once it's done
             res.on('end', function () {
                 try {
-                    console.log('body: '+body);
+                    
                     var parsed = JSON.parse(body);
                 } catch (err) {
                     console.error('Unable to parse response as JSON', err);
                     return cb(err);
                 }
+                console.log('parsed.tag: '+parsed.tag);
                 if (parsed.tag) {
                     if (updateClans) {
                         Clan.findOneAndUpdate({ tag: parsed.tag }, parsed, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
                             if (err)
                                 throw err;
-                            RenderPage(page, req, pageRes, parsed);
+                            RenderPage(page, req, pageRes, [parsed]);
                         });
                     }
                     else
-                        RenderPage(page, req, pageRes, parsed);
+                        RenderPage(page, req, pageRes, [parsed]);
 
                 }
                 else {
@@ -105,7 +106,7 @@ module.exports = function (app, passport) {
                 req.session.viewed = true;
                 for (var index = 0; index < req.user.clans.length; index++) {
                     search[search.length] = req.user.clans[index].tag;
-                    SearchClan(req, null, req.user.clans[index].tag);
+                    SearchClan(req, null, req.user.clans[index].tag, true);
                 }
             }
             for (var index = 0; index < req.user.clans.length; index++)
