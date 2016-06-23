@@ -1,43 +1,126 @@
 // load up the clan model
 var Clan = require('../app/models/clan');
+
+var https = require('https');
+
+// load up the User model
+var User = require('../app/models/user');
 var localization = require('../config/localization');
 var clans = [];
-var clanRoles = function(clanRole){
+var clanRoles = function (clanRole) {
     switch (clanRole) {
         case "admin":
             return "Elder";
         case "leader":
-            return "Leader";    
+            return "Leader";
         case "coLeader":
             return "Co-Leader";
         case "member":
-            return "Member";            
+            return "Member";
     }
 }
 
 module.exports = function (app, passport) {
 
     // =====================================
+    // Search a Clan =======================
+    // =====================================
+    function SearchClan(req, pageRes) {
+        https.get({
+            host: 'api.clashofclans.com',
+            path: '/v1/clans/%23' + req.params.id,//80U9PL8P 
+            headers: { 'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY5NDBlOTYxLWQ2MTMtNGI3Ni05MDBhLTlhNTI2NGNlYzZhNyIsImlhdCI6MTQ2NjQ2NTM4Miwic3ViIjoiZGV2ZWxvcGVyLzhhZmQ5ZjJhLWQzNmEtYzdkMS1jZjgxLTRmZGExN2Q1ZWZlZCIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ1LjU1LjIyMS4yMjUiXSwidHlwZSI6ImNsaWVudCJ9XX0.4SWOJT3Qac_XTB2Y2ay9dgQ7f8L6j5C59nzwXGQPqyJ1Mkxs4V2xzVqXPacp10ywvDmrOid9tb_2q-bsW_czLA' }
+        }, function (res) {
+            // explicitly treat incoming data as utf8 (avoids issues with multi-byte chars)
+            res.setEncoding('utf8');
+
+            // incrementally capture the incoming response body
+            var body = '';
+            res.on('data', function (d) {
+                body += d;
+            });
+
+            // do whatever we want with the response once it's done
+            res.on('end', function () {
+                try {
+                    var parsed = JSON.parse(body);
+                } catch (err) {
+                    console.error('Unable to parse response as JSON', err);
+                    return cb(err);
+                }
+                /*
+                                if (parsed.tag)
+                                    cb(null, parsed);
+                                else
+                                    console.log(body);*/
+
+                if (parsed.tag) {
+                    RenderPage(req, pageRes, parsed);
+                }
+                else {
+                    Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
+                        if (err)
+                            throw err;
+
+                        RenderPage(req, pageRes, clan);
+                        /* res.render('clan', {
+                             user: req.user, // get the user out of session and pass to template
+                             url: req.url,
+                             clan: clan,
+                             _: function (msgid) {
+                                 return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
+                             },
+                             clanRoles: clanRoles
+                         }); // load the index.ejs file
+                         */
+                    });
+                }
+
+            });
+        }).on('error', function (err) {
+            // handle errors with the request itself
+            console.error('Error with the request:', err.message);
+            cb(err);
+        });
+    }
+
+    function RenderPage(req, res, clan) {
+        res.render('clan', {
+            user: req.user, // get the user out of session and pass to template
+            url: req.url,
+            clan: clan,
+            _: function (msgid) {
+                return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
+            },
+            clanRoles: clanRoles
+        }); // load the index.ejs file
+    }
+
+    // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/:lang?/', function (req, res) {
-        if (req.user && req.user.clans.length > 0) {
-            var search = [];
-            for (var index = 0; index < req.user.clans.length; index++)
-                search[search.length] = req.user.clans[index].tag;
-            //{ $in: [<value1>, <value2>, ... <valueN> ] }
-            Clan.find({ tag: { $in: search } }, function (err, clans) {
+        if (req.user /*&& req.user.clans.length > 0*/) {
+            User.findOne({ tag: req.user.tag }, function (err, usr) {
                 if (err)
                     throw err;
-                if (clans) {
-                    res.render('index', {
-                        user: req.user, // get the user out of session and pass to template
-                        url: req.url,
-                        clans: clans,
-                        clanRoles: clanRoles
-                    }); // load the index.ejs file
-                }
-            });
+                var search = [];
+                for (var index = 0; index < usr.clans.length; index++)
+                    search[search.length] = usr.clans[index].tag;
+                //{ $in: [<value1>, <value2>, ... <valueN> ] }
+                Clan.find({ tag: { $in: search } }, function (err, clans) {
+                    if (err)
+                        throw err;
+                    if (clans) {
+                        res.render('index', {
+                            user: usr, // get the user out of session and pass to template
+                            url: req.url,
+                            clans: clans,
+                            clanRoles: clanRoles
+                        }); // load the index.ejs file
+                    }
+                });
+            })
         }
         else {
             //res.render('index.ejs',{
@@ -53,27 +136,28 @@ module.exports = function (app, passport) {
     // =====================================
     app.get('/:lang?/clans/:id', isLoggedIn, function (req, res) {
         if (req.user && req.user.clans.length > 0) {
-            Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
+            /*Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
                 if (err)
                     throw err;
-                if (clan) {
+                    
                     res.render('clan', {
                         user: req.user, // get the user out of session and pass to template
                         url: req.url,
                         clan: clan,
                         _: function (msgid) {
-                            return localization(msgid,(!req.params.lang ? "en" : req.params.lang));
+                            return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
                         },
                         clanRoles: clanRoles
                     }); // load the index.ejs file
-                }
-            });
+                    
+            });*/
+            SearchClan(req, res);
         }
     });
 
     app.post('/:lang?/', isLoggedIn, function (req, res) {
         if (req.body.addTag || req.body.clanTag) {
-            var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag; 
+            var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
             for (var index = 0; index < req.user.clans.length; index++)
                 req.user.clans[index].active = false;
 

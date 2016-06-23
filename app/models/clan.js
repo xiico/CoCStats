@@ -43,15 +43,6 @@ var clanSchema = mongoose.Schema({
             donationsReceived: Number
         }
     ],
-    history: [{
-        clanLevel: Number,
-        warWins: Number,
-        warWinStreak: Number,
-        clanPoints: Number,
-        trophies: Number,
-        members: Number,
-        date: Date
-    }],
     active: Boolean
 });
 
