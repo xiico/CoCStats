@@ -55,17 +55,22 @@ module.exports = function (app, passport) {
                         Clan.findOneAndUpdate({ tag: parsed.tag }, parsed, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
                             if (err)
                                 throw err;
+                            console.log('findOneAndUpdate - page: ' + page);
                             if (pageRes) {
                                 Clan.find({ tag: search }, function (err, clans) {
                                     if (err)
                                         throw err;
+                                    console.log('findOneAndUpdate>Clan.find - clans.length:' + clans.length);
                                     RenderPage(page, req, pageRes, clans);
                                 });
                             }
                         });
                     }
                     else
+                    {
+                        console.log('[parsed] - clans.length:');
                         RenderPage(page, req, pageRes, [parsed]);
+                    }
 
                 }
                 else {
