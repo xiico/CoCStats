@@ -16,15 +16,15 @@ block content
         else
                   
           ul(class="nav nav-tabs")
-            each tab in user.clans 
-              li(class={active:tab.active}) #[a(data-toggle="tab" href="/#tab" + (user.clans.indexOf(tab)))=tab.tag]
+            each tab,i in clans 
+              li(class={active:i==0}) #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
             if user.clans.length < 3
               li #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-plus-sign")] Add clan]
             if user.clans.length > 0
               li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Del clan]              
           div(class="tab-content")
             each cnt, i in clans 
-              div(id="tab" + (i) class="tab-pane fade in " + (cnt.active ? "active" : ""))
+              div(id="tab" + (i) class="tab-pane fade in " + (i == 0 ? "active" : ""))
                 //Principal
                 div(class="media" style="margin-top:15px;")                   
                   div(class="media-left")
