@@ -61,6 +61,9 @@ module.exports = function (app, passport) {
 
                 }
                 else {
+                    if (tag.indexOf("#") < 0) {
+                        tag = "#" + tag;
+                    }
                     Clan.findOne({ tag: tag }, function (err, clan) {
                         if (err)
                             throw err;
