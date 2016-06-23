@@ -12,7 +12,7 @@ block content
             div(class="input-group")
               input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
               span(class="input-group-btn")
-                button(class="btn btn-default" type="submit") Go!
+                button(class="btn btn-default" type="submit" name='btnAddClanTag') Go!
         else
                   
           ul(class="nav nav-tabs")
@@ -23,44 +23,44 @@ block content
             if user.clans.length > 0
               li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Del clan]              
           div(class="tab-content")
-            each cnt, i in user.clans 
+            each cnt, i in clans 
               div(id="tab" + (i) class="tab-pane fade in " + (cnt.active ? "active" : ""))
                 //Principal
                 div(class="media" style="margin-top:15px;")                   
                   div(class="media-left")
-                    image(src=clans[i].badgeUrls.small)
+                    image(src=cnt.badgeUrls.small)
                   div(class="media-body")
                     ul(class="list-group")
                       li(class="list-group-item")
-                        h4(class="media-heading")= clans[i].name
-                        = clans[i].description
+                        h4(class="media-heading")= cnt.name
+                        = cnt.description
                     table(class="table table-condensed")
                       tbody
                         tr
                           td #[strong Clan Level:]
-                          td= clans[i].clanLevel                           
+                          td= cnt.clanLevel                           
                         tr
                           td #[strong Clan Points:]
-                          td= clans[i].clanPoints
+                          td= cnt.clanPoints
                         tr
                           td #[strong Location:]
-                          td= clans[i].location.name
+                          td= cnt.location.name
                         tr
                           td
-                          td #[a(class="btn btn-primary" href="/clans/"+ user.clans[i].tag.replace('#','') style="float:right;margin-top:10px;") Details]
+                          td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
             div(id="addClan" class="tab-pane fade")
               h3 You can add more clans here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
                 span(class="input-group-btn")
-                  button(class="btn btn-default" type="submit") Go!
+                  button(class="btn btn-default" name="btnAdd" type="submit") Add!
             div(id="delClan" class="tab-pane fade")
               h3 Choose a clan to delete. 
                 div(class="form-group")
                   select(class="form-control" id="clanToDel" name='clanToDel')
-                    each cnt, i in user.clans 
-                      option(value=cnt.tag)= clans[i].name
-                button(class="btn btn-primary" type="submit" style="float:right;") Remove                  
+                    each cnt, i in clans 
+                      option(value=cnt.tag)= cnt.name
+                button(class="btn btn-primary" type="submit" name="btnDel" style="float:right;") Remove                  
     else
       p Login or Register with:
       
