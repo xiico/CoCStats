@@ -25,7 +25,7 @@ module.exports = function (app, passport) {
     // =====================================
     // Search a Clan =======================
     // =====================================
-    function SearchClan(req, pageRes, tag, updateClans, page) {
+    function SearchClan(req, pageRes, tag, updateClans, page, search) {
         https.get({
             host: 'api.clashofclans.com',
             path: '/v1/clans/%23' + tag.replace('#', ''),//80U9PL8P 
@@ -43,19 +43,25 @@ module.exports = function (app, passport) {
             // do whatever we want with the response once it's done
             res.on('end', function () {
                 try {
-                    
+
                     var parsed = JSON.parse(body);
                 } catch (err) {
                     console.error('Unable to parse response as JSON', err);
                     return cb(err);
                 }
-                console.log('parsed.tag: '+parsed.tag);
+                console.log('parsed.tag: ' + parsed.tag);
                 if (parsed.tag) {
                     if (updateClans) {
                         Clan.findOneAndUpdate({ tag: parsed.tag }, parsed, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
                             if (err)
                                 throw err;
-                            RenderPage(page, req, pageRes, [parsed]);
+                            if (pageRes) {
+                                Clan.find({ tag: search }, function (err, clans) {
+                                    if (err)
+                                        throw err;
+                                    RenderPage(page, req, pageRes, clans);
+                                });
+                            }
                         });
                     }
                     else
@@ -66,10 +72,11 @@ module.exports = function (app, passport) {
                     if (tag.indexOf("#") < 0) {
                         tag = "#" + tag;
                     }
-                    Clan.findOne({ tag: tag }, function (err, clan) {
+                    var sch = updateClans ? search : tag;
+                    Clan.find({ tag: sch }, function (err, clans) {
                         if (err)
                             throw err;
-                        RenderPage(page, req, pageRes, [clan]);
+                        RenderPage(page, req, pageRes, clans);
                     });
                 }
 
@@ -106,19 +113,25 @@ module.exports = function (app, passport) {
                 req.session.viewed = true;
                 for (var index = 0; index < req.user.clans.length; index++) {
                     search[search.length] = req.user.clans[index].tag;
-                    SearchClan(req, null, req.user.clans[index].tag, true);
+
+                    if (search.length != req.user.clans.length)
+                        SearchClan(req, null, req.user.clans[index].tag, true);
+                    else
+                        SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
                 }
             }
-            for (var index = 0; index < req.user.clans.length; index++)
-                search[search.length] = req.user.clans[index].tag;
-            //{ $in: [<value1>, <value2>, ... <valueN> ] }
-            Clan.find({ tag: { $in: search } }, function (err, cls) {
-                if (err)
-                    throw err;
-                if (cls) {
-                    RenderPage('index', req, res, cls)
-                }
-            });
+            else {
+                for (var index = 0; index < req.user.clans.length; index++)
+                    search[search.length] = req.user.clans[index].tag;
+                //{ $in: [<value1>, <value2>, ... <valueN> ] }
+                Clan.find({ tag: { $in: search } }, function (err, cls) {
+                    if (err)
+                        throw err;
+                    if (cls) {
+                        RenderPage('index', req, res, cls)
+                    }
+                });
+            }
         }
         else {
             //res.render('index.ejs',{
