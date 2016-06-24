@@ -72,19 +72,18 @@ module.exports = function (app, passport) {
               /*console.log('changed:' + parsed.memberList[20].name + "to: " + (parsed.memberList[20].name = 'changed name 1'));
               console.log('changed:' + parsed.memberList[48].name + "to: " + (parsed.memberList[20].name = 'changed name 2'));*/
               parsed = {
-                tag: '#80U9PL8P',
-                name: 'Gilgamesh',
+                tag: '#290LQGY2',
+                name: 'brasil',
                 type: 'open',
-                description: 'My kingdom for a horse!',
-                location: { id: 32000006, name: 'International', isCountry: false },
+                description: '',
                 badgeUrls:
                 {
-                  small: 'https://api-assets.clashofclans.com/badges/70/CvtYk7I1QsNIZ9KIJLbMCbK6qLnP71HXQ3HKpnvXfyk.png',
-                  large: 'https://api-assets.clashofclans.com/badges/512/CvtYk7I1QsNIZ9KIJLbMCbK6qLnP71HXQ3HKpnvXfyk.png',
-                  medium: 'https://api-assets.clashofclans.com/badges/200/CvtYk7I1QsNIZ9KIJLbMCbK6qLnP71HXQ3HKpnvXfyk.png'
+                  small: 'https://api-assets.clashofclans.com/badges/70/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
+                  large: 'https://api-assets.clashofclans.com/badges/512/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
+                  medium: 'https://api-assets.clashofclans.com/badges/200/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png'
                 },
                 clanLevel: 1,
-                clanPoints: 861,
+                clanPoints: 9542,
                 requiredTrophies: 0,
                 warFrequency: 'unknown',
                 warWinStreak: 0,
@@ -92,7 +91,7 @@ module.exports = function (app, passport) {
                 warTies: 0,
                 warLosses: 0,
                 isWarLogPublic: true,
-                members: 1,
+                members: 50,
                 memberList: []
               };
 
