@@ -76,6 +76,7 @@ module.exports = function (app, passport) {
                 name: 'brasil',
                 type: 'open',
                 description: 'Dummy description!',
+                location: { id: 32000006, name: 'International', isCountry: false },
                 badgeUrls:
                 {
                   small: 'https://api-assets.clashofclans.com/badges/70/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
