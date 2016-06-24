@@ -29,7 +29,7 @@ module.exports = function (app, passport) {
   function SearchClan(req, pageRes, tag, updateClans, page, search) {
     https.get({
       host: 'api.clashofclans.com',
-      path: '/v1/locations/32000006/rankings/clans/80U9PL8P',//'/v1/clans/%23' + tag.replace('#', ''),//80U9PL8P 
+      path: '/v1/clans/%23' + tag.replace('#', ''),//80U9PL8P 
       headers: { 'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY5NDBlOTYxLWQ2MTMtNGI3Ni05MDBhLTlhNTI2NGNlYzZhNyIsImlhdCI6MTQ2NjQ2NTM4Miwic3ViIjoiZGV2ZWxvcGVyLzhhZmQ5ZjJhLWQzNmEtYzdkMS1jZjgxLTRmZGExN2Q1ZWZlZCIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ1LjU1LjIyMS4yMjUiXSwidHlwZSI6ImNsaWVudCJ9XX0.4SWOJT3Qac_XTB2Y2ay9dgQ7f8L6j5C59nzwXGQPqyJ1Mkxs4V2xzVqXPacp10ywvDmrOid9tb_2q-bsW_czLA' }
     }, function (res) {
       // explicitly treat incoming data as utf8 (avoids issues with multi-byte chars)
@@ -46,8 +46,6 @@ module.exports = function (app, passport) {
         try {
           var isets = 0;
           var parsed = JSON.parse(body);
-          console.log(parsed);
-          parsed = {};
           if (!parsed.location)
             parsed.location = { id: 32000006, name: 'International', isCountry: false };
         } catch (err) {
