@@ -45,6 +45,8 @@ module.exports = function (app, passport) {
         try {
           var isets = 0;
           var parsed = JSON.parse(body);
+          if (!parsed.location)
+            parsed.location = { id: 32000006, name: 'International', isCountry: false };
         } catch (err) {
           console.error('Unable to parse response as JSON', err);
           return cb(err);
@@ -67,37 +69,6 @@ module.exports = function (app, passport) {
             });
           }
           else {
-            console.log('[parsed] - clans.length:');
-            if (parsed.tag == "#290LQGY2" || parsed.tag == "#80U9PL8P") {
-              /*console.log('changed:' + parsed.memberList[20].name + "to: " + (parsed.memberList[20].name = 'changed name 1'));
-              console.log('changed:' + parsed.memberList[48].name + "to: " + (parsed.memberList[20].name = 'changed name 2'));*/
-              parsed = {
-                tag: '#290LQGY2',
-                name: 'brasil',
-                type: 'open',
-                description: 'Dummy description!',
-                location: { id: 32000006, name: 'International', isCountry: false },
-                badgeUrls:
-                {
-                  small: 'https://api-assets.clashofclans.com/badges/70/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
-                  large: 'https://api-assets.clashofclans.com/badges/512/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
-                  medium: 'https://api-assets.clashofclans.com/badges/200/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png'
-                },
-                clanLevel: 1,
-                clanPoints: 9542,
-                requiredTrophies: 0,
-                warFrequency: 'unknown',
-                warWinStreak: 0,
-                warWins: 0,
-                warTies: 0,
-                warLosses: 0,
-                isWarLogPublic: true,
-                members: 50,
-                memberList: []
-              };
-
-              console.log(parsed);
-            }
 
             RenderPage(page, req, pageRes, [parsed]);
           }
