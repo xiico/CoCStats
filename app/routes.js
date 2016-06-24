@@ -26,10 +26,11 @@ module.exports = function (app, passport) {
   // Search a Clan =======================
   // =====================================
   //https://api.clashofclans.com/v1/locations/32000006/rankings/clans/80U9PL8P
-  function SearchClan(req, pageRes, tag, updateClans, page, search) {
+  //https://api.clashofclans.com/v1/clans?name=gilgamesh&limit=20
+  function SearchClan(req, pageRes, tag, updateClans, page, search, searchByName) {
     https.get({
       host: 'api.clashofclans.com',
-      path: '/v1/clans/%23' + tag.replace('#', ''),//80U9PL8P 
+      path: '/v1/clans' + (!searchByName ? '/%23' +tag.replace('#', ''):'?name='+search+'&limit=20'),//80U9PL8P 
       headers: { 'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY5NDBlOTYxLWQ2MTMtNGI3Ni05MDBhLTlhNTI2NGNlYzZhNyIsImlhdCI6MTQ2NjQ2NTM4Miwic3ViIjoiZGV2ZWxvcGVyLzhhZmQ5ZjJhLWQzNmEtYzdkMS1jZjgxLTRmZGExN2Q1ZWZlZCIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ1LjU1LjIyMS4yMjUiXSwidHlwZSI6ImNsaWVudCJ9XX0.4SWOJT3Qac_XTB2Y2ay9dgQ7f8L6j5C59nzwXGQPqyJ1Mkxs4V2xzVqXPacp10ywvDmrOid9tb_2q-bsW_czLA' }
     }, function (res) {
       // explicitly treat incoming data as utf8 (avoids issues with multi-byte chars)
@@ -76,15 +77,25 @@ module.exports = function (app, passport) {
 
         }
         else {
-          if (tag.indexOf("#") < 0) {
-            tag = "#" + tag;
+          if (!searchByName) {
+            if (tag.indexOf("#") < 0) {
+              tag = "#" + tag;
+            }
+            var sch = updateClans ? search : tag;
+            Clan.find({ tag: sch }, function (err, clans) {
+              if (err)
+                throw err;
+              RenderPage(page, req, pageRes, clans);
+            });
           }
-          var sch = updateClans ? search : tag;
-          Clan.find({ tag: sch }, function (err, clans) {
-            if (err)
-              throw err;
-            RenderPage(page, req, pageRes, clans);
-          });
+          else {
+            if (!parsed.items) {
+              RenderPage(page, req, pageRes, []);
+            }
+            else {
+              RenderPage(page, req, pageRes, parsed);
+            }
+          }
         }
 
       });
@@ -95,7 +106,7 @@ module.exports = function (app, passport) {
     });
   }
 
-  function RenderPage(page, req, res, clans) {
+  function RenderPage(page, req, res, clans, searchResults) {
     if (!res)
       return;
     res.render(page, {
@@ -106,7 +117,8 @@ module.exports = function (app, passport) {
       _: function (msgid) {
         return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
       },
-      clanRoles: clanRoles
+      clanRoles: clanRoles,
+      searchResults: searchResults
     }); // load the index.ejs file
   }
 
@@ -118,13 +130,18 @@ module.exports = function (app, passport) {
       var search = [];
       if (req.session.viewed === undefined) {
         req.session.viewed = true;
-        for (var index = 0; index < req.user.clans.length; index++) {
-          search[search.length] = req.user.clans[index].tag;
+        if (req.user.clans.length > 0) {
+          for (var index = 0; index < req.user.clans.length; index++) {
+            search[search.length] = req.user.clans[index].tag;
 
-          if (search.length != req.user.clans.length)
-            SearchClan(req, null, req.user.clans[index].tag, true);
-          else
-            SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
+            if (search.length != req.user.clans.length)
+              SearchClan(req, null, req.user.clans[index].tag, true);
+            else
+              SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
+          }
+        }
+        else {
+          RenderPage('index', req, res, []);
         }
       }
       else {
@@ -135,7 +152,7 @@ module.exports = function (app, passport) {
           if (err)
             throw err;
           if (cls) {
-            RenderPage('index', req, res, cls)
+            RenderPage('index', req, res, cls);
           }
         });
       }
@@ -202,18 +219,20 @@ module.exports = function (app, passport) {
       for (var index = 0; index < req.user.clans.length; index++) {
         search[search.length] = req.user.clans[index].tag;
 
-        if (search.length != req.user.clans.length)
-          SearchClan(req, null, req.user.clans[index].tag, true);
-        else
-          SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
+        if (req.body.hasOwnProperty("btnSearch"))
+        { 
+          SearchClan(req, res, req.user.clans[index].tag, true, "index", req.body.addTag, true);
+        }
+        else {
+          if (search.length != req.user.clans.length)
+            SearchClan(req, null, req.user.clans[index].tag, true);
+          else
+            SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
+        }
       }
     }
     else {
-      //res.render('index.ejs',{
-      res.render('index', {
-        user: req.user, // get the user out of session and pass to template
-        url: req.url
-      }); // load the index.ejs file
+      RenderPage('index', req, res, []);
     }
   });
   // =====================================
@@ -227,7 +246,7 @@ module.exports = function (app, passport) {
   });
   // process the login form
   app.post('/:lang?/login', passport.authenticate('local-login', {
-    successRedirect: '/', // redirect to the secure profile section
+    successRedirect: '/profile', // redirect to the secure profile section
     failureRedirect: '/login', // redirect back to the signup page if there is an error
     failureFlash: true // allow flash messages
   }));

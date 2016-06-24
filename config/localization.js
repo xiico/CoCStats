@@ -42,7 +42,13 @@ module.exports = function (msgid, contryCode) {
             return msgv[locationIndex] || msgid;    
         case 'Member':
             msgv = [msgid, 'Membro'];
-            return msgv[locationIndex] || msgid;                                         
+            return msgv[locationIndex] || msgid;       
+        case 'Results':
+            msgv = [msgid, 'Resultados'];
+            return msgv[locationIndex] || msgid;      
+        case 'Search':
+            msgv = [msgid, 'Procurar'];
+            return msgv[locationIndex] || msgid;                                               
     }
     
     return msgid;

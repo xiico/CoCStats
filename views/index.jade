@@ -7,21 +7,13 @@ block content
     // show any messages that come back with authentication
     if user
       form(action="/" method="post")
-        if user.clans.length == 0
-          div(class="alert alert-info" role="alert") You have no clans added yet. Add one to start following them.
-            div(class="input-group")
-              input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
-              span(class="input-group-btn")
-                button(class="btn btn-default" type="submit" name='btnAddClanTag') Go!
-        else
-                  
           ul(class="nav nav-tabs")
             each tab,i in clans 
               li(class={active:i==0}) #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
             if user.clans.length < 3
-              li #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-plus-sign")] Add clan]
+              li(class={active:clans.length==0}) #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-search")] Search clan]
             if user.clans.length > 0
-              li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Del clan]              
+              li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Rem clan]              
           div(class="tab-content")
             each cnt, i in clans 
               div(id="tab" + (i) class="tab-pane fade in " + (i == 0 ? "active" : ""))
@@ -48,14 +40,28 @@ block content
                         tr
                           td
                           td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
-            div(id="addClan" class="tab-pane fade")
-              h3 You can add more clans here.
+            div(id="addClan" class="tab-pane fade" + (clans.length==0 ? "in active" : ""))
+              h3 Find clans to add here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
                 span(class="input-group-btn")
-                  button(class="btn btn-default" name="btnAdd" type="submit") Add!
+                  //button(class="btn btn-default" name="btnAdd" type="submit") Add!
+                  button(class="btn btn-default" name="btnSearch" type="submit")= _("Search")+"!" 
+                  div(class="panel panel-default")
+              if(searchResults)
+                div(class="panel-heading")= _("Results")+":"
+                div(class="panel-body table-responsive")
+                  table(class="table table-condensed")
+                    tbody      
+                      each item, k in searchResults.items
+                        tr
+                          td #[image(src=item.badgeUrls.large title=item.name)]
+                          td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.location.name]         
+                          td(class="superCellFont fontSmall")= item.clanLevel                                                 
+                          td(class="superCellFont")= item.clanPoints
+                          td= item.members 
             div(id="delClan" class="tab-pane fade")
-              h3 Choose a clan to delete. 
+              h3 Choose a clan to remove from your list. 
                 div(class="form-group")
                   select(class="form-control" id="clanToDel" name='clanToDel')
                     each cnt, i in clans 
