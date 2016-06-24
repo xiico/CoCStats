@@ -75,7 +75,7 @@ module.exports = function (app, passport) {
                 tag: '#290LQGY2',
                 name: 'brasil',
                 type: 'open',
-                description: '',
+                description: 'Dummy description!',
                 badgeUrls:
                 {
                   small: 'https://api-assets.clashofclans.com/badges/70/HyB3Pd7bos1vXZ0wIbCTDGTYYX_AX8bhDApjEpp9gpg.png',
