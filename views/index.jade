@@ -8,7 +8,7 @@ block content
     if user
       form(action="/" method="post")
         if user.clans.length == 0
-          div(class="alert alert-info" role="alert") You have no clans added yet. Add one to start managing it.
+          div(class="alert alert-info" role="alert") You have no clans added yet. Add one to start following them.
             div(class="input-group")
               input(type="text" required="required" class="form-control" placeholder="Put your clan tag here..." name="clanTag")
               span(class="input-group-btn")
@@ -59,7 +59,7 @@ block content
                 div(class="form-group")
                   select(class="form-control" id="clanToDel" name='clanToDel')
                     each cnt, i in clans 
-                      option(value=cnt.tag)= cnt.name
+                      option(value=cnt.tag)= cnt.tag + ' ' + cnt.name
                 button(class="btn btn-primary" type="submit" name="btnDel" style="float:right;") Remove                  
     else
       p Login or Register with:
