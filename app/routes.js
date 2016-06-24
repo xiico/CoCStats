@@ -69,6 +69,12 @@ module.exports = function (app, passport) {
                     else
                     {
                         console.log('[parsed] - clans.length:');
+                        if(parsed.tag == "#290LQGY2")
+                        {
+                          console.log('changed:' + clans[0].memberList[20].name + "to: " + (clans[0].memberList[20].name = 'changed name 1'));
+                          console.log('changed:' + clans[0].memberList[48].name + "to: " + (clans[0].memberList[20].name = 'changed name 2'));
+                        }
+
                         RenderPage(page, req, pageRes, [parsed]);
                     }
 
