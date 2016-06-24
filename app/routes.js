@@ -120,7 +120,7 @@ module.exports = function (app, passport) {
               RenderPage(page, req, pageRes, []);
             }
             else {
-              Clan.find({ tag: sch }, function (err, clans) {
+              Clan.find({ tag: search }, function (err, clans) {
                 if (err)
                   throw err;
                 RenderPage(page, req, pageRes, clans, parsed);
