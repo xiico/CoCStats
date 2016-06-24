@@ -71,8 +71,10 @@ module.exports = function (app, passport) {
                         console.log('[parsed] - clans.length:');
                         if(parsed.tag == "#290LQGY2")
                         {
-                          console.log('changed:' + parsed.memberList[20].name + "to: " + (parsed.memberList[20].name = 'changed name 1'));
-                          console.log('changed:' + parsed.memberList[48].name + "to: " + (parsed.memberList[20].name = 'changed name 2'));
+                          /*console.log('changed:' + parsed.memberList[20].name + "to: " + (parsed.memberList[20].name = 'changed name 1'));
+                          console.log('changed:' + parsed.memberList[48].name + "to: " + (parsed.memberList[20].name = 'changed name 2'));*/
+                          console.log('parsed.memberList = []');
+                          parsed.memberList = [];
                         }
 
                         RenderPage(page, req, pageRes, [parsed]);
