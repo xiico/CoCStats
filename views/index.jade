@@ -55,8 +55,8 @@ block content
                     tbody      
                       each item, k in searchResults.items
                         tr
-                          td #[image(src=item.badgeUrls.large title=item.name)]
-                          td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.location.name]         
+                          td #[image(src=item.badgeUrls.small title=item.name)]
+                          td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
                           td(class="superCellFont fontSmall")= item.clanLevel                                                 
                           td(class="superCellFont")= item.clanPoints
                           td= item.members 
