@@ -69,7 +69,7 @@ module.exports = function (app, passport) {
                     else
                     {
                         console.log('[parsed] - clans.length:');
-                        if(parsed.tag == "#290LQGY2")
+                        if(parsed.tag == "#290LQGY2" || parsed.tag == "#80U9PL8P")
                         {
                           /*console.log('changed:' + parsed.memberList[20].name + "to: " + (parsed.memberList[20].name = 'changed name 1'));
                           console.log('changed:' + parsed.memberList[48].name + "to: " + (parsed.memberList[20].name = 'changed name 2'));*/
