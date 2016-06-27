@@ -28,7 +28,7 @@ module.exports = function (app, passport) {
   //https://api.clashofclans.com/v1/locations/32000006/rankings/clans/80U9PL8P
   //https://api.clashofclans.com/v1/clans?name=gilgamesh&limit=20
   function SearchClan(req, pageRes, tag, updateClans, page, search, searchByName) {
-    console.log('/v1/clans' + (!searchByName ? '/' + tag.replace('#', '%23') : '?name=' + tag.replace(' ','%20').replace('#', '%23') + '&limit=40'));
+    console.log('/v1/clans' + (!searchByName ? '/' + '%23' + tag : '?name=' + tag.replace(' ','%20').replace('#', '%23') + '&limit=40'));
     https.get({
       host: 'api.clashofclans.com',
       path: '/v1/clans' + (!searchByName ? '/' + tag.replace('#', '%23') : '?name=' + tag.replace(' ','%20').replace('#', '%23') + '&limit=40'),//80U9PL8P 
