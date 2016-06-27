@@ -48,10 +48,12 @@ block content
                   //button(class="btn btn-default" name="btnAdd" type="submit") Add!
                   button(class="btn btn-default" name="btnSearch" type="submit")= _("Search")+"!" 
                   div(class="panel panel-default")
+              button(data-toggle="collapse" data-target="#demo") Advanced Search
+              div(id="demo" class="collapse") Lorem ipsum dolor text....
               if(searchResults)
                 div(class="panel-heading")= _("Results")+":"
                 div(class="panel-body table-responsive searchResults")
-                  table(class="table table-condensed")
+                  table(class="table table-condensed tableResults")
                     tbody      
                       each item, k in searchResults.items
                         tr
