@@ -55,7 +55,7 @@ block content
                     tbody      
                       each item, k in searchResults.items
                         tr
-                          td= k+(".") 
+                          td= (k+1)+(".") 
                           td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[span(class="clanLevel")= item.clanLevel]]]
                           td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
                           //td(class="superCellFont fontSmall")= item.clanLevel                                                 
