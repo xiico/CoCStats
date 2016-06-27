@@ -9,14 +9,14 @@ block content
       form(action="/" method="post")
           ul(class="nav nav-tabs")
             each tab,i in clans 
-              li(class={active:i==0}) #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
+              li #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
             if user.clans.length < 3
-              li(class={active:clans.length==0}) #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-search")] Search clan]
+              li(class='active') #[a(data-toggle="tab" href="#addClan") #[span(class="glyphicon glyphicon-search")] Search clan]
             if user.clans.length > 0
               li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Rem clan]              
           div(class="tab-content")
             each cnt, i in clans 
-              div(id="tab" + (i) class="tab-pane fade in " + (i == 0 ? "active" : ""))
+              div(id="tab" + (i) class="tab-pane fade")
                 //Principal
                 div(class="media" style="margin-top:15px;")                   
                   div(class="media-left")
@@ -40,7 +40,7 @@ block content
                         tr
                           td
                           td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
-            div(id="addClan" class="tab-pane fade" + (clans.length==0 ? "in active" : ""))
+            div(id="addClan" class="tab-pane fade in active")
               h3 Find clans to add here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
