@@ -30,7 +30,7 @@ module.exports = function (app, passport) {
   function SearchClan(req, pageRes, tag, updateClans, page, search, searchByName) {
     https.get({
       host: 'api.clashofclans.com',
-      path: '/v1/clans' + (!searchByName ? '/%23' + tag.replace('#', '') : '?name=' + tag.replace(' ','%20') + '&limit=40'),//80U9PL8P 
+      path: '/v1/clans' + (!searchByName ? '/' + tag.replace('#', '%23') : '?name=' + tag.replace(' ','%20').replace('#', '%23') + '&limit=40'),//80U9PL8P 
       headers: { 'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY5NDBlOTYxLWQ2MTMtNGI3Ni05MDBhLTlhNTI2NGNlYzZhNyIsImlhdCI6MTQ2NjQ2NTM4Miwic3ViIjoiZGV2ZWxvcGVyLzhhZmQ5ZjJhLWQzNmEtYzdkMS1jZjgxLTRmZGExN2Q1ZWZlZCIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ1LjU1LjIyMS4yMjUiXSwidHlwZSI6ImNsaWVudCJ9XX0.4SWOJT3Qac_XTB2Y2ay9dgQ7f8L6j5C59nzwXGQPqyJ1Mkxs4V2xzVqXPacp10ywvDmrOid9tb_2q-bsW_czLA' }
     }, function (res) {
       // explicitly treat incoming data as utf8 (avoids issues with multi-byte chars)
@@ -59,7 +59,47 @@ module.exports = function (app, passport) {
                   "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
                 },
                 "clanLevel": 1,
-                "clanPoints": 1096,
+                "clanPoints": 99999,
+                "requiredTrophies": 0,
+                "warFrequency": "unknown",
+                "warWinStreak": 0,
+                "warWins": 0,
+                "warTies": 0,
+                "warLosses": 0,
+                "isWarLogPublic": true,
+                "members": 3
+              },
+              {
+                "tag": "#8J9222L0",
+                "name": "gilgamesh",
+                "type": "open",
+                "badgeUrls": {
+                  "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
+                  "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
+                  "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
+                },
+                "clanLevel": 12,
+                "clanPoints": 92453,
+                "requiredTrophies": 0,
+                "warFrequency": "unknown",
+                "warWinStreak": 0,
+                "warWins": 0,
+                "warTies": 0,
+                "warLosses": 0,
+                "isWarLogPublic": true,
+                "members": 3
+              },
+              {
+                "tag": "#8J9222L0",
+                "name": "gilgamesh",
+                "type": "open",
+                "badgeUrls": {
+                  "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
+                  "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
+                  "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
+                },
+                "clanLevel": 5,
+                "clanPoints": 92453,
                 "requiredTrophies": 0,
                 "warFrequency": "unknown",
                 "warWinStreak": 0,

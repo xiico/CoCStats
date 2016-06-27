@@ -12,12 +12,47 @@
     width: 36px;
 }  
 
-.searchResults td:nth-of-type(5)
+.searchResults td:nth-of-type(4)
 {
     background:url(../images/trophies.png);
-    background-size: 98px 36px;
+    background-size: 108px 39px;
     background-repeat: no-repeat;
-    background-position:10px 22px;   
+    background-position:20px 21px;   
     text-align: center;
-    width: 106px;
+    width: 125px;
 }  
+
+.searchResults td:nth-of-type(2)
+{
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position:-5px 0;   
+    background-size: 32px;
+}
+
+.clanLevel
+{
+    font-family: 'superCellMagic';
+    position: absolute;
+    top: 6px;
+    left: 32px;
+      color: white;
+    text-shadow:
+     0px -1px 0 #000,   
+     1px -1px 0 #000,
+      1px 0px 0 #000,
+      1px 1px 0 #000,
+      
+      0px 2px 0 #000,    
+      1px 2px 0 #000,
+     -1px 2px 0 #000,
+      
+      0px 3px 0 #000,    
+      1px 3px 0 #000,
+     -1px 3px 0 #000,
+      
+     -1px 1px 0 #000,
+     -1px 0px 0 #000,
+    -1px -1px 0 #000;
+    font-size: .5em;
+}

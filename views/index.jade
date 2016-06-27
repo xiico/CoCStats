@@ -56,9 +56,9 @@ block content
                       each item, k in searchResults.items
                         tr
                           td= k+(".") 
-                          td #[image(src=item.badgeUrls.small title=item.name)]
+                          td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[span(class="clanLevel")= item.clanLevel]]]
                           td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
-                          td(class="superCellFont fontSmall")= item.clanLevel                                                 
+                          //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                           td(class="superCellFont")= item.clanPoints
                           td= item.members 
                           td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
