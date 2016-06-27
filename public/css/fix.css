@@ -2,7 +2,7 @@
     vertical-align: middle;
 }
 
-.clanMembers td:nth-of-type(4)
+.clanMembers td:nth-of-type(3)
 {
     background:url(../images/level.png);
     background-size: 36px 36px;
@@ -28,6 +28,11 @@
     background-repeat: no-repeat;
     background-position:-5px 0;   
     background-size: 32px;
+}
+
+.tableResults
+{
+    min-width: 410px;
 }
 
 .clanLevel
