@@ -55,12 +55,13 @@ block content
                     tbody      
                       each item, k in searchResults.items
                         tr
+                          td= k+(".") 
                           td #[image(src=item.badgeUrls.small title=item.name)]
                           td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
                           td(class="superCellFont fontSmall")= item.clanLevel                                                 
                           td(class="superCellFont")= item.clanPoints
                           td= item.members 
-                          td= item.tag
+                          td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
             div(id="delClan" class="tab-pane fade")
               h3 Choose a clan to remove from your list. 
                 div(class="form-group")
