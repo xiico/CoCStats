@@ -48,8 +48,16 @@ block content
                   //button(class="btn btn-default" name="btnAdd" type="submit") Add!
                   button(class="btn btn-default" name="btnSearch" type="submit")= _("Search")+"!" 
                   div(class="panel panel-default")
-              button(data-toggle="collapse" data-target="#demo") Advanced Search
-              div(id="demo" class="collapse") Lorem ipsum dolor text....
+              a(data-toggle="collapse" class="btn btn-primary" data-target="#demo") Advanced Search
+              div(id="demo" class="collapse") 
+                form(class="form-horizontal" role="form")
+                  div(class="form-group")
+                    label(class="control-label col-sm-2" for="locationsList") Location:
+                    div(class="col-sm-10")
+                      select(class="form-control" id="location" name='location')
+                        option(value="") Select a location...   
+                        each location, i in locations 
+                          option(value=location.id)= location.name                    
               if(searchResults)
                 div(class="panel-heading")= _("Results")+":"
                 div(class="panel-body table-responsive searchResults")
@@ -58,7 +66,7 @@ block content
                       each item, k in searchResults.items
                         tr
                           td= (k+1)+(".") 
-                          td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[span(class="clanLevel")= item.clanLevel]]]
+                          td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
                           td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
                           //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                           td(class="superCellFont")= item.clanPoints

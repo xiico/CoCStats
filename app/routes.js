@@ -6,6 +6,7 @@ var https = require('https');
 // load up the User model
 var User = require('../app/models/user');
 var localization = require('../config/localization');
+var locations = require('../config/locations');
 var clans = [];
 var clanRoles = function (clanRole) {
   switch (clanRole) {
@@ -29,6 +30,10 @@ module.exports = function (app, passport) {
   //https://api.clashofclans.com/v1/clans?name=gilgamesh&limit=20
   function SearchClan(req, pageRes, tag, updateClans, page, search, searchByName) {
     console.log('/v1/clans' + (!searchByName ? '/' + '%23' + tag.replace('#', '') : '?name=' + encodeURIComponent(tag) + '&limit=40'));
+    var options = "";
+    if (req.body.location != "") {
+      options += "&locationId=" + req.body.location;
+    }
     https.get({
       host: 'api.clashofclans.com',
       path: '/v1/clans' + (!searchByName ? '/' + '%23' + tag.replace('#', '') : '?name=' + encodeURIComponent(tag) + '&limit=40'),//80U9PL8P 
@@ -195,7 +200,8 @@ module.exports = function (app, passport) {
         return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
       },
       clanRoles: clanRoles,
-      searchResults: searchResults
+      searchResults: searchResults,
+      locations: locations()
     }); // load the index.ejs file
   }
 
