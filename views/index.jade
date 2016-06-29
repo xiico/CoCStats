@@ -58,10 +58,10 @@ block content
                   div(class="panel panel-default")
               a(data-toggle="collapse" class="btn btn-primary" data-target="#demo") Advanced Search
               div(id="demo" class="collapse") 
-                form(class="form-horizontal" role="form")
+                div(class="form" role="form" id="divDetails")
                   div(class="form-group")
                     label(class="control-label" for="locationsList") War Frequency:
-                    div(class="col-sm-10")
+                    div(class="input-group")
                       select(class="form-control" id="warFrequency" name='warFrequency')
                         option(value="")
                         option(value="always") Aways
@@ -72,10 +72,16 @@ block content
                         option(value="unknown") Unknown
                   div(class="form-group")
                     label(class="control-label" for="numMembers") Members:
-                    div(class="input-group input-group" id="numMembers")  
+                    div(class="input-group" id="numMembers")  
                       input(type="number" min="1" max="50" class="form-control" id="minMembers" name="minMembers")
                       span(class="input-group-addon" id="sizing-addon1") to
-                      input(type="number" min="1" max="50" class="form-control" id="maxMembers" name="maxMembers")                    
+                      input(type="number" min="1" max="50" class="form-control" id="maxMembers" name="maxMembers")         
+                  div(class="form-group")
+                    label(class="control-label" for="numMembers") Minimum clan Points:
+                    input(type="number" id="minClanPoints" name="minClanPoints" min="0" max="50000" step="5000")        
+                  div(class="form-group")
+                    label(class="control-label" for="minClanLevel") Minimum clan level:
+                    input(type="number" id="minClanLevel" name="minClanLevel" min="0" max="15")                                                     
               if(searchResults)
                 div(class="panel-heading")= _("Results")+":"
                 div(class="panel-body table-responsive searchResults")

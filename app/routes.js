@@ -54,6 +54,14 @@ module.exports = function (app, passport) {
     if (req.body.maxMembers && req.body.maxMembers != "") {
       options += "&maxMembers=" + req.body.maxMembers;
     }
+
+    if (req.body.minClanPoints && req.body.minClanPoints != "") {
+      options += "&minClanPoints=" + req.body.minClanPoints;
+    }
+
+    if (req.body.minClanLevel && req.body.minClanLevel != "") {
+      options += "&minClanLevel=" + req.body.minClanLevel;
+    }
     path += options
 
     console.log(path);
