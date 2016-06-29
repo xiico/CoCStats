@@ -235,7 +235,7 @@ module.exports = function (app, passport) {
       searchResults: searchResults,
       locations: locations,
       lstLocation: req.body.location,
-      countryCode: req.body.location ? locations.filter(function(locations){return locations.id == req.body.location;})[0].countryCode.toLowerCase() : undefined
+      countryCode: req.body.location && req.body.location != 32000006? locations.filter(function(locations){return locations.id == req.body.location;})[0].countryCode.toLowerCase() : undefined
     }); // load the index.ejs file
   }
 
