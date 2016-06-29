@@ -44,11 +44,11 @@ block content
               div(class="panel panel-default")
                 div(class="panel-body")
                   div(class="input-group")
-                    span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-" alt="Brazil")]
+                    span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-"+countryCode alt="Brazil")]
                     select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
                       option(value="") Select a location...   
                       each location, i in locations 
-                        option(value=location.id data-flag=location.countryCode)= location.name  
+                        option(value=location.id data-flag=location.countryCode selected=(lstLocation && location.id == lstLocation))= location.name  
               h3 Find clans to add here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")

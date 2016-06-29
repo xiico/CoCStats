@@ -233,7 +233,9 @@ module.exports = function (app, passport) {
       },
       clanRoles: clanRoles,
       searchResults: searchResults,
-      locations: locations()
+      locations: locations,
+      lstLocation: req.body.location,
+      countryCode: req.body.location ? locations.filter(function(locations){return locations.id == req.body.location;})[0].countryCode.toLowerCase() : undefined
     }); // load the index.ejs file
   }
 
@@ -335,6 +337,7 @@ module.exports = function (app, passport) {
         search[search.length] = req.user.clans[index].tag;
 
         if (req.body.hasOwnProperty("btnSearch")) {
+          req.session.location = req.body.location;
           SearchClan(req, res, req.body.addTag, true, "index", { $in: search }, true);
         }
         else {

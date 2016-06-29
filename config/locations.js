@@ -1,5 +1,4 @@
-﻿module.exports = function () {
-  var contries = [
+﻿module.exports = [
       {
         "id": 32000006,
         "name": "International",
@@ -1529,7 +1528,3 @@
         "isCountry": true,
         "countryCode": "ZW"
       }];
-
-return contries;
-
-}

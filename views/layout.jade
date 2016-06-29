@@ -30,8 +30,13 @@ html
       //Control flag visibility 
       function changeFlag(ctrl)
       {
-            var flagID = ctrl.options[ctrl.selectedIndex].getAttribute("data-flag").toLowerCase();
-            document.getElementById("imgFlag").className = "flag flag-" + flagID;
+            if(ctrl.options[ctrl.selectedIndex].getAttribute("data-flag"))
+            {
+              var flagID = ctrl.options[ctrl.selectedIndex].getAttribute("data-flag").toLowerCase();
+              document.getElementById("imgFlag").className = "flag flag-" + flagID;
+            }
+            else
+              document.getElementById("imgFlag").className = "flag flag-";
       }
 
   body  
