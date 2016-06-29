@@ -41,6 +41,14 @@ block content
                           td
                           td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
             div(id="addClan" class="tab-pane fade in active")
+              div(class="panel panel-default")
+                div(class="panel-body")
+                  div(class="input-group")
+                    span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-" alt="Brazil")]
+                    select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
+                      option(value="") Select a location...   
+                      each location, i in locations 
+                        option(value=location.id data-flag=location.countryCode)= location.name  
               h3 Find clans to add here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
@@ -52,12 +60,16 @@ block content
               div(id="demo" class="collapse") 
                 form(class="form-horizontal" role="form")
                   div(class="form-group")
-                    label(class="control-label col-sm-2" for="locationsList") Location:
+                    label(class="control-label col-sm-2" for="locationsList") War Frequency:
                     div(class="col-sm-10")
-                      select(class="form-control" id="location" name='location')
-                        option(value="") Select a location...   
-                        each location, i in locations 
-                          option(value=location.id)= location.name                    
+                      select(class="form-control" id="warFrequency" name='warFrequency')
+                        option(value="")
+                        option(value="always") Aways
+                        option(value="moreThanOncePerWeek") Twice a week
+                        option(value="oncePerWeek") Once a week
+                        option(value="lessThanOncePerWeek") Rarely
+                        option(value="never") Never
+                        option(value="unknown") Unknown  
               if(searchResults)
                 div(class="panel-heading")= _("Results")+":"
                 div(class="panel-body table-responsive searchResults")
@@ -67,7 +79,7 @@ block content
                         tr
                           td= (k+1)+(".") 
                           td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
-                          td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.type]         
+                          td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
                           //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                           td(class="superCellFont")= item.clanPoints
                           td= item.members 

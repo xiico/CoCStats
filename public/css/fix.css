@@ -69,3 +69,7 @@
     max-height: 200px;
     overflow-x: hidden;
 }
+
+#addClan .input-group-addon{
+    padding: 0;
+}

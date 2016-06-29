@@ -42,6 +42,9 @@ module.exports = function (app, passport) {
     if (req.body.location && req.body.location != "") {
       options += "&locationId=" + req.body.location;
     }
+    if (req.body.warFrequency && req.body.warFrequency != "") {
+      options += "&warFrequency=" + req.body.warFrequency;
+    }
     path += options
 
     console.log(path);
