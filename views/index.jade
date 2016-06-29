@@ -60,7 +60,7 @@ block content
               div(id="demo" class="collapse") 
                 form(class="form-horizontal" role="form")
                   div(class="form-group")
-                    label(class="control-label col-sm-2" for="locationsList") War Frequency:
+                    label(class="control-label" for="locationsList") War Frequency:
                     div(class="col-sm-10")
                       select(class="form-control" id="warFrequency" name='warFrequency')
                         option(value="")
@@ -69,7 +69,13 @@ block content
                         option(value="oncePerWeek") Once a week
                         option(value="lessThanOncePerWeek") Rarely
                         option(value="never") Never
-                        option(value="unknown") Unknown  
+                        option(value="unknown") Unknown
+                  div(class="form-group")
+                    label(class="control-label" for="numMembers") Members:
+                    div(class="input-group input-group" id="numMembers")  
+                      input(type="number" min="1" max="50" class="form-control" id="minMembers" name="minMembers")
+                      span(class="input-group-addon" id="sizing-addon1") to
+                      input(type="number" min="1" max="50" class="form-control" id="maxMembers" name="maxMembers")                    
               if(searchResults)
                 div(class="panel-heading")= _("Results")+":"
                 div(class="panel-body table-responsive searchResults")
