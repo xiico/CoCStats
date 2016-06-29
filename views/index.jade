@@ -48,7 +48,7 @@ block content
                     select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
                       option(value="") Select a location...   
                       each location, i in locations 
-                        option(value=location.id data-flag=location.countryCode selected=(lstLocation && location.id == lstLocation))= location.name  
+                        option(value=location.id data-flag=location.countryCode selected=(location.id == lstLocation))= location.name  
               h3 Find clans to add here.
               div(class="input-group")
                 input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
