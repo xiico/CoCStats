@@ -38,31 +38,32 @@ module.exports = function (app, passport) {
         path += '?limit=40&name=' + encodeURIComponent(tag);
       else
         path += '?limit=40';
-    }
-    if (req.body.location && req.body.location != "") {
-      options += "&locationId=" + req.body.location;
-    }
+        
+      if (req.body.location && req.body.location != "") {
+        options += "&locationId=" + req.body.location;
+      }
 
-    if (req.body.warFrequency && req.body.warFrequency != "") {
-      options += "&warFrequency=" + req.body.warFrequency;
-    }
+      if (req.body.warFrequency && req.body.warFrequency != "") {
+        options += "&warFrequency=" + req.body.warFrequency;
+      }
 
-    if (req.body.minMembers && req.body.minMembers != "") {
-      options += "&minMembers=" + req.body.minMembers;
-    }
+      if (req.body.minMembers && req.body.minMembers != "") {
+        options += "&minMembers=" + req.body.minMembers;
+      }
 
-    if (req.body.maxMembers && req.body.maxMembers != "") {
-      options += "&maxMembers=" + req.body.maxMembers;
-    }
+      if (req.body.maxMembers && req.body.maxMembers != "") {
+        options += "&maxMembers=" + req.body.maxMembers;
+      }
 
-    if (req.body.minClanPoints && req.body.minClanPoints != "") {
-      options += "&minClanPoints=" + req.body.minClanPoints;
-    }
+      if (req.body.minClanPoints && req.body.minClanPoints != "") {
+        options += "&minClanPoints=" + req.body.minClanPoints;
+      }
 
-    if (req.body.minClanLevel && req.body.minClanLevel != "") {
-      options += "&minClanLevel=" + req.body.minClanLevel;
+      if (req.body.minClanLevel && req.body.minClanLevel != "") {
+        options += "&minClanLevel=" + req.body.minClanLevel;
+      }
+      path += options
     }
-    path += options
 
     console.log(path);
 
