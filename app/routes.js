@@ -155,6 +155,10 @@ module.exports = function (app, passport) {
           };
           if (!parsed.location)
             parsed.location = { id: 32000006, name: 'International', isCountry: false };
+
+          if (!parsed.location.countryCode)
+            parsed.location.countryCode = "UN";
+            
         } catch (err) {
           console.error('Unable to parse response as JSON', err);
           return cb(err);
