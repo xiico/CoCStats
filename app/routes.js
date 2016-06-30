@@ -105,7 +105,7 @@ module.exports = function (app, passport) {
                 "warWins": 0,
                 "warTies": 0,
                 "warLosses": 0,
-                "isWarLogPublic": true,
+                "isWarLogPublic": false,
                 "members": 3
               },
               {
