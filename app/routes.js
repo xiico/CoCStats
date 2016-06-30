@@ -282,7 +282,7 @@ module.exports = function (app, passport) {
   // =====================================
   // CLANS DETAILS =======================
   // =====================================
-  app.get('/:lang?/clans/:id', isLoggedIn, function (req, res) {
+  app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
     if (req.user && req.user.clans.length > 0) {
       /*Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
           if (err)
@@ -304,9 +304,10 @@ module.exports = function (app, passport) {
 
 
     }
+    SearchClan(req, res, req.params.id, null, 'clan');
   });
 
-  app.post('/:lang?/', isLoggedIn, function (req, res) {
+  app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
       var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
       for (var index = 0; index < req.user.clans.length; index++)
@@ -327,23 +328,23 @@ module.exports = function (app, passport) {
         req.user.save();
       }
     }
-    if (req.user && req.user.clans.length > 0) {
-      var search = [];
-      for (var index = 0; index < req.user.clans.length; index++) {
-        search[search.length] = req.user.clans[index].tag;
+    var search = [];
+    req.session.location = req.body.location;
+    if (req.body.hasOwnProperty("btnSearch")) {
+      if (req.user && req.user.clans.length > 0) {
+        for (var index = 0; index < req.user.clans.length; index++) {
+          search[search.length] = req.user.clans[index].tag;
 
-        if (req.body.hasOwnProperty("btnSearch")) {
-          req.session.location = req.body.location;
-          SearchClan(req, res, req.body.addTag, true, "index", { $in: search }, true);
-        }
-        else {
           if (search.length != req.user.clans.length)
             SearchClan(req, null, req.user.clans[index].tag, true);
           else
             SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
         }
       }
+      else
+        SearchClan(req, res, req.body.addTag, true, "index", null, true);
     }
+
     else {
       RenderPage('index', req, res, []);
     }
