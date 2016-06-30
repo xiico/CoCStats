@@ -331,23 +331,16 @@ module.exports = function (app, passport) {
     }
     var search = [];
     req.session.location = req.body.location;
-    if (req.body.hasOwnProperty("btnSearch")) {
-      if (req.user && req.user.clans.length > 0) {
-        for (var index = 0; index < req.user.clans.length; index++) {
-          search[search.length] = req.user.clans[index].tag;
-
-          if (search.length != req.user.clans.length)
-            SearchClan(req, null, req.user.clans[index].tag, true);
-          else
-            SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
-        }
+    if (req.user && req.user.clans.length > 0) {
+      for (var index = 0; index < req.user.clans.length; index++) {
+        search[search.length] = req.user.clans[index].tag;
       }
-      else
-        SearchClan(req, res, req.body.addTag, false, "index", null, true);
     }
-
+    if (req.body.hasOwnProperty("btnSearch")) {
+      SearchClan(req, res, req.body.addTag, false, "index", { $in: search }, true);
+    }
     else {
-      RenderPage('index', req, res, []);
+      SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
     }
   });
   // =====================================
