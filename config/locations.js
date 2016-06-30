@@ -2,7 +2,8 @@
       {
         "id": 32000006,
         "name": "International",
-        "isCountry": false
+        "isCountry": false,
+        "countryCode": "UN"
       },
       {
         "id": 32000007,
