@@ -38,7 +38,7 @@ module.exports = function (app, passport) {
         path += '?limit=40&name=' + encodeURIComponent(tag);
       else
         path += '?limit=40';
-        
+
       if (req.body.location && req.body.location != "") {
         options += "&locationId=" + req.body.location;
       }
@@ -343,7 +343,7 @@ module.exports = function (app, passport) {
         }
       }
       else
-        SearchClan(req, res, req.body.addTag, true, "index", null, true);
+        SearchClan(req, res, req.body.addTag, false, "index", null, true);
     }
 
     else {
