@@ -34,10 +34,10 @@ module.exports = function (app, passport) {
     if (!searchByName) {
       path += '/' + '%23' + tag.replace('#', '')
     } else {
-      if (tag != "") 
-      path += '?limit=40&name=' + encodeURIComponent(tag);
+      if (tag != "")
+        path += '?limit=40&name=' + encodeURIComponent(tag);
       else
-      path += '?limit=40';
+        path += '?limit=40';
     }
     if (req.body.location && req.body.location != "") {
       options += "&locationId=" + req.body.location;
@@ -46,7 +46,7 @@ module.exports = function (app, passport) {
     if (req.body.warFrequency && req.body.warFrequency != "") {
       options += "&warFrequency=" + req.body.warFrequency;
     }
-    
+
     if (req.body.minMembers && req.body.minMembers != "") {
       options += "&minMembers=" + req.body.minMembers;
     }
@@ -235,7 +235,7 @@ module.exports = function (app, passport) {
       searchResults: searchResults,
       locations: locations,
       lstLocation: req.body.location,
-      countryCode: req.body.location && req.body.location != 32000006? locations.filter(function(locations){return locations.id == req.body.location;})[0].countryCode.toLowerCase() : undefined
+      countryCode: req.body.location && req.body.location != 32000006 ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined
     }); // load the index.ejs file
   }
 
@@ -275,11 +275,7 @@ module.exports = function (app, passport) {
       }
     }
     else {
-      //res.render('index.ejs',{
-      res.render('index', {
-        user: req.user, // get the user out of session and pass to template
-        url: req.url
-      }); // load the index.ejs file
+      RenderPage('index', req, res, []);
     }
   });
 
@@ -359,7 +355,7 @@ module.exports = function (app, passport) {
   app.get('/:lang?/login', function (req, res) {
 
     // render the page and pass in any flash data if it exists
-    res.render('login.ejs', { message: req.flash('loginMessage') });
+    res.render('login', { message: req.flash('loginMessage') });
   });
   // process the login form
   app.post('/:lang?/login', passport.authenticate('local-login', {
@@ -378,7 +374,7 @@ module.exports = function (app, passport) {
   app.get('/:lang?/signup', function (req, res) {
 
     // render the page and pass in any flash data if it exists
-    res.render('signup.ejs', { message: req.flash('signupMessage') });
+    res.render('signup', { message: req.flash('signupMessage') });
   });
   // process the signup form
   app.post('/:lang?/signup', passport.authenticate('local-signup', {
@@ -386,6 +382,17 @@ module.exports = function (app, passport) {
     failureRedirect: '/signup', // redirect back to the signup page if there is an error
     failureFlash: true // allow flash messages
   }));
+
+  // =====================================
+  // AUTEHTICATE =========================
+  // =====================================
+  // show the authentication form
+  app.get('/:lang?/authenticate', function (req, res) {
+    res.render('authenticate', {
+      user: req.user, // get the user out of session and pass to template
+      url: req.url
+    }); // load the index.ejs file
+  });
 
   // process the signup form
   // app.post('/signup', do all our passport stuff here);
