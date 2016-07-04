@@ -64,7 +64,7 @@ module.exports = function (app, passport) {
         path += options
         break;
       case 'Rank':
-        path = '/v1/locations/32000038/rankings/clans'
+        path = '/v1/locations/' + tag + '/rankings/clans';
         break;
       default:
         path += '/' + '%23' + tag.replace('#', '')
