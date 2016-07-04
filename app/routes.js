@@ -28,41 +28,46 @@ module.exports = function (app, passport) {
   // =====================================
   //https://api.clashofclans.com/v1/locations/32000006/rankings/clans/80U9PL8P
   //https://api.clashofclans.com/v1/clans?name=gilgamesh&limit=20
-  function SearchClan(req, pageRes, tag, updateClans, page, search, searchByName) {
+  function SearchClan(req, pageRes, tag, updateClans, page, search, searchType) {
     var path = '/v1/clans';
     var options = "";
-    if (!searchByName) {
-      path += '/' + '%23' + tag.replace('#', '')
-    } else {
-      if (tag != "")
-        path += '?limit=40&name=' + encodeURIComponent(tag);
-      else
-        path += '?limit=40';
+    switch (searchType) {
+      case 'Name':
+        if (tag != "")
+          path += '?limit=40&name=' + encodeURIComponent(tag);
+        else
+          path += '?limit=40';
 
-      if (req.body.location && req.body.location != "") {
-        options += "&locationId=" + req.body.location;
-      }
+        if (req.body.location && req.body.location != "") {
+          options += "&locationId=" + req.body.location;
+        }
 
-      if (req.body.warFrequency && req.body.warFrequency != "") {
-        options += "&warFrequency=" + req.body.warFrequency;
-      }
+        if (req.body.warFrequency && req.body.warFrequency != "") {
+          options += "&warFrequency=" + req.body.warFrequency;
+        }
 
-      if (req.body.minMembers && req.body.minMembers != "") {
-        options += "&minMembers=" + req.body.minMembers;
-      }
+        if (req.body.minMembers && req.body.minMembers != "") {
+          options += "&minMembers=" + req.body.minMembers;
+        }
 
-      if (req.body.maxMembers && req.body.maxMembers != "") {
-        options += "&maxMembers=" + req.body.maxMembers;
-      }
+        if (req.body.maxMembers && req.body.maxMembers != "") {
+          options += "&maxMembers=" + req.body.maxMembers;
+        }
 
-      if (req.body.minClanPoints && req.body.minClanPoints != "") {
-        options += "&minClanPoints=" + req.body.minClanPoints;
-      }
+        if (req.body.minClanPoints && req.body.minClanPoints != "") {
+          options += "&minClanPoints=" + req.body.minClanPoints;
+        }
 
-      if (req.body.minClanLevel && req.body.minClanLevel != "") {
-        options += "&minClanLevel=" + req.body.minClanLevel;
-      }
-      path += options
+        if (req.body.minClanLevel && req.body.minClanLevel != "") {
+          options += "&minClanLevel=" + req.body.minClanLevel;
+        }
+        path += options
+        break;
+      case 'Rank':
+        break;
+      default:
+        path += '/' + '%23' + tag.replace('#', '')
+        break;
     }
 
     console.log(path);
@@ -158,7 +163,7 @@ module.exports = function (app, passport) {
 
           if (!parsed.location.countryCode)
             parsed.location.countryCode = "UN";
-            
+
         } catch (err) {
           console.error('Unable to parse response as JSON', err);
           return cb(err);
@@ -288,27 +293,6 @@ module.exports = function (app, passport) {
   // CLANS DETAILS =======================
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
-    if (req.user && req.user.clans.length > 0) {
-      /*Clan.findOne({ tag: "#" + req.params.id }, function (err, clan) {
-          if (err)
-              throw err;
-              
-              res.render('clan', {
-                  user: req.user, // get the user out of session and pass to template
-                  url: req.url,
-                  clan: clan,
-                  _: function (msgid) {
-                      return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
-                  },
-                  clanRoles: clanRoles
-              }); // load the index.ejs file
-              
-      });*/
-
-      SearchClan(req, res, req.params.id, null, 'clan');
-
-
-    }
     SearchClan(req, res, req.params.id, null, 'clan');
   });
 
@@ -341,7 +325,10 @@ module.exports = function (app, passport) {
       }
     }
     if (req.body.hasOwnProperty("btnSearch")) {
-      SearchClan(req, res, req.body.addTag, false, "index", { $in: search }, true);
+      SearchClan(req, res, req.body.addTag, false, "index", { $in: search }, 'Name');
+    }
+    else if (req.body.hasOwnProperty("btnRank")) {
+      SearchClan(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
     }
     else {
       SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });

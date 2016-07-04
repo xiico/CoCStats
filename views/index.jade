@@ -43,12 +43,15 @@ block content
           div(id="searchClan" class="tab-pane fade in active")
             div(class="panel panel-default")
               div(class="panel-body")
+                label(class="control-label" for="location") Location:
                 div(class="input-group")
                   span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-"+countryCode alt="Brazil")]
                   select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
-                    option(value="") Select a location...   
+                    option(value="") Global   
                     each location, i in locations 
-                      option(value=location.id data-flag=location.countryCode selected=(location.id == lstLocation))= location.name  
+                      option(value=location.id data-flag=location.countryCode selected=(location.id == lstLocation))= location.name
+                  span(class="input-group-btn")
+                    button(class="btn btn-default" name="btnRank" type="submit") View Rank
             h3 Find clans here.
             div(class="input-group")
               input(type="text" class="form-control" placeholder="Put your clan tag here..." name="addTag")
