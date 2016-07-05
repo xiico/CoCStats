@@ -64,7 +64,7 @@ module.exports = function (app, passport) {
         path += options
         break;
       case 'Rank':
-        path = '/v1/locations/' + tag + '/rankings/clans';
+        path = '/v1/locations/' + tag + '/rankings/clans?limit=40';
         break;
       default:
         path += '/' + '%23' + tag.replace('#', '')
@@ -91,8 +91,8 @@ module.exports = function (app, passport) {
       res.on('end', function () {
         try {
           var isets = 0;
-          var parsed = JSON.parse(body);
-          var searched = {
+          var searched = JSON.parse(body);
+          var srcd = {
             "items": [
               {
                 "tag": "#8J9222L0",
@@ -159,20 +159,71 @@ module.exports = function (app, passport) {
               "cursors": {}
             }
           };
-          if (!parsed.location)
-            parsed.location = { id: 32000006, name: 'International', isCountry: false };
 
-          if (!parsed.location.countryCode)
-            parsed.location.countryCode = "UN";
+          var rank = {
+            "items": [
+              {
+                "tag": "#9QCJGJPY",
+                "name": "FACÇÃO CENTRAL",
+                "location": {
+                  "id": 32000038,
+                  "name": "Brazil",
+                  "isCountry": true,
+                  "countryCode": "BR"
+                },
+                "badgeUrls": {
+                  "small": "https://api-assets.clashofclans.com/badges/70/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png",
+                  "large": "https://api-assets.clashofclans.com/badges/512/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png",
+                  "medium": "https://api-assets.clashofclans.com/badges/200/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png"
+                },
+                "clanLevel": 9,
+                "members": 49,
+                "clanPoints": 49850,
+                "rank": 1,
+                "previousRank": 6
+              },
+              {
+                "tag": "#8PCL0Y9J",
+                "name": "BRASIL TEAM",
+                "location": {
+                  "id": 32000038,
+                  "name": "Brazil",
+                  "isCountry": true,
+                  "countryCode": "BR"
+                },
+                "badgeUrls": {
+                  "small": "https://api-assets.clashofclans.com/badges/70/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png",
+                  "large": "https://api-assets.clashofclans.com/badges/512/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png",
+                  "medium": "https://api-assets.clashofclans.com/badges/200/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png"
+                },
+                "clanLevel": 8,
+                "members": 46,
+                "clanPoints": 49596,
+                "rank": 2,
+                "previousRank": 2
+              }
+            ],
+            "paging": {
+              "cursors": {
+                "after": "eyJwb3MiOjJ9"
+              }
+            }
+          };
+
+          if (!searched.location)
+            searched.location = { id: 32000006, name: 'International', isCountry: false };
+
+          if (!searched.location.countryCode)
+            searched.location.countryCode = "UN";
 
         } catch (err) {
           console.error('Unable to parse response as JSON', err);
           return cb(err);
         }
-        console.log('parsed.tag: ' + parsed.tag);
-        if (parsed.tag) {
+        console.log('searched.tag: ' + searched.tag);
+        if (searched.tag) {
           if (updateClans) {
-            Clan.findOneAndUpdate({ tag: parsed.tag }, parsed, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
+            Clan.findOneAndUpdate({ tag: searched.tag }, searched, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
               if (err)
                 throw err;
               console.log('findOneAndUpdate - page: ' + page);
@@ -188,12 +239,12 @@ module.exports = function (app, passport) {
           }
           else {
 
-            RenderPage(page, req, pageRes, [parsed]);
+            RenderPage(page, req, pageRes, [searched]);
           }
 
         }
         else {
-          if (!searchByName) {
+          if (searchType != "Name") {
             if (tag.indexOf("#") < 0) {
               tag = "#" + tag;
             }
@@ -205,7 +256,7 @@ module.exports = function (app, passport) {
             });
           }
           else {
-            if (!parsed.items) {
+            if (!searched.items) {
               var sch = updateClans ? search : tag;
               Clan.find({ tag: sch }, function (err, clans) {
                 if (err)
@@ -217,7 +268,7 @@ module.exports = function (app, passport) {
               Clan.find({ tag: search }, function (err, clans) {
                 if (err)
                   throw err;
-                RenderPage(page, req, pageRes, clans, parsed);
+                RenderPage(page, req, pageRes, clans, searched);
               });
             }
           }
@@ -231,7 +282,7 @@ module.exports = function (app, passport) {
     });
   }
 
-  function RenderPage(page, req, res, clans, searchResults) {
+  function RenderPage(page, req, res, clans, searchResults, ranks) {
     if (!res)
       return;
     res.render(page, {
@@ -244,6 +295,7 @@ module.exports = function (app, passport) {
       },
       clanRoles: clanRoles,
       searchResults: searchResults,
+      ranks : ranks,
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined
