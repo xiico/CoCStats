@@ -1,10 +1,5 @@
-// load up the clan model
-var Clan = require('../app/models/clan');
 
-var https = require('https');
-
-// load up the User model
-var User = require('../app/models/user');
+var db = require('../app/db');
 var localization = require('../config/localization');
 var locations = require('../config/locations');
 var clans = [];
@@ -28,274 +23,53 @@ module.exports = function (app, passport) {
   // =====================================
   //https://api.clashofclans.com/v1/locations/32000006/rankings/clans/80U9PL8P
   //https://api.clashofclans.com/v1/clans?name=gilgamesh&limit=20
-  function SearchClan(req, pageRes, tag, updateClans, page, search, searchType) {
-    var path = '/v1/clans';
-    var options = "";
-    switch (searchType) {
-      case 'Name':
-        if (tag != "")
-          path += '?limit=40&name=' + encodeURIComponent(tag);
-        else
-          path += '?limit=40';
-
-        if (req.body.location && req.body.location != "") {
-          options += "&locationId=" + req.body.location;
-        }
-
-        if (req.body.warFrequency && req.body.warFrequency != "") {
-          options += "&warFrequency=" + req.body.warFrequency;
-        }
-
-        if (req.body.minMembers && req.body.minMembers != "") {
-          options += "&minMembers=" + req.body.minMembers;
-        }
-
-        if (req.body.maxMembers && req.body.maxMembers != "") {
-          options += "&maxMembers=" + req.body.maxMembers;
-        }
-
-        if (req.body.minClanPoints && req.body.minClanPoints != "") {
-          options += "&minClanPoints=" + req.body.minClanPoints;
-        }
-
-        if (req.body.minClanLevel && req.body.minClanLevel != "") {
-          options += "&minClanLevel=" + req.body.minClanLevel;
-        }
-        path += options
-        break;
-      case 'Rank':
-        path = '/v1/locations/' + tag + '/rankings/clans?limit=40';
-        break;
-      default:
-        path += '/' + '%23' + tag.replace('#', '')
-        break;
-    }
-
-    console.log(path);
-
-    https.get({
-      host: 'api.clashofclans.com',
-      path: path,//80U9PL8P 
-      headers: { 'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY5NDBlOTYxLWQ2MTMtNGI3Ni05MDBhLTlhNTI2NGNlYzZhNyIsImlhdCI6MTQ2NjQ2NTM4Miwic3ViIjoiZGV2ZWxvcGVyLzhhZmQ5ZjJhLWQzNmEtYzdkMS1jZjgxLTRmZGExN2Q1ZWZlZCIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ1LjU1LjIyMS4yMjUiXSwidHlwZSI6ImNsaWVudCJ9XX0.4SWOJT3Qac_XTB2Y2ay9dgQ7f8L6j5C59nzwXGQPqyJ1Mkxs4V2xzVqXPacp10ywvDmrOid9tb_2q-bsW_czLA' }
-    }, function (res) {
-      // explicitly treat incoming data as utf8 (avoids issues with multi-byte chars)
-      //res.setEncoding('utf8');
-
-      // incrementally capture the incoming response body
-      var body = '';
-      res.on('data', function (d) {
-        body += d;
-      });
-
-      // do whatever we want with the response once it's done
-      res.on('end', function () {
-        try {
-          var isets = 0;
-          var searched = JSON.parse(body);
-          var srcd = {
-            "items": [
-              {
-                "tag": "#8J9222L0",
-                "name": "gilgamesh",
-                "type": "open",
-                "badgeUrls": {
-                  "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
-                },
-                "clanLevel": 1,
-                "clanPoints": 99999,
-                "requiredTrophies": 0,
-                "warFrequency": "unknown",
-                "warWinStreak": 0,
-                "warWins": 0,
-                "warTies": 0,
-                "warLosses": 0,
-                "isWarLogPublic": false,
-                "members": 3
-              },
-              {
-                "tag": "#8J9222L0",
-                "name": "gilgamesh",
-                "type": "open",
-                "badgeUrls": {
-                  "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
-                },
-                "clanLevel": 12,
-                "clanPoints": 92453,
-                "requiredTrophies": 0,
-                "warFrequency": "unknown",
-                "warWinStreak": 0,
-                "warWins": 0,
-                "warTies": 0,
-                "warLosses": 0,
-                "isWarLogPublic": true,
-                "members": 3
-              },
-              {
-                "tag": "#8J9222L0",
-                "name": "gilgamesh",
-                "type": "open",
-                "badgeUrls": {
-                  "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
-                  "medium": "https://api-assets.clashofclans.com/badges/200/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png"
-                },
-                "clanLevel": 5,
-                "clanPoints": 92453,
-                "requiredTrophies": 0,
-                "warFrequency": "unknown",
-                "warWinStreak": 0,
-                "warWins": 0,
-                "warTies": 0,
-                "warLosses": 0,
-                "isWarLogPublic": true,
-                "members": 3
-              }
-            ],
-            "paging": {
-              "cursors": {}
-            }
-          };
-
-          var rank = {
-            "items": [
-              {
-                "tag": "#9QCJGJPY",
-                "name": "FACÇÃO CENTRAL",
-                "location": {
-                  "id": 32000038,
-                  "name": "Brazil",
-                  "isCountry": true,
-                  "countryCode": "BR"
-                },
-                "badgeUrls": {
-                  "small": "https://api-assets.clashofclans.com/badges/70/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png",
-                  "large": "https://api-assets.clashofclans.com/badges/512/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png",
-                  "medium": "https://api-assets.clashofclans.com/badges/200/bnpxhie2DxVcO9MvHejM9z4Gq8EkTYKPUZ-7P1Fe7Ws.png"
-                },
-                "clanLevel": 9,
-                "members": 49,
-                "clanPoints": 49850,
-                "rank": 1,
-                "previousRank": 6
-              },
-              {
-                "tag": "#8PCL0Y9J",
-                "name": "BRASIL TEAM",
-                "location": {
-                  "id": 32000038,
-                  "name": "Brazil",
-                  "isCountry": true,
-                  "countryCode": "BR"
-                },
-                "badgeUrls": {
-                  "small": "https://api-assets.clashofclans.com/badges/70/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png",
-                  "large": "https://api-assets.clashofclans.com/badges/512/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png",
-                  "medium": "https://api-assets.clashofclans.com/badges/200/l7PnLiAsZG8WNPKBiGdSmzmzQGHMj8hsd2_AUoQ3vtc.png"
-                },
-                "clanLevel": 8,
-                "members": 46,
-                "clanPoints": 49596,
-                "rank": 2,
-                "previousRank": 2
-              }
-            ],
-            "paging": {
-              "cursors": {
-                "after": "eyJwb3MiOjJ9"
-              }
-            }
-          };
-
-          if (!searched.location)
-            searched.location = { id: 32000006, name: 'International', isCountry: false };
-
-          if (!searched.location.countryCode)
-            searched.location.countryCode = "UN";
-
-        } catch (err) {
-          console.error('Unable to parse response as JSON', err);
-          return cb(err);
-        }
-        console.log('searched.tag: ' + searched.tag);
-        if (searched.tag) {
-          if (updateClans) {
-            Clan.findOneAndUpdate({ tag: searched.tag }, searched, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
-              if (err)
-                throw err;
-              console.log('findOneAndUpdate - page: ' + page);
-              if (pageRes) {
-                Clan.find({ tag: search }, function (err, clans) {
-                  if (err)
-                    throw err;
-                  console.log('findOneAndUpdate>Clan.find - clans.length:' + clans.length);
-                  RenderPage(page, req, pageRes, clans);
-                });
-              }
-            });
-          }
-          else {
-
-            RenderPage(page, req, pageRes, [searched]);
-          }
-
-        }
-        else {
-          if (searchType != "Name") {
-            if (tag.indexOf("#") < 0) {
-              tag = "#" + tag;
-            }
-            var sch = updateClans ? search : tag;
-            Clan.find({ tag: sch }, function (err, clans) {
-              if (err)
-                throw err;
-              RenderPage(page, req, pageRes, clans);
-            });
-          }
-          else {
-            if (!searched.items) {
-              var sch = updateClans ? search : tag;
-              Clan.find({ tag: sch }, function (err, clans) {
-                if (err)
-                  throw err;
-                RenderPage(page, req, pageRes, clans);
-              });
-            }
-            else {
-              Clan.find({ tag: search }, function (err, clans) {
-                if (err)
-                  throw err;
-                RenderPage(page, req, pageRes, clans, searched);
-              });
-            }
-          }
-        }
-
-      });
-    }).on('error', function (err) {
-      // handle errors with the request itself
-      console.error('Error with the request:', err.message);
-      cb(err);
-    });
+  function UpdateClans(clans, callBack) {
+    db.updateClans(clans, callBack);
   }
 
-  function RenderPage(page, req, res, clans, searchResults, ranks) {
+
+  function getSearchOptions(req) {
+    var options = "";
+    if (req.body.location && req.body.location != "") {
+      options += "&locationId=" + req.body.location;
+    }
+
+    if (req.body.warFrequency && req.body.warFrequency != "") {
+      options += "&warFrequency=" + req.body.warFrequency;
+    }
+
+    if (req.body.minMembers && req.body.minMembers != "") {
+      options += "&minMembers=" + req.body.minMembers;
+    }
+
+    if (req.body.maxMembers && req.body.maxMembers != "") {
+      options += "&maxMembers=" + req.body.maxMembers;
+    }
+
+    if (req.body.minClanPoints && req.body.minClanPoints != "") {
+      options += "&minClanPoints=" + req.body.minClanPoints;
+    }
+
+    if (req.body.minClanLevel && req.body.minClanLevel != "") {
+      options += "&minClanLevel=" + req.body.minClanLevel;
+    }
+
+    return options;
+  }
+
+  function RenderPage(page, req, res, userClans, searchResults, ranks) {
     if (!res)
       return;
     res.render(page, {
       user: req.user, // get the user out of session and pass to template
       url: req.url,
-      clans: clans,
-      clan: clans[0],
+      clans: userClans,
       _: function (msgid) {
         return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
       },
       clanRoles: clanRoles,
       searchResults: searchResults,
-      ranks : ranks,
+      ranks: ranks,
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined
@@ -308,17 +82,18 @@ module.exports = function (app, passport) {
   app.get('/:lang?/', function (req, res) {
     if (req.user /*&& req.user.clans.length > 0*/) {
       var search = [];
+      //If is the first time the page is loaded
       if (req.session.viewed === undefined) {
         req.session.viewed = true;
-        if (req.user.clans.length > 0) {
+        if (req.user.clans.length > 0) {//Check if the user is following any clan
           for (var index = 0; index < req.user.clans.length; index++) {
             search[search.length] = req.user.clans[index].tag;
-
-            if (search.length != req.user.clans.length)
-              SearchClan(req, null, req.user.clans[index].tag, true);
-            else
-              SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
           }
+          UpdateClans(search, function (err, clans) {
+            if (err)
+              throw err;
+            RenderPage('index', req, res, clans);
+          });
         }
         else {
           RenderPage('index', req, res, []);
@@ -346,7 +121,9 @@ module.exports = function (app, passport) {
   // CLANS DETAILS =======================
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
-    SearchClan(req, res, req.params.id, null, 'clan');
+    db.searchClans('Tag', req.params.id, null, function (err, clan) {
+      RenderPage('clan', req, res, [clan]);
+    });
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
@@ -378,7 +155,9 @@ module.exports = function (app, passport) {
       }
     }
     if (req.body.hasOwnProperty("btnSearch")) {
-      SearchClan(req, res, req.body.addTag, false, "index", { $in: search }, 'Name');
+      db.searchClans("Name", req.body.searchFor, getSearchOptions(req), function (erro, userClans, searchResults) {
+        RenderPage('index', req, res, clans);
+      });
     }
     else if (req.body.hasOwnProperty("btnRank")) {
       SearchClan(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
