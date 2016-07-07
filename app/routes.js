@@ -69,6 +69,7 @@ module.exports = function (app, passport) {
       },
       clanRoles: clanRoles,
       searchResults: searchResults,
+      clan: searchResults ? searchResults.items[0] : null,
       ranks: ranks,
       locations: locations,
       lstLocation: req.body.location,
@@ -121,8 +122,8 @@ module.exports = function (app, passport) {
   // CLANS DETAILS =======================
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
-    db.searchClans('Tag', req.params.id, null, function (err, clan) {
-      RenderPage('clan', req, res, [clan]);
+    db.searchClans('Tag', req.params.id, null, function (err, clans) {
+      RenderPage('clan', req, res, [], {items:clans});
     });
   });
 
@@ -156,7 +157,7 @@ module.exports = function (app, passport) {
     }
     if (req.body.hasOwnProperty("btnSearch")) {
       db.searchClans("Name", req.body.searchFor, getSearchOptions(req), function (erro, userClans, searchResults) {
-        RenderPage('index', req, res, clans);
+        RenderPage('index', req, res, clans, searchResults);
       });
     }
     else if (req.body.hasOwnProperty("btnRank")) {

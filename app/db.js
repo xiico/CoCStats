@@ -65,13 +65,13 @@ module.exports =
                         Clan.find({ tag: "#" + tag }, function (err, clans) {
                             if (err)
                                 throw err;
-                            callBack(null, clans[0]);
+                            callBack(null, clans);
                         });
                     else
                         Clan.find({ $or: [{ tag: "#" + tag }, { name: new RegExp(tag, "g") }] }, function (err, clans) {
                             if (err)
                                 throw err;
-                            callBack(null, clans);
+                            callBack(null, [] ,{items:clans});
                         });
                 }
             });
@@ -94,55 +94,3 @@ module.exports =
         }
     }
 
-function name(params) {
-    if (searched.tag) {
-        if (updateClans) {
-            Clan.findOneAndUpdate({ tag: searched.tag }, searched, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
-                if (err)
-                    throw err;
-                console.log('findOneAndUpdate - page: ' + page);
-                if (pageRes) {
-                    Clan.find({ tag: search }, function (err, clans) {
-                        if (err)
-                            throw err;
-                        console.log('findOneAndUpdate>Clan.find - clans.length:' + clans.length);
-                        RenderPage(page, req, pageRes, clans);
-                    });
-                }
-            });
-        }
-        else {
-            RenderPage(page, req, pageRes, [searched]);
-        }
-    }
-    else {
-        if (searchType != "Name") {
-            if (tag.indexOf("#") < 0) {
-                tag = "#" + tag;
-            }
-            var sch = updateClans ? search : tag;
-            Clan.find({ tag: sch }, function (err, clans) {
-                if (err)
-                    throw err;
-                RenderPage(page, req, pageRes, clans);
-            });
-        }
-        else {
-            if (!searched.items) {
-                var sch = updateClans ? search : tag;
-                Clan.find({ tag: sch }, function (err, clans) {
-                    if (err)
-                        throw err;
-                    RenderPage(page, req, pageRes, clans);
-                });
-            }
-            else {
-                Clan.find({ tag: search }, function (err, clans) {
-                    if (err)
-                        throw err;
-                    RenderPage(page, req, pageRes, clans, searched);
-                });
-            }
-        }
-    }
-}
