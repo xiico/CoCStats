@@ -1,7 +1,7 @@
 extends layout
  
 
-block content
+block content  
   div(class="jumbotron")
     //Principal
     div(class="media" style="margin-top:15px;")                   
@@ -12,7 +12,7 @@ block content
           li(class="list-group-item")
             h4(class="media-heading")= clan.name
             = clan.description
-            button(type="button" class="btn btn-primary btn-xs" style="float:right;margin-top:-20px;") Save
+            button(type="button" name="btnSave" id="btnSave" class="btn btn-primary btn-xs" style="float:right;margin-top:-20px;") Save
         table(class="table table-condensed")
           tbody
             tr
@@ -53,4 +53,5 @@ block content
                 td(class="superCellFont")= member.trophies
                 td= member.donations
                 td= member.donationsReceived
-                td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)   
+                td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
+  script(type='text/javascript' src='/js/clan.js')

@@ -127,6 +127,13 @@ module.exports = function (app, passport) {
     });
   });
 
+  // =====================================
+  // SAVE CLAN ===========================
+  // =====================================
+  app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
+    res.send({text:'Saved'});
+  });
+
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
       var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
