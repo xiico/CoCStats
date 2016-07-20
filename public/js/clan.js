@@ -4,11 +4,12 @@ $("#btnSave").click(function (e) {
     $("#btnSave").toggleClass("waiting");
     $.ajax({
         type: "GET",
-        url: '/saveclan/543',
+        url: '/saveclan/' + $(e.target).attr("data-tag"),
         dataType: "json",
         success: function (data) {
             $("#btnSave").toggleClass("waiting");
-            $("#btnSave").html(data.text);
+            if (data.ok)
+                $("#btnSave").html('Saved');
         },
         error: function () {//remove gif
             $("#btnSave").toggleClass("waiting");

@@ -123,7 +123,7 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
     db.searchClans('Tag', req.params.id, null, function (err, clans) {
-      RenderPage('clan', req, res, [], {items:clans});
+      RenderPage('clan', req, res, [], { items: clans });
     });
   });
 
@@ -131,7 +131,9 @@ module.exports = function (app, passport) {
   // SAVE CLAN ===========================
   // =====================================
   app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
-    res.send({text:'Saved'});
+    req.user.clans.push({ tag: newTag, active: true });
+    req.user.save();
+    res.send({ ok: true });
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
