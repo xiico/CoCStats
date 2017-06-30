@@ -842,7 +842,7 @@ module.exports = {
                         ]
                         };
                     
-                    if(searchType == "Tag") searched = clan;
+                    if(searched.message && searchType == "Tag") searched = clan;
                 
 
                     if(path.indexOf("player") > 0) searched = player;
