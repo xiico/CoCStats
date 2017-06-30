@@ -49,6 +49,15 @@ var playerSchema = mongoose.Schema(/*{
       "medium": String
     }
   },
+  "league": {
+    "id": Number,
+    "name": String,
+    "iconUrls": {
+      "small": String,
+      "tiny": String,
+      "medium": String
+    }
+  },
   "legendStatistics": {
     "legendTrophies": Number,
     "previousSeason": {
