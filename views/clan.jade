@@ -47,10 +47,12 @@ block content
           tbody      
             each member, k in clan.memberList
               tr
+                td #[image(src=member.league.iconUrls.tiny title=member.league.name)]                  
                 td 
-                  a(class="btn btn-primary" href="/players/"+ member.tag.replace('#','') style="float:right;margin-top:10px;" alt=member.tag)
-                    image(src=member.league.iconUrls.tiny title=member.league.name)
-                td #[div(class="superCellFont fontSmall") #[span= member.name]] #[div= _(clanRoles(member.role))]         
+                  div(class="superCellFont fontSmall")
+                    a( class="player-link" href="/players/"+ member.tag.replace('#','') alt=member.tag)
+                      span= member.name 
+                  div= _(clanRoles(member.role))
                 td(class="superCellFont fontSmall")= member.expLevel                                                 
                 td(class="superCellFont")= member.trophies
                 td= member.donations

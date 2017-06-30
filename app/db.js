@@ -4,6 +4,8 @@ var Clan = require('../app/models/clan');
 var User = require('../app/models/user');
 // Search using the CoC api
 var cocSearch = require('../app/cocSearch');
+// load up the Player model
+var Player = require('../app/models/player');
 
 function saveClan(searched, callBack, callBackSearch) {
     Clan.findOneAndUpdate({ tag: searched.tag }, searched, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
@@ -96,15 +98,17 @@ module.exports =
             }
         },
         searchPlayers: function (searchType, tag, options, callBack) {
-            cocSearch.searchClans(searchType, tag, options, function (err, returnedClans) {
+            cocSearch.searchPlayers(searchType, tag, options, function (err, returnedClans) {
                 if (err)
                     throw err;
-                if (returnedClans.items || returnedClans.tag)
+                if (returnedClans){
+                    returnedClans.playerSearch = true;
                     callBack(null, returnedClans);
+                }
                 else {
                     var searchedClans = [];
                     if (searchType == "Tag")
-                        Clan.find({ tag: "#" + tag }, function (err, clans) {
+                        Player.find({ tag: "#" + tag }, function (err, clans) {
                             if (err)
                                 throw err;
                             callBack(null, clans);

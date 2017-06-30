@@ -107,3 +107,19 @@
     background-repeat: no-repeat;
     background-position: center;   
 }
+
+.player-link{
+    color: white;
+}
+.player-link:hover{
+    color: white;
+    text-decoration: none;
+}
+.player-link:visited {
+    color: white;
+    text-decoration: none;
+}
+.player-link:active {
+    color: white;
+    text-decoration: none;
+} 

@@ -6,7 +6,7 @@ block content
     //Principal
     div(class="media" style="margin-top:15px;")                   
       div(class="media-left")
-        image(src=clan.badgeUrls.small)
+        image(src=player.clan.badgeUrls.small)
       div(class="media-body")
         ul(class="list-group")
           li(class="list-group-item")
@@ -53,12 +53,12 @@ block content
                   div(class="thumbnail")
                     img(src=player.clan.badgeUrls.small alt="clan badge")
                     div(class="caption")= player.clan.name
-                    p= _("Level")+": " player.clan.clanLevel
+                    p= _("Level")+": " + player.clan.clanLevel
     //Legend Stats
     div(class="panel panel-default")
       div(class="panel-heading")= _("Legend Stats")+":"
-      div(class="panel-body table-responsive")
-        span= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
+      div(class="panel-heading")= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
+      div(class="panel-body table-responsive")        
         div(class="col-sm-6 col-md-4")
           div(class="thumbnail")
             p= _("Previous Season")
@@ -89,7 +89,7 @@ block content
               p= _("village") + ": " + achievement.village   
     //troops
     div(class="panel panel-default")
-      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-heading")= _("Troops")+":"
       div(class="panel-body table-responsive")
         each troop, k in player.troops
           div(class="col-sm-6 col-md-4")
@@ -100,7 +100,7 @@ block content
               p= _("village") + ": " + troop.village            
     //heroes
     div(class="panel panel-default")
-      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-heading")= _("Heroes")+":"
       div(class="panel-body table-responsive")
         each hero, k in player.heroes
           div(class="col-sm-6 col-md-4")
@@ -111,7 +111,7 @@ block content
               p= _("village") + ": " + hero.village    
     //spells
     div(class="panel panel-default")
-      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-heading")= _("Spells")+":"
       div(class="panel-body table-responsive")
         each spell, k in player.spells
           div(class="col-sm-6 col-md-4")

@@ -73,7 +73,8 @@ module.exports = function (app, passport) {
       ranks: ranks,
       locations: locations,
       lstLocation: req.body.location,
-      countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined
+      countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
+      player: searchResults && searchResults.items[0].playerSearch ? searchResults.items[0] : null
     }); // load the index.ejs file
   }
 
@@ -132,7 +133,7 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
     db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
-      RenderPage('player', req, res, [], { items: clans });
+      RenderPage('player', req, res, [], { items: [clans] });
     });
   });
 
