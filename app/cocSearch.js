@@ -847,7 +847,7 @@ module.exports = {
                     if(local && searchType == "Tag") searched = clan;
                 
 
-                    if(path.indexOf("player") > 0) searched = player;
+                    if(local && path.indexOf("player") > 0) searched = player;
 
                     if (!searched.location)
                         searched.location = { id: 32000006, name: 'International', isCountry: false };
