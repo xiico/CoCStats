@@ -123,6 +123,9 @@ module.exports = {
                         }
                     };
 
+                    if(searched.message) console.log(searched.message);
+
+
                     var local = !!searched.message;
 
                     if(local) searched = srcd;
