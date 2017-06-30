@@ -128,6 +128,15 @@ module.exports = function (app, passport) {
   });
 
   // =====================================
+  // PLAYER DETAILS =======================
+  // =====================================
+  app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
+    db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
+      RenderPage('player', req, res, [], { items: clans });
+    });
+  });
+
+  // =====================================
   // SAVE CLAN ===========================
   // =====================================
   app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {

@@ -1,0 +1,123 @@
+extends layout
+ 
+
+block content  
+  div(class="jumbotron")
+    //Principal
+    div(class="media" style="margin-top:15px;")                   
+      div(class="media-left")
+        image(src=clan.badgeUrls.small)
+      div(class="media-body")
+        ul(class="list-group")
+          li(class="list-group-item")
+            h4(class="media-heading")= player.name
+            = player.tag
+          li(class="list-group-item")
+            span= "Level: " + player.expLevel
+        table(class="table table-condensed")
+          tbody
+            tr
+              td #[strong= _("Trophies")+":"]
+              td= player.trophies + " " + _("Best")+": " + player.bestTrophies        
+            tr
+              td #[strong= _("War Stars")+":"]
+              td= player.warStars
+            tr
+              td #[strong= _("Attack Wins")+":"]
+              td= player.attackWins
+            tr
+              td #[strong= _("Defense Wins")+":"]
+              td= player.defenseWins
+            tr
+              td #[strong= _("Builder Hall Level")+":"]
+              td= player.builderHallLevel   
+            tr
+              td #[strong= _("Versus Trophies")+":"]
+              td= player.versusTrophies + " " + _("Best")+": " + player.versusTrophies 
+            tr
+              td #[strong= _("Versus Battle Wins")+":"]
+              td= player.versusBattleWins        
+            tr
+              td #[strong= _("Versus Battle Wins Count")+":"]
+              td= player.versusBattleWinCount       
+            tr
+              td #[strong= _("Role")+":"]
+              td= player.role   
+            tr
+              td #[strong= _("Donations")+":"]
+              td= player.donations  
+            tr
+              td #[strong= _("Current Clan")+":"]
+              td 
+                div(class="col-sm-6 col-md-4")
+                  div(class="thumbnail")
+                    img(src=player.clan.badgeUrls.small alt="clan badge")
+                    div(class="caption")= player.clan.name
+                    p= _("Level")+": " player.clan.clanLevel
+    //Legend Stats
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Legend Stats")+":"
+      div(class="panel-body table-responsive")
+        span= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Previous Season")
+            p= _("Rank")+": " + player.legendStatistics.previousSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.previousSeason.trophies
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Best Season")
+            p= _("Rank")+": " + player.legendStatistics.bestSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.bestSeason.trophies
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Current Season")
+            p= _("Rank")+": " + player.legendStatistics.currentSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.currentSeason.trophies
+    //achievements
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-body table-responsive")
+        each achievement, k in player.achievements
+          div(class="col-sm-6 col-md-4")
+            div(class="thumbnail")
+              p= _("Name") + ": " + achievement.name
+              p= _("stars") + ": " + achievement.stars
+              p= _("target") + ": " + achievement.target   
+              p= _("info") + ": " + achievement.info        
+              p= _("completionInfo") + ": " + achievement.completionInfo       
+              p= _("village") + ": " + achievement.village   
+    //troops
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-body table-responsive")
+        each troop, k in player.troops
+          div(class="col-sm-6 col-md-4")
+            div(class="thumbnail")
+              p= _("Name") + ": " + troop.name
+              p= _("level") + ": " + troop.level
+              p= _("maxLevel") + ": " + troop.maxLevel   
+              p= _("village") + ": " + troop.village            
+    //heroes
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-body table-responsive")
+        each hero, k in player.heroes
+          div(class="col-sm-6 col-md-4")
+            div(class="thumbnail")
+              p= _("Name") + ": " + hero.name
+              p= _("level") + ": " + hero.level
+              p= _("maxLevel") + ": " + hero.maxLevel   
+              p= _("village") + ": " + hero.village    
+    //spells
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Achievements")+":"
+      div(class="panel-body table-responsive")
+        each spell, k in player.spells
+          div(class="col-sm-6 col-md-4")
+            div(class="thumbnail")
+              p= _("Name") + ": " + spell.name
+              p= _("level") + ": " + spell.level
+              p= _("maxLevel") + ": " + spell.maxLevel   
+              p= _("village") + ": " + spell.village                                         
+  script(type='text/javascript' src='/js/clan.js')

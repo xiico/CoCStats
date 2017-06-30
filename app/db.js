@@ -91,6 +91,29 @@ module.exports =
                         callBack(null, searchedClans);
                 });
             }
+        },
+        searchPlayers: function (searchType, tag, options, callBack) {
+            cocSearch.searchClans(searchType, tag, options, function (err, returnedClans) {
+                if (err)
+                    throw err;
+                if (returnedClans.items || returnedClans.tag)
+                    callBack(null, returnedClans);
+                else {
+                    var searchedClans = [];
+                    if (searchType == "Tag")
+                        Clan.find({ tag: "#" + tag }, function (err, clans) {
+                            if (err)
+                                throw err;
+                            callBack(null, clans);
+                        });
+                    else
+                        Clan.find({ $or: [{ tag: "#" + tag }, { name: new RegExp(tag, "g") }] }, function (err, clans) {
+                            if (err)
+                                throw err;
+                            callBack(null, [] ,{items:clans});
+                        });
+                }
+            });
         }
     }
 

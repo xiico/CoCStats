@@ -23,7 +23,7 @@ block content
               td= clan.clanPoints
             tr
               td #[strong= _("Location")+":"]
-              td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Brazil")]
+              td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Country")]
             tr
               td #[strong= _("War Frequency")+":"]
               td= clan.warFrequency
@@ -47,7 +47,9 @@ block content
           tbody      
             each member, k in clan.memberList
               tr
-                td #[image(src=member.league.iconUrls.tiny title=member.league.name)]
+                td 
+                  a(class="btn btn-primary" href="/players/"+ member.tag.replace('#','') style="float:right;margin-top:10px;" alt=member.tag)
+                    image(src=member.league.iconUrls.tiny title=member.league.name)
                 td #[div(class="superCellFont fontSmall") #[span= member.name]] #[div= _(clanRoles(member.role))]         
                 td(class="superCellFont fontSmall")= member.expLevel                                                 
                 td(class="superCellFont")= member.trophies
