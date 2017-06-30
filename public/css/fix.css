@@ -123,3 +123,21 @@
     color: white;
     text-decoration: none;
 } 
+.text-center{
+    text-align: center;
+}
+.achievements-panel{
+    height: 180px;
+}
+.progress {
+    position: relative;
+}
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+ }
+ .bar {
+  background-color: green;
+  /*height: 100%;*/
+} 
