@@ -58,7 +58,10 @@ module.exports =
                 if (err)
                     throw err;
                 if (returnedClans.items || returnedClans.tag)
-                    callBack(null,[], returnedClans);
+                    if(searchType == "Tag")
+                        callBack(null,returnedClans);
+                    else
+                        callBack(null,[], returnedClans);
                 else {
                     var searchedClans = [];
                     if (searchType == "Tag")

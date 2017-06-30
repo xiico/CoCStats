@@ -123,7 +123,9 @@ module.exports = {
                         }
                     };
 
-                    if(searched.message) searched = srcd;
+                    var local = !!searched.message;
+
+                    if(local) searched = srcd;
 
                     var rank = {
                         "items": [
@@ -842,7 +844,7 @@ module.exports = {
                         ]
                         };
                     
-                    if(searched.message && searchType == "Tag") searched = clan;
+                    if(local && searchType == "Tag") searched = clan;
                 
 
                     if(path.indexOf("player") > 0) searched = player;
