@@ -85,17 +85,19 @@ block content
           - var target = achievement.target;
           - var progress = cur / target <= 1 ? cur / target : 1;          
           div(class="col-sm-6 col-md-4")
-            div(class="thumbnail achievements-panel text-center")
-              p(class="superCellFont")= achievement.name
-              //span= _("stars") + ": " + achievement.stars
-              //span= _("target") + ": " + achievement.target   
-              span= achievement.info           
-              div(class="progress")
-                div(class="progress-bar bar superCellFont fontSmall" role="progressbar" aria-valuenow=cur aria-valuemin="0" aria-valuemax=target style="width: " + progress*100 + "%;")
-                  span= cur + " / " + target              
-              span= achievement.completionInfo 
-                br
-              span= _("village") + ": " + achievement.village   
+            div(class="achievements-gradient")
+              img(class="stars" src="/images/"+achievement.stars+"stars.png")
+              div(class="thumbnail borderimg achievements-panel text-center bold-text")
+                p(class="superCellFont fontMedium")= achievement.name
+                //span= _("stars") + ": " + achievement.stars
+                //span= _("target") + ": " + achievement.target   
+                span= achievement.info           
+                div(class="progress")
+                  div(class="progress-bar bar superCellFont fontSmall" role="progressbar" aria-valuenow=cur aria-valuemin="0" aria-valuemax=target style="width: " + progress*100 + "%;")
+                    span= cur + " / " + target              
+                span= achievement.completionInfo 
+                  br
+                span= _("village") + ": " + achievement.village   
     //troops
     div(class="panel panel-default")
       div(class="panel-heading")= _("Troops")+":"

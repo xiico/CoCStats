@@ -127,10 +127,13 @@
     text-align: center;
 }
 .achievements-panel{
-    height: 180px;
+    height: 200px;
+    position: relative;
 }
 .progress {
     position: relative;
+    margin-bottom: 6px;
+    border-radius: 6px;
 }
 .progress span {
     position: absolute;
@@ -141,3 +144,36 @@
   background-color: green;
   /*height: 100%;*/
 } 
+
+.achievements-gradient{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f0f0f0+0,e8e8e8+40,dcdcdc+100 */
+    background: #f0f0f0; /* Old browsers */
+    background: -moz-linear-gradient(top, #f0f0f0 0%, #e8e8e8 40%, #dcdcdc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #f0f0f0 0%,#e8e8e8 40%,#dcdcdc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #f0f0f0 0%,#e8e8e8 40%,#dcdcdc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#dcdcdc',GradientType=0 ); /* IE6-9 */
+}
+
+.borderimg { 
+    border: 15px solid transparent;
+    /*padding: 15px;*/
+    -webkit-border-image: url(../images/achievbg.png) 30 round; /* Safari 3.1-5 */
+    -o-border-image: url(../images/achievbg.png) 30 round; /* Opera 11-12.1 */
+    border-image: url(../images/achievbg.png) 30 round;
+    background: transparent;
+}
+
+.bold-text{
+    font-weight: bold;
+}
+
+.stars {
+    position: absolute;
+    top: -150px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    width: 140px;
+    opacity: 0.75;
+}
