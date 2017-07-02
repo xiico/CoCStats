@@ -175,5 +175,56 @@
     bottom: 0px;
     margin: auto;
     width: 140px;
-    opacity: 0.75;
+    opacity: 0.9;
+}
+
+.troops {
+    position: absolute;
+    top: 0px;
+    left: -40px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    /*width: 140px;*/
+    height: 200px;
+    /*opacity: 0.75;*/
+}
+.troops-panel{
+    height: 200px;
+    position: relative;
+    background: transparent;
+    border: 0;
+    box-shadow: 6px 6px 5px #888888;
+    border-radius: 12px;
+}
+
+.troops-bg{
+    /*background-image: url(../images/barbarian.png);*/
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+.troops-gradient{
+    background: lightblue;
+    background: -webkit-radial-gradient(cyan, blue);
+    background: -o-radial-gradient(cyan, blue); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradien(cyan, blue); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(cyan, blue);/* Standard syntax */
+    border-radius: 12px;
+}
+
+.level-max{
+    background-image: url(../images/levelbgmax.png) !important;
+}
+
+.troop-level{
+    position: absolute;
+    right: 16px;
+    bottom: 4px;
+    background-image: url(../images/levelbg.png);
+    background-position: center; 
+    font-size: 24px;
+    text-align: center;
+    width: 31px;
+    height: 36px;
 }

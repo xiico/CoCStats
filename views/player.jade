@@ -14,6 +14,8 @@ block content
             = player.tag
           li(class="list-group-item")
             span= "Level: " + player.expLevel
+          li(class="list-group-item")
+            span= "Town Hall Level: " + player.townHallLevel
           li(class="list-group-item")= player.league.name            
         table(class="table table-condensed")
           tbody
@@ -103,12 +105,16 @@ block content
       div(class="panel-heading")= _("Troops")+":"
       div(class="panel-body table-responsive")
         each troop, k in player.troops
-          div(class="col-sm-6 col-md-4")
-            div(class="thumbnail achievements-panel")
-              p= _("Name") + ": " + troop.name
-              p= _("level") + ": " + troop.level
-              p= _("maxLevel") + ": " + troop.maxLevel   
-              p= _("village") + ": " + troop.village            
+          - var troopName = "../images/"+troop.name.replace(' ','').replace('.','').replace('.','').replace('.','').replace('.','')+".png" ;
+          - var maxLevel = troop.level == troop.maxLevel ? "level-max" : "";
+          div(class="col-sm-4 col-md-3")
+            div(class="troops-gradient")
+              //img(class="troops" src="/images/barbarian.png")
+              div(class="thumbnail troops-panel troops-bg" style='background-image: ' + 'url('+troopName+')')
+                p(class="superCellFont fontMedium")= troop.name
+                div(class="shadow-font troop-level " + maxLevel)= troop.level
+                //p= _("maxLevel") + ": " + troop.maxLevel   
+                //p= _("village") + ": " + troop.village            
     //heroes
     div(class="panel panel-default")
       div(class="panel-heading")= _("Heroes")+":"
