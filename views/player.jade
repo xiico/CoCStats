@@ -6,7 +6,8 @@ block content
     //Principal
     div(class="media" style="margin-top:15px;")                   
       div(class="media-left")
-        image(src=player.league.iconUrls.small)
+        - var url = player.league ? player.league.iconUrls.small : "https://api-assets.clashofclans.com/leagues/72/e--YMyIexEQQhE4imLoJcwhYn6Uy8KqlgyY3_kFV6t4.png"
+        image(src=url)
       div(class="media-body")
         ul(class="list-group")
           li(class="list-group-item")
