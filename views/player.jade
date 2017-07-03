@@ -110,9 +110,9 @@ block content
           div(class="col-sm-4 col-md-3")
             div(class="troops-gradient")
               //img(class="troops" src="/images/barbarian.png")
-              div(class="thumbnail troops-panel troops-bg" style='background-image: ' + 'url('+troopName+')')
+              div(class="thumbnail info-panel info-bg" style='background-image: ' + 'url('+troopName+')')
                 p(class="superCellFont fontMedium")= troop.name
-                div(class="shadow-font troop-level " + maxLevel)= troop.level
+                div(class="shadow-font info-level " + maxLevel)= troop.level
                 //p= _("maxLevel") + ": " + troop.maxLevel   
                 //p= _("village") + ": " + troop.village            
     //heroes
@@ -120,21 +120,26 @@ block content
       div(class="panel-heading")= _("Heroes")+":"
       div(class="panel-body table-responsive")
         each hero, k in player.heroes
+          - var heroName = "../images/"+hero.name.replace(' ','')+".png";
+          - var maxLevel = hero.level == hero.maxLevel ? "level-max" : "";        
           div(class="col-sm-6 col-md-4")
-            div(class="thumbnail")
-              p= _("Name") + ": " + hero.name
-              p= _("level") + ": " + hero.level
-              p= _("maxLevel") + ": " + hero.maxLevel   
-              p= _("village") + ": " + hero.village    
+            div(class="heroes-gradient")
+              div(class="thumbnail  info-panel info-bg" style='background-image: ' + 'url('+heroName+')')
+                p(class="superCellFont fontMedium")= hero.name
+                div(class="shadow-font info-level " + maxLevel)= hero.level
+                //p= _("maxLevel") + ": " + hero.maxLevel   
+                //p= _("village") + ": " + hero.village    
     //spells
     div(class="panel panel-default")
       div(class="panel-heading")= _("Spells")+":"
       div(class="panel-body table-responsive")
         each spell, k in player.spells
-          div(class="col-sm-6 col-md-4")
-            div(class="thumbnail")
-              p= _("Name") + ": " + spell.name
-              p= _("level") + ": " + spell.level
-              p= _("maxLevel") + ": " + spell.maxLevel   
-              p= _("village") + ": " + spell.village                                         
+          - var spellName = "../images/"+spell.name.replace(' ','')+".jpg";
+          - var maxLevel = spell.level == spell.maxLevel ? "level-max" : "";           
+          div(class="col-spell col-sm-6 col-md-4")
+            div(class="thumbnail  info-panel spell-bg" style='background-image: ' + 'url('+spellName+')')
+              p(class="superCellFont fontMedium")= spell.name
+              div(class="shadow-font info-level " + maxLevel)= spell.level
+              //p= _("maxLevel") + ": " + spell.maxLevel   
+              //p= _("village") + ": " + spell.village                                         
   script(type='text/javascript' src='/js/clan.js')

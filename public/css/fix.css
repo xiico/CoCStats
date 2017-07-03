@@ -189,7 +189,7 @@
     height: 200px;
     /*opacity: 0.75;*/
 }
-.troops-panel{
+.info-panel{
     height: 200px;
     position: relative;
     background: transparent;
@@ -198,9 +198,15 @@
     border-radius: 12px;
 }
 
-.troops-bg{
+.info-bg{
     /*background-image: url(../images/barbarian.png);*/
     background-position: center; 
+    background-repeat: no-repeat;
+}
+
+.spell-bg{
+    /*background-image: url(../images/barbarian.png);*/
+    /*background-position: center; */
     background-repeat: no-repeat;
 }
 
@@ -213,11 +219,20 @@
     border-radius: 12px;
 }
 
+.heroes-gradient{
+    background: lightblue;
+    background: -webkit-radial-gradient(lightgreen, darkcyan);
+    background: -o-radial-gradient(lightgreen, darkcyan); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradien(lightgreen, darkcyan); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(lightgreen, darkcyan);/* Standard syntax */
+    border-radius: 12px;
+}
+
 .level-max{
     background-image: url(../images/levelbgmax.png) !important;
 }
 
-.troop-level{
+.info-level{
     position: absolute;
     right: 16px;
     bottom: 4px;
@@ -227,4 +242,11 @@
     text-align: center;
     width: 31px;
     height: 36px;
+}
+
+@media (min-width: 540px) and (max-width: 768px) {
+  .col-spell{
+    width: 50%;
+    float: left;
+  }
 }
