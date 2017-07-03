@@ -17,7 +17,7 @@ block content
             span= "Level: " + player.expLevel
           li(class="list-group-item")
             span= "Town Hall Level: " + player.townHallLevel
-          li(class="list-group-item")= player.league.name            
+          li(class="list-group-item")= player.league ? player.league.name : "Unranked";
         table(class="table table-condensed")
           tbody
             tr
