@@ -60,7 +60,7 @@ module.exports = function (app, passport) {
   function RenderPage(page, req, res, userClans, searchResults, ranks) {
     if (!res)
       return;
-    res.render(page, {
+    var pageObjects = {
       user: req.user, // get the user out of session and pass to template
       url: req.url,
       clans: userClans,
@@ -75,7 +75,8 @@ module.exports = function (app, passport) {
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
       player: searchResults && searchResults.items[0].playerSearch ? searchResults.items[0] : null
-    }); // load the index.ejs file
+    };
+    res.render(page, pageObjects); // load the index.ejs file
   }
 
   // =====================================
@@ -124,7 +125,8 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
     db.searchClans('Tag', req.params.id, null, function (err, clans) {
-      RenderPage('clan', req, res, [], { items: [clans] });
+        UpdateClans([clans.tag], function(){});
+        RenderPage('clan', req, res, [], { items: [clans] });
     });
   });
 
@@ -144,6 +146,23 @@ module.exports = function (app, passport) {
     req.user.clans.push({ tag: newTag, active: true });
     req.user.save();
     res.send({ ok: true });
+  });
+
+  // =====================================
+  // CLAN HISTORY ========================
+  // =====================================
+  app.get('/clanhistory/:id', /*isLoggedIn,*/ function (req, res) {
+      db.getClanHistory(req.params.id, function (err, history) {
+        if (err) throw err;
+        //var result = [["Date", "Level", "Wins", "Streak", "Points", "Members"]];
+        var result = [["Date", "Points"]];
+        history.forEach(function (element) {
+          var date = element.date.getFullYear() + "-" + ("0"+(element.date.getMonth()+1)).slice(-2) + "-" + ("0" + element.date.getDate()).slice(-2) + " " + ("0" + element.date.getHours()).slice(-2) + ":00";
+          result.push([date, element.clanPoints]);
+        }, this);
+        //RenderPage('clan', req, res, [], { items: [clans], history: result });
+        res.send(result);
+      })
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
@@ -180,7 +199,10 @@ module.exports = function (app, passport) {
       });
     }
     else if (req.body.hasOwnProperty("btnRank")) {
-      SearchClan(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
+      //db.searchClans(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
+      db.searchClans('Rank', req.params.id, null, function (err, clans) {
+        RenderPage('index', req, res, [], { items: [clans] });
+      });
     }
     else {
       SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });

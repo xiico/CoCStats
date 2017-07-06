@@ -244,6 +244,11 @@
     height: 36px;
 }
 
+.chart{
+    width: 100%;
+    height: 200px;
+}
+
 @media (min-width: 540px) and (max-width: 768px) {
   .col-spell{
     width: 50%;

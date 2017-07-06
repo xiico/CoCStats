@@ -6,6 +6,9 @@ var User = require('../app/models/user');
 var cocSearch = require('../app/cocSearch');
 // load up the Player model
 var Player = require('../app/models/player');
+//load up the clanHistory
+var clanHistory = require('../app/models/clanHistory');
+
 
 function saveClan(searched, callBack, callBackSearch) {
     Clan.findOneAndUpdate({ tag: searched.tag }, searched, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, clan) {
@@ -70,7 +73,7 @@ module.exports =
                         Clan.find({ tag: "#" + tag }, function (err, clans) {
                             if (err)
                                 throw err;
-                            callBack(null, clans);
+                            callBack(null, clans[0]);
                         });
                     else
                         Clan.find({ $or: [{ tag: "#" + tag }, { name: new RegExp(tag, "g") }] }, function (err, clans) {
@@ -98,29 +101,51 @@ module.exports =
             }
         },
         searchPlayers: function (searchType, tag, options, callBack) {
-            cocSearch.searchPlayers(searchType, tag, options, function (err, returnedClans) {
+            cocSearch.searchPlayers(searchType, tag, options, function (err, returnedPlayers) {
                 if (err)
                     throw err;
-                if (returnedClans){
-                    returnedClans.playerSearch = true;
-                    callBack(null, returnedClans);
+                if (returnedPlayers){
+                    returnedPlayers.playerSearch = true;
+                    callBack(null, returnedPlayers);
                 }
-                else {
-                    var searchedClans = [];
+                else {                    
                     if (searchType == "Tag")
-                        Player.find({ tag: "#" + tag }, function (err, clans) {
+                        Player.find({ tag: "#" + tag }, function (err, players) {
                             if (err)
                                 throw err;
-                            callBack(null, clans);
-                        });
-                    else
-                        Clan.find({ $or: [{ tag: "#" + tag }, { name: new RegExp(tag, "g") }] }, function (err, clans) {
-                            if (err)
-                                throw err;
-                            callBack(null, [] ,{items:clans});
+                            callBack(null, players);
                         });
                 }
             });
+        },
+        getClanHistory : function(tag, callBack){
+            clanHistory.aggregate([
+                { "$match": { tag: "#" + tag }},
+                // Unwind the array to denormalize
+                { "$unwind": "$history" },
+
+                { "$match": { "history.date": { $gte: new Date("2017-07-01T00:00:00Z") } } },
+
+                // Group back to array form
+                {
+                    "$group": {
+                        "_id": "$_id",
+                        "history": { "$push": "$history" }
+                    }
+                }
+            ], function (err, response) {
+                if (err)
+                    throw err;
+                if (response.length > 0)
+                    callBack(null, response[0].history);
+            });
+
+            // clanHistory.find({ tag: "#" + tag }, {"history":{$slice:28}}, function (err, response) {
+            //         if (err)
+            //             throw err;
+            //         if(response.length > 0)
+            //             callBack(null, response[0].history);
+            //     });
         }
     }
 

@@ -128,6 +128,11 @@ module.exports = {
 
                     var local = !!searched.message;
 
+                    if(local) {
+                        callBack(null,{});
+                        return;
+                    }
+
                     if(local) searched = srcd;
 
                     var rank = {

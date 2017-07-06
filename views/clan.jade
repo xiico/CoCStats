@@ -39,6 +39,11 @@ block content
             tr
               td #[strong= _("Required Trophies")+":"]
               td= clan.requiredTrophies    
+    //Chart
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Progress")+":"
+      div(class="panel-body table-responsive")
+        div(id="chart" class="chart")
     //Members
     div(class="panel panel-default")
       div(class="panel-heading")= _("Members")+":"
@@ -58,4 +63,5 @@ block content
                 td= member.donations
                 td= member.donationsReceived
                 td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/clan.js')
