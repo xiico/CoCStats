@@ -54,9 +54,9 @@ html
               li(class={active: url === "/"}) #[a(href="/") Home ]
               if user
                 li(class={active: url === "/profile"}) #[a(href="/profile") Profile]              
-              else
-                
+              else                
                 li(class={active: url === "/authenticate"}) #[a(href="/authenticate") Authenticate]
+              li(class={active: url === "/rank"}) #[a(href="/rank") Global Rank ]
             ul(class="nav navbar-nav navbar-right")
               if !user 
                 li #[a(href="/signup") #[span(class="glyphicon glyphicon-user")] Sign Up]

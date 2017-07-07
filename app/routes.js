@@ -3,6 +3,8 @@ var db = require('../app/db');
 var localization = require('../config/localization');
 var locations = require('../config/locations');
 var clans = [];
+// load up the clan model
+var Clan = require('../app/models/clan');
 var clanRoles = function (clanRole) {
   switch (clanRole) {
     case "admin":
@@ -140,6 +142,21 @@ module.exports = function (app, passport) {
   });
 
   // =====================================
+  // Global Rank =========================
+  // =====================================
+  app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
+    if (req.params.id) {
+      db.searchClans('Rank', req.params.id, null, function (err, clans) {
+        RenderPage('index', req, res, [], { items: [clans] });
+      });
+    } else {
+      db.getGlobalRank(function(err, entries){
+        RenderPage('rank', req, res, [], { items: [entries] });
+      })
+    }
+  });
+
+  // =====================================
   // SAVE CLAN ===========================
   // =====================================
   app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
@@ -198,12 +215,12 @@ module.exports = function (app, passport) {
         RenderPage('index', req, res, clans, searchResults);
       });
     }
-    else if (req.body.hasOwnProperty("btnRank")) {
-      //db.searchClans(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
-      db.searchClans('Rank', req.params.id, null, function (err, clans) {
-        RenderPage('index', req, res, [], { items: [clans] });
-      });
-    }
+    // else if (req.body.hasOwnProperty("btnRank")) {
+    //   //db.searchClans(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
+    //   db.searchClans('Rank', req.params.id, null, function (err, clans) {
+    //     RenderPage('index', req, res, [], { items: [clans] });
+    //   });
+    // }
     else {
       SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
     }

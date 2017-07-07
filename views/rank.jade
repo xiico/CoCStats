@@ -1,0 +1,28 @@
+extends layout
+ 
+
+block content  
+  div(class="jumbotron")
+    //Chart
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Progress")+":"
+      div(class="panel-body table-responsive")
+        div(id="chart" class="chart")
+    //Search Results
+    if(searchResults)
+      div(class="panel-heading")= _("Results")+":"
+      div(class="panel-body table-responsive searchResults")
+        table(class="table table-condensed tableResults")
+          tbody      
+            each item, k in searchResults.items
+              tr
+                td= (k+1)+(".") 
+                td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
+                td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
+                //td(class="superCellFont fontSmall")= item.clanLevel                                                 
+                td(class="superCellFont")= item.clanPoints
+                td= item.members 
+                td #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")]
+                td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+  script(type='text/javascript' src='/js/clan.js')

@@ -8,6 +8,8 @@ var cocSearch = require('../app/cocSearch');
 var Player = require('../app/models/player');
 //load up the clanHistory
 var clanHistory = require('../app/models/clanHistory');
+// load up the Rank model
+var Rank = require('../app/models/rank');
 
 
 function saveClan(searched, callBack, callBackSearch) {
@@ -22,6 +24,26 @@ function saveClan(searched, callBack, callBackSearch) {
             });
         }
     });
+}
+
+function getFirstMonday(date) {
+    date.setDate(1);
+
+    // Get the first Monday in the month
+    while (date.getDay() !== 1) {
+        date.setDate(date.getDate() + 1);
+    }
+    return date;
+}
+
+function getClanHistoryStartDate(){
+    var date = new Date();
+    if(getFirstMonday(date).getDate() >= date.getDate) 
+        return getFirstMonday(date);
+    else {
+        date.setMonth(date.getMonth() - 1);
+        return getFirstMonday(date);
+    }        
 }
 
 module.exports =
@@ -124,7 +146,7 @@ module.exports =
                 // Unwind the array to denormalize
                 { "$unwind": "$history" },
 
-                { "$match": { "history.date": { $gte: new Date("2017-07-01T00:00:00Z") } } },
+                { "$match": { "history.date": { $gte: getClanHistoryStartDate() } } },
 
                 // Group back to array form
                 {
@@ -146,6 +168,52 @@ module.exports =
             //         if(response.length > 0)
             //             callBack(null, response[0].history);
             //     });
+        },
+        getGlobalRank: function(callBack){
+            var date = new Date("2017-07-06");
+            date.setUTCHours(0);         
+            date.setUTCMinutes(0);
+            date.setUTCSeconds(0);
+            date.setUTCMilliseconds(0);
+            Rank.aggregate([
+                { "$unwind": "$entries" },
+                { "$unwind": "$entries.items" },
+                
+                { "$match": { "entries.date": { $gte: date } } },
+                //{ "$match": { "entries.items.clanPoints": { $gte: 59000 } } },
+                { "$sort": {"entries.items.clanPoints":-1}},
+
+                //{ "$group": {"_id": "$_id", "entries": { "$push": "$entries" }}},
+                { "$group": { "_id": {"_id": "$_id","entries":"$entries"} } },
+                //{ "$group": { "_id" : { "_id":"$_id._id", "date": "$_id.entries.date"}, "items": { "$push": "$_id.entries.items" }} },
+                { "$group": { "_id" : {"date": "$_id.entries.date"}, "items": { "$push": "$_id.entries.items" }} },
+
+                
+                //{ "$group": {"_id": "$entries._id"}},
+                // { "$group": { "_id": "$_id.id"}},
+                /*{ "$unwind": "$entries.items" },
+                { "$sort": {"entries.items.clanPoints":-1}},
+                { "$group": { "_id": "$_id", "entries.item": { "$push": "$entries.item" } } },*/                
+                /*{ "$project": { 
+                    "items":"$entries"
+                }}*/
+                { "$project": {
+                    "_id": 0,
+                    "date": "$_id.date",
+                    "items": "$items"//{ "$slice": ["$items",20] }
+                }},/*,
+                {"$limit": 10}*/
+
+                {"$limit": 2}
+            ], function (err, response) {
+                 var responseTotal = response.length;
+                 var entriesTotal = response[0].entries.length
+                 var itemnsTotal = response[0].entries[0].items.length;
+                if (err)
+                    throw err;
+                if (response.length > 0)
+                    callBack(null, response[0].entries);
+            });
         }
     }
 
