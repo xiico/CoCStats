@@ -153,6 +153,12 @@ module.exports = function (app, passport) {
             if(!item.previousRank) item.previousRank = -1;
           }, this);
         }
+
+        if(!req.params.id){
+          clans.items.sort(function(a, b) {
+              return parseFloat(a.clanPoints) - parseFloat(b.clanPoints);
+          });
+        }
         RenderPage('rank', req, res, [], clans);
       });
   });
