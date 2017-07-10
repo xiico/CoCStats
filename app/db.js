@@ -85,7 +85,7 @@ module.exports =
                 if (err)
                     throw err;
                 if (returnedClans.items || returnedClans.tag)
-                    if(searchType == "Tag")
+                    if(searchType == "Tag" || searchType == "Rank")
                         callBack(null,returnedClans);
                     else
                         callBack(null,[], returnedClans);

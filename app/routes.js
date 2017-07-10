@@ -147,14 +147,13 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
       db.searchClans('Rank', req.params.id, null, function (err, clans) {
-        // if(clans && (!clans.items[0].rank || !clans.items[0].previousRank) ){           
-        //   clans.items.forEach(function(item) {
-        //     if(!item.rank) item.rank = -1;
-        //     if(!item.previousRank) item.previousRank = -1;
-        //   }, this);
-        // }
-        // RenderPage('Rank', req, res, [], clans);
-        res.end(JSON.stringify(clans));
+        if(clans && (!clans.items[0].rank || !clans.items[0].previousRank) ){           
+          clans.items.forEach(function(item) {
+            if(!item.rank) item.rank = -1;
+            if(!item.previousRank) item.previousRank = -1;
+          }, this);
+        }
+        RenderPage('Rank', req, res, [], clans);
       });
   });
 

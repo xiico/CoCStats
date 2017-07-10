@@ -131,14 +131,80 @@ module.exports = {
 
                     var local = !!searched.message;
 
-                    if(local) {
-                        callBack(null,{});
-                        return;
+                    if (local) {
+                        //callBack(null,{});
+                        //return;
+                        searched = {
+                            "items": [
+                                {
+                                    "tag": "#2VR2YY0G",
+                                    "name": "Kings Rock",
+                                    "location": {
+                                        "id": 32000006,
+                                        "name": "International",
+                                        "isCountry": false
+                                    },
+                                    "badgeUrls": {
+                                        "small": "https://api-assets.clashofclans.com/badges/70/H_UNCwAz5F5o9SnxYPEqwhE8tijdg5ztf8Ffi_y20as.png",
+                                        "large": "https://api-assets.clashofclans.com/badges/512/H_UNCwAz5F5o9SnxYPEqwhE8tijdg5ztf8Ffi_y20as.png",
+                                        "medium": "https://api-assets.clashofclans.com/badges/200/H_UNCwAz5F5o9SnxYPEqwhE8tijdg5ztf8Ffi_y20as.png"
+                                    },
+                                    "clanLevel": 13,
+                                    "members": 49,
+                                    "clanPoints": 59222,
+                                    "rank": 1,
+                                    "previousRank": 1
+                                },
+                                {
+                                    "tag": "#YJLRUQY8",
+                                    "name": "HOUSE of CLOUDS",
+                                    "location": {
+                                        "id": 32000006,
+                                        "name": "International",
+                                        "isCountry": false
+                                    },
+                                    "badgeUrls": {
+                                        "small": "https://api-assets.clashofclans.com/badges/70/YnDWuteGRps_6C_8maYOGzUY_0wPzky0jMtJGaZdCOE.png",
+                                        "large": "https://api-assets.clashofclans.com/badges/512/YnDWuteGRps_6C_8maYOGzUY_0wPzky0jMtJGaZdCOE.png",
+                                        "medium": "https://api-assets.clashofclans.com/badges/200/YnDWuteGRps_6C_8maYOGzUY_0wPzky0jMtJGaZdCOE.png"
+                                    },
+                                    "clanLevel": 12,
+                                    "members": 49,
+                                    "clanPoints": 58561,
+                                    "rank": 2,
+                                    "previousRank": 3
+                                },
+                                {
+                                    "tag": "#2JGYRJVL",
+                                    "name": "MEGA EMPIRE",
+                                    "location": {
+                                        "id": 32000006,
+                                        "name": "International",
+                                        "isCountry": false
+                                    },
+                                    "badgeUrls": {
+                                        "small": "https://api-assets.clashofclans.com/badges/70/7AQi3B0Na55kqLkkdjQ1HA4wh9Rh2eHF6uOlTpNT7Xk.png",
+                                        "large": "https://api-assets.clashofclans.com/badges/512/7AQi3B0Na55kqLkkdjQ1HA4wh9Rh2eHF6uOlTpNT7Xk.png",
+                                        "medium": "https://api-assets.clashofclans.com/badges/200/7AQi3B0Na55kqLkkdjQ1HA4wh9Rh2eHF6uOlTpNT7Xk.png"
+                                    },
+                                    "clanLevel": 10,
+                                    "members": 50,
+                                    "clanPoints": 58530,
+                                    "rank": 3,
+                                    "previousRank": 4
+                                }
+                            ],
+                            "paging": {
+                                "cursors": {
+                                    "after": "eyJwb3MiOjQwfQ"
+                                }
+                            }
+                        };
                     } else {
-                        console.log(body);
+                        //console.log(body);
                     }
 
-                    if(local) searched = srcd;
+                    //if(local) searched = srcd;
 
                     var rank = {
                         "items": [
