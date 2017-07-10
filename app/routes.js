@@ -156,7 +156,7 @@ module.exports = function (app, passport) {
 
         if(!req.params.id){
           clans.items.sort(function(a, b) {
-              return parseFloat(a.clanPoints) - parseFloat(b.clanPoints);
+              return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
           });
         }
         RenderPage('rank', req, res, [], clans);
