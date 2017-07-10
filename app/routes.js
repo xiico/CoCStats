@@ -153,7 +153,7 @@ module.exports = function (app, passport) {
             if(!item.previousRank) item.previousRank = -1;
           }, this);
         }
-        RenderPage('Rank', req, res, [], clans);
+        RenderPage('rank', req, res, [], clans);
       });
   });
 
@@ -162,7 +162,7 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/rankchart/:id', /*isLoggedIn,*/ function (req, res) {
     if (req.params.id) {
-      db.searchClans('Rank', req.params.id, null, function (err, clans) {
+      db.searchClans('rank', req.params.id, null, function (err, clans) {
         res.send(clans);
       });
     } else {
