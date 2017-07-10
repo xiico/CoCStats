@@ -146,20 +146,29 @@ module.exports = function (app, passport) {
   // Global Rank =========================
   // =====================================
   app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
-      db.searchClans('Rank', req.params.id, null, function (err, clans) {
-        if(!req.params.id){
-          clans.items.sort(function(a, b) {
-              return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
-          });
-        }
-        if(clans && (!clans.items[0].rank || !clans.items[0].previousRank) ){           
-          clans.items.forEach(function(item) {
-            if(!item.rank) item.rank = clans.items.indexOf(item);
-            if(!item.previousRank) item.previousRank = -1;
+    db.searchClans('Rank', req.params.id, null, function (err, clans) {
+      if (!req.params.id) {
+        clans.items.sort(function (a, b) {
+          return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
+        });
+
+        db.getGlobalRank(true, function (err, entries) {
+          clans.items.forEach(function (item) {
+            item.rank = clans.items.indexOf(item) + 1;
+            item.previousRank = entries[0].items.map(function (x) { return x.tag; }).indexOf(item.tag) + 1;
+          }, this);
+          RenderPage('rank', req, res, [], clans);
+        });
+      } else {
+        if (clans && (!clans.items[0].rank || !clans.items[0].previousRank)) {
+          clans.items.forEach(function (item) {
+            if (!item.rank) item.rank = clans.items.indexOf(item) + 1;
+            if (!item.previousRank) item.previousRank = -1;
           }, this);
         }
         RenderPage('rank', req, res, [], clans);
-      });
+      }
+    });
   });
 
   // =====================================
@@ -171,7 +180,7 @@ module.exports = function (app, passport) {
         res.send(clans);
       });
     } else {
-      db.getGlobalRank(function (err, entries) {
+      db.getGlobalRank(false, function (err, entries) {
         var clans = [];
         entries.forEach(function (entry) {
           entry.items.forEach(function (item) {
@@ -195,7 +204,7 @@ module.exports = function (app, passport) {
         }, this);
 
         res.send(chartData);
-      })
+      });
     }
   });  
 

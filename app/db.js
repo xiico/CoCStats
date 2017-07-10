@@ -176,8 +176,17 @@ module.exports =
             //             callBack(null, response[0].history);
             //     });
         },
-        getGlobalRank: function(callBack){
-            var date = new Date("2017-07-06");
+        getGlobalRank: function(latest, callBack){
+            var date = new Date();
+
+            // if(!latest) {
+            //     date.setUTCDate(date.getUTCDate() - 7);
+            // } else {
+            //     date.setUTCHours(date.getUTCHours() - 24);
+            // }
+
+            date.setUTCDate(date.getUTCDate() - 7);
+
             date.setUTCHours(0);         
             date.setUTCMinutes(0);
             date.setUTCSeconds(0);
@@ -203,11 +212,11 @@ module.exports =
                         "top" : { $first: "$_id.entries.items.clanPoints" }
                     }
                 },
-                { "$sort": {"_id.date":1}},
+                { "$sort": {"_id.date": latest ? -1 : 1 }},
                 { "$project": {
                     "_id": 0,
                     "date": "$_id.date",
-                    "items": { "$slice": ["$items",20] },
+                    "items": { "$slice": ["$items", latest ? 200 : 20] },
                     "top": "$top"
                 }},
 
@@ -218,7 +227,7 @@ module.exports =
                     "val": "$_id.entries.items.clanPoints"//{ "$slice": ["$items",20] }
                 }},*/
 
-                //{"$limit": 10}
+                {"$limit": latest ? 1 : 200}
             ], function (err, response) {
                 if (err)
                     throw err;
