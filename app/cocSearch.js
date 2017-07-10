@@ -134,6 +134,8 @@ module.exports = {
                     if(local) {
                         callBack(null,{});
                         return;
+                    } else {
+                        console.log(body);
                     }
 
                     if(local) searched = srcd;
