@@ -24,7 +24,7 @@ block content
                 td= item.members 
                 td
                   div(class="margin-right float-left")= item.rank + "(" + item.previousRank + ")"
-                  div(class="float-left " + (item.rank == item.previousRank ? "equal": (item.rank > item.previousRank ? "arrow-up" : "arrow-down")))
+                  div(class="float-left " + (item.rank == item.previousRank ? "equal": (item.rank < item.previousRank ? "arrow-up" : "arrow-down")))
                 td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/rank.js')
