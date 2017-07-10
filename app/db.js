@@ -97,12 +97,19 @@ module.exports =
                                 throw err;
                             callBack(null, clans[0]);
                         });
-                    else
-                        Clan.find({ $or: [{ tag: "#" + tag }, { name: new RegExp(tag, "g") }] }, function (err, clans) {
+                    else {
+                        var search = {};
+                        if(searchType == "Rank") {
+                            search = { "location.id": tag };
+                        } else {
+                            search = {"tag": "#" + tag};
+                        }
+                        Clan.find({ $or: [search, { name: new RegExp(tag, "g") }] }, function (err, clans) {
                             if (err)
                                 throw err;
-                            callBack(null, [] ,{items:clans});
+                            callBack(null, {items:clans});
                         });
+                    }
                 }
             });
         },
@@ -213,13 +220,10 @@ module.exports =
 
                 //{"$limit": 10}
             ], function (err, response) {
-                 var responseTotal = response.length;
-                 var entriesTotal = response[0].entries.length
-                 var itemnsTotal = response[0].entries[0].items.length;
                 if (err)
                     throw err;
                 if (response.length > 0)
-                    callBack(null, response[0].entries);
+                    callBack(null, response);
             });
         }
     }

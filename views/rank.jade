@@ -7,7 +7,7 @@ block content
     div(class="panel panel-default")
       div(class="panel-heading")= _("Progress")+":"
       div(class="panel-body table-responsive")
-        div(id="chart" class="chart")
+        div(id="chart" class="chart" data-location=params.id)      
     //Search Results
     if(searchResults)
       div(class="panel-heading")= _("Results")+":"
@@ -22,7 +22,9 @@ block content
                 //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                 td(class="superCellFont")= item.clanPoints
                 td= item.members 
-                td #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")]
+                td
+                  div(class="margin-right float-left")= item.rank + "(" + item.previousRank + ")"
+                  div(class="float-left " + (item.rank == item.previousRank ? "equal": (item.rank > item.previousRank ? "arrow-up" : "arrow-down")))
                 td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
-  script(type='text/javascript' src='/js/clan.js')
+  script(type='text/javascript' src='/js/rank.js')

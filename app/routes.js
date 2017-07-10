@@ -76,7 +76,8 @@ module.exports = function (app, passport) {
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
-      player: searchResults && searchResults.items[0].playerSearch ? searchResults.items[0] : null
+      player: searchResults && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
+      params: req.params
     };
     res.render(page, pageObjects); // load the index.ejs file
   }
@@ -145,16 +146,53 @@ module.exports = function (app, passport) {
   // Global Rank =========================
   // =====================================
   app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
+      db.searchClans('Rank', req.params.id, null, function (err, clans) {
+        if(clans && !clans.items[0].rank){          
+          clans.items.forEach(function(item) {
+            item.rank = Math.floor(Math.random() * 4) + 1,
+            item.previousRank = Math.floor(Math.random() * 4) + 1
+          }, this);
+        }
+        RenderPage('Rank', req, res, [], clans);
+      });
+  });
+
+  // =====================================
+  // RANK CHART ==========================
+  // =====================================
+  app.get('/rankchart/:id', /*isLoggedIn,*/ function (req, res) {
     if (req.params.id) {
       db.searchClans('Rank', req.params.id, null, function (err, clans) {
-        RenderPage('index', req, res, [], { items: [clans] });
+        res.send(clans);
       });
     } else {
-      db.getGlobalRank(function(err, entries){
-        RenderPage('rank', req, res, [], { items: [entries] });
+      db.getGlobalRank(function (err, entries) {
+        var clans = [];
+        entries.forEach(function (entry) {
+          entry.items.forEach(function (item) {
+            if (clans.indexOf({ "name": item.name, "tag": item.tag }) < 0) clans.push({ "name": item.name, "tag": item.tag });
+          }, this);
+        }, this);
+        var clanNames = ["Date"]
+        clans.forEach(function(clan) {
+          clanNames.push(clan.name);
+        }, this);
+        var chartData = [clanNames];
+        entries.forEach(function (entry) {
+          var points = [entry.date];
+          entry.items.forEach(function (item) {
+            var itemIdex = clans.map(function (x) { return x.tag; }).indexOf(item.tag);
+            if (itemIdex >= 0) {
+              points[itemIdex + 1] = item.clanPoints;
+            }
+          }, this);
+          chartData.push(points)
+        }, this);
+
+        res.send(chartData);
       })
     }
-  });
+  });  
 
   // =====================================
   // SAVE CLAN ===========================
@@ -215,12 +253,9 @@ module.exports = function (app, passport) {
         RenderPage('index', req, res, clans, searchResults);
       });
     }
-    // else if (req.body.hasOwnProperty("btnRank")) {
-    //   //db.searchClans(req, res, req.body.location, true, "index", { $in: search }, 'Rank');
-    //   db.searchClans('Rank', req.params.id, null, function (err, clans) {
-    //     RenderPage('index', req, res, [], { items: [clans] });
-    //   });
-    // }
+    else if (req.body.hasOwnProperty("btnRank")) {
+        res.redirect("/rank" + (req.body.location ? "/" + req.body.location : ""))
+    }
     else {
       SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
     }

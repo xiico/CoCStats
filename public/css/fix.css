@@ -249,6 +249,45 @@
     height: 200px;
 }
 
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-bottom: 10px solid green;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 10px solid #f00;
+}
+
+.margin-right{
+    margin-right: 15px;
+}
+
+.equal:before {
+  content: "=";
+  font-size: 16px;
+  width: 20px;
+  width: 0; 
+  height: 0; 
+  margin-left: -5px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 10px solid transparent;
+}
+
+.float-left{
+    float: left;
+}
+
 @media (min-width: 540px) and (max-width: 768px) {
   .col-spell{
     width: 50%;

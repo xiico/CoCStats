@@ -27,7 +27,10 @@ module.exports = {
                 path += options
                 break;
             case 'Rank':
-                path = '/v1/locations/' + tag + '/rankings/clans?limit=40';
+                if (!tag)
+                    path = '/v1/clans?minClanPoints=55000';
+                else
+                    path = '/v1/locations/' + tag + '/rankings/clans?limit=40';
                 break;
             default:
                 path += '/' + '%23' + tag.replace('#', '')
@@ -874,7 +877,7 @@ module.exports = {
 
                 } catch (err) {
                     console.error('Unable to parse response as JSON', err);
-                    return cb(err);
+                    return callBack(err);
                 }
 
                 callBack(null, searched);
