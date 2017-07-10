@@ -176,35 +176,42 @@ module.exports =
             date.setUTCSeconds(0);
             date.setUTCMilliseconds(0);
             Rank.aggregate([
-                { "$unwind": "$entries" },
-                { "$unwind": "$entries.items" },
-                
                 { "$match": { "entries.date": { $gte: date } } },
+                { "$unwind": "$entries" },
+                { "$unwind": "$entries.items" },                
+
                 //{ "$match": { "entries.items.clanPoints": { $gte: 59000 } } },
                 { "$sort": {"entries.items.clanPoints":-1}},
 
                 //{ "$group": {"_id": "$_id", "entries": { "$push": "$entries" }}},
-                { "$group": { "_id": {"_id": "$_id","entries":"$entries"} } },
+                { "$group": { "_id": {"_id": "$_id", "date": "$entries.date", "entries":"$entries"} } },
+                { "$sort": {"_id.date":1,"_id.entries.items.clanPoints":-1}},
                 //{ "$group": { "_id" : { "_id":"$_id._id", "date": "$_id.entries.date"}, "items": { "$push": "$_id.entries.items" }} },
-                { "$group": { "_id" : {"date": "$_id.entries.date"}, "items": { "$push": "$_id.entries.items" }} },
-
-                
-                //{ "$group": {"_id": "$entries._id"}},
-                // { "$group": { "_id": "$_id.id"}},
-                /*{ "$unwind": "$entries.items" },
-                { "$sort": {"entries.items.clanPoints":-1}},
-                { "$group": { "_id": "$_id", "entries.item": { "$push": "$entries.item" } } },*/                
-                /*{ "$project": { 
-                    "items":"$entries"
-                }}*/
+                {
+                    "$group": {
+                        "_id": { "date": "$_id.entries.date" },
+                        "items": { "$push": {"name": "$_id.entries.items.name",
+                                             "tag": "$_id.entries.items.tag",
+                                             "clanPoints": "$_id.entries.items.clanPoints"} },
+                        "top" : { $first: "$_id.entries.items.clanPoints" }
+                    }
+                },
+                { "$sort": {"_id.date":1}},
                 { "$project": {
                     "_id": 0,
                     "date": "$_id.date",
-                    "items": "$items"//{ "$slice": ["$items",20] }
-                }},/*,
-                {"$limit": 10}*/
+                    "items": { "$slice": ["$items",20] },
+                    "top": "$top"
+                }},
 
-                {"$limit": 2}
+                /*{ "$project": {
+                    "_id": 0,
+                    "date": "$_id.date",
+                    "tag": "$_id.entries.items.tag",
+                    "val": "$_id.entries.items.clanPoints"//{ "$slice": ["$items",20] }
+                }},*/
+
+                //{"$limit": 10}
             ], function (err, response) {
                  var responseTotal = response.length;
                  var entriesTotal = response[0].entries.length
