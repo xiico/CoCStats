@@ -2,15 +2,15 @@ google.charts.load('current', {'packages':['corechart']});
 //retrieve clan history
 var ajaxRequest = {
     type: "GET",
-    url: '/rankchart/' + ($("#chart").attr("data-location") ? $("#chart").attr("data-location") : ""),
+    url: '/rankchart' + ($("#chart").attr("data-location") ? "/" + $("#chart").attr("data-location") : ""),
     dataType: "json",
     success: function (data) {
         if(data) {
             google.charts.setOnLoadCallback(function(){drawChart(data)});
         }
     },
-    error: function () {//remove gif
-        
+    error: function (error) {//remove gif
+        console.log(error);
     }
 };
 $.ajax(ajaxRequest);
@@ -29,7 +29,8 @@ function drawChart(historyData) {
   var options = {
     title: 'Clan Points History',
     //curveType: 'function',
-    legend: { position: 'bottom' }
+    legend: { position: 'bottom' },
+    chartArea: {'width': '85%', 'height': '75%'},
   };
   var chart = new google.visualization.LineChart(document.getElementById('chart'));
   chart.draw(data, options);

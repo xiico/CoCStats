@@ -216,7 +216,7 @@ module.exports =
                 { "$project": {
                     "_id": 0,
                     "date": "$_id.date",
-                    "items": { "$slice": ["$items", latest ? 200 : 20] },
+                    "items": { "$slice": ["$items", latest ? 200 : 10] },
                     "top": "$top"
                 }},
 

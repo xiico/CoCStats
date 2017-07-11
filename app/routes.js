@@ -174,7 +174,7 @@ module.exports = function (app, passport) {
   // =====================================
   // RANK CHART ==========================
   // =====================================
-  app.get('/rankchart/:id', /*isLoggedIn,*/ function (req, res) {
+  app.get('/rankchart/:id?', /*isLoggedIn,*/ function (req, res) {
     if (req.params.id) {
       db.searchClans('rank', req.params.id, null, function (err, clans) {
         res.send(clans);
@@ -184,7 +184,7 @@ module.exports = function (app, passport) {
         var clans = [];
         entries.forEach(function (entry) {
           entry.items.forEach(function (item) {
-            if (clans.indexOf({ "name": item.name, "tag": item.tag }) < 0) clans.push({ "name": item.name, "tag": item.tag });
+            if (clans.map(function (x) { return x.tag; }).indexOf(item.tag) < 0) clans.push({ "name": item.name, "tag": item.tag });
           }, this);
         }, this);
         var clanNames = ["Date"]
@@ -193,12 +193,17 @@ module.exports = function (app, passport) {
         }, this);
         var chartData = [clanNames];
         entries.forEach(function (entry) {
-          var points = [entry.date];
-          entry.items.forEach(function (item) {
-            var itemIdex = clans.map(function (x) { return x.tag; }).indexOf(item.tag);
-            if (itemIdex >= 0) {
-              points[itemIdex + 1] = item.clanPoints;
-            }
+          var points = [];
+          var date = ("0"+(entry.date.getMonth()+1)).slice(-2) + "-" + ("0" + entry.date.getDate()).slice(-2) + " " + ("0" + entry.date.getHours()).slice(-2) + ":00";
+          points[0] = date;
+          clans.forEach(function (clan) {
+            var itemIndex = entry.items.map(function (x) { return x.tag; }).indexOf(clan.tag);
+            if (itemIndex >= 0) {
+              points[clans.indexOf(clan) + 1] = entry.items[itemIndex].clanPoints;
+            } else points[clans.indexOf(clan) + 1] = null
+
+            //points.push(clans.indexOf(clan));
+
           }, this);
           chartData.push(points)
         }, this);

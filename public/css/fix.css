@@ -249,6 +249,11 @@
     height: 200px;
 }
 
+.chart-global{
+    width: 100%;
+    height: 600px;
+}
+
 .arrow-up {
   width: 0; 
   height: 0; 
