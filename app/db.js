@@ -182,7 +182,7 @@ module.exports =
             if(latest) {
                 date.setUTCDate(date.getUTCDate() - 7);
             } else {
-                date.setUTCHours(date.getUTCHours() - 24);
+                date.setUTCDate(date.setUTCDate() - 1);
             }
 
             //date.setUTCDate(date.getUTCDate() - 7);
