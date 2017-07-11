@@ -182,20 +182,20 @@ module.exports =
             if(latest) {
                 date.setUTCDate(date.getUTCDate() - 7);
             } else {
-                date.setUTCDate(date.setUTCDate() - 1);
+                date.setUTCDate(date.getUTCDate() - 1);
             }
 
             //date.setUTCDate(date.getUTCDate() - 7);
 
-            date.setUTCHours(0);         
-            date.setUTCMinutes(0);
-            date.setUTCSeconds(0);
-            date.setUTCMilliseconds(0);
+            // date.setUTCHours(0);         
+            // date.setUTCMinutes(0);
+            // date.setUTCSeconds(0);
+            // date.setUTCMilliseconds(0);
             Rank.aggregate([
-                { "$match": { "entries.date": { $gte: date } } },
+                
                 { "$unwind": "$entries" },
                 { "$unwind": "$entries.items" },                
-
+                { "$match": { "entries.date": { $gte: date } } },
                 //{ "$match": { "entries.items.clanPoints": { $gte: 59000 } } },
                 { "$sort": {"entries.items.clanPoints":-1}},
 
