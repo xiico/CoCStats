@@ -302,6 +302,10 @@
     text-align: center;
 }
 
+.rank-arrows{
+    margin-left: 2px;
+}
+
 @media (min-width: 540px) and (max-width: 768px) {
   .col-spell{
     width: 50%;
