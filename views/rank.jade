@@ -20,7 +20,8 @@ block content
                   div(class="float-left width-50 rank-font")= item.rank
                   div(class="float-left width-50 rank-font")
                     div(class="rank-arrows float-left " + (item.rank == item.previousRank ? "equal": (item.rank < item.previousRank ? "arrow-up" : "arrow-down")))
-                    div= item.previousRank - item.rank
+                    if(item.rank != item.previousRank)
+                      div= item.previousRank - item.rank
                 td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
                 td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
                 //td(class="superCellFont fontSmall")= item.clanLevel                                                 
