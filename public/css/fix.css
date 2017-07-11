@@ -257,19 +257,19 @@
 .arrow-up {
   width: 0; 
   height: 0; 
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
   
-  border-bottom: 10px solid green;
+  border-bottom: 8px solid green;
 }
 
 .arrow-down {
   width: 0; 
   height: 0; 
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
   
-  border-top: 10px solid #f00;
+  border-top: 8px solid #f00;
 }
 
 .margin-right{
@@ -295,6 +295,11 @@
 
 .width-50{
     width: 50%;
+}
+
+.rank-font{
+    font-size: 12px;
+    text-align: center;
 }
 
 @media (min-width: 540px) and (max-width: 768px) {
