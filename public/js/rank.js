@@ -28,7 +28,7 @@ function drawChart(historyData) {
   var data = google.visualization.arrayToDataTable(historyData);
   var options = {
     title: 'Clan Points History',
-    //curveType: 'function',
+    curveType: 'function',
     legend: { position: 'bottom' },
     chartArea: {'width': '85%', 'height': '75%'},
   };
