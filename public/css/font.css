@@ -37,6 +37,10 @@
   font-size: 1.2em !important;
 }
 
+.fontNormal{
+  font-size: 1em;
+}
+
 .shadow-font{
     color: white;
   text-shadow:

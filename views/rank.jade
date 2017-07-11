@@ -19,13 +19,13 @@ block content
                 td
                   div(class="float-left width-50 rank-font")= item.rank
                   div(class="float-left width-50 rank-font")
-                    div(class="rank-arrows float-left " + (item.rank == item.previousRank ? "equal": (item.rank < item.previousRank ? "arrow-up" : "arrow-down")))
+                    span(class=(item.rank == item.previousRank ? "glyphicon glyphicon-minus": (item.rank < item.previousRank ? "glyphicon glyphicon-triangle-top color-green" : "glyphicon glyphicon-triangle-bottom color-red")))
                     if(item.rank != item.previousRank)
                       div= item.previousRank - item.rank
-                td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
+                td #[div(style="position:relative") #[image( class="clan-badge" src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
                 td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
                 //td(class="superCellFont fontSmall")= item.clanLevel                                                 
-                td(class="superCellFont")= item.clanPoints
+                td(class="superCellFont fontNormal")= item.clanPoints
                 td= item.members 
                 td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")

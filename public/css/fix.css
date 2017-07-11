@@ -289,6 +289,18 @@
   border-top: 10px solid transparent;
 }
 
+.clan-badge{
+    width: 70px;
+}
+
+.color-red{
+    color: red;
+}
+
+.color-green{
+    color: green;
+}
+
 .float-left{
     float: left;
 }
@@ -311,4 +323,25 @@
     width: 50%;
     float: left;
   }
+}
+
+@media (max-width: 540px){
+    .clan-badge{
+        width: 50px;
+    }
+    .fontSmall {
+        font-size: .5em;
+    }
+    .fontNormal {
+        font-size: .8em;
+        font-weight: 600;
+    }
+    .searchResults td:nth-of-type(4) {
+        background: url(../images/trophies.png);
+        background-size: 90px;
+        background-repeat: no-repeat;
+        background-position: 18px 14px;
+        text-align: center;
+        width: 125px;
+    }
 }
