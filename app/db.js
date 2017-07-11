@@ -179,13 +179,13 @@ module.exports =
         getGlobalRank: function(latest, callBack){
             var date = new Date();
 
-            // if(!latest) {
-            //     date.setUTCDate(date.getUTCDate() - 7);
-            // } else {
-            //     date.setUTCHours(date.getUTCHours() - 24);
-            // }
+            if(latest) {
+                date.setUTCDate(date.getUTCDate() - 7);
+            } else {
+                date.setUTCHours(date.getUTCHours() - 24);
+            }
 
-            date.setUTCDate(date.getUTCDate() - 7);
+            //date.setUTCDate(date.getUTCDate() - 7);
 
             date.setUTCHours(0);         
             date.setUTCMinutes(0);
