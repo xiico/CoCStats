@@ -16,15 +16,16 @@ block content
           tbody      
             each item, k in searchResults.items
               tr
-                td= (k+1)+(".") 
+                td
+                  div(class="float-left width-50")= item.rank
+                  div(class="float-left width-50")
+                    div(class="float-left " + (item.rank == item.previousRank ? "equal": (item.rank < item.previousRank ? "arrow-up" : "arrow-down")))
+                    div= item.previousRank - item.rank
                 td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
                 td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
                 //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                 td(class="superCellFont")= item.clanPoints
                 td= item.members 
-                td
-                  div(class="margin-right float-left")= item.rank + "(" + item.previousRank + ")"
-                  div(class="float-left " + (item.rank == item.previousRank ? "equal": (item.rank < item.previousRank ? "arrow-up" : "arrow-down")))
                 td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/rank.js')
