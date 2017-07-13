@@ -276,7 +276,7 @@ module.exports = function (app, passport) {
         res.redirect("/rank" + (req.body.location ? "/" + req.body.location : ""))
     }
     else {
-      SearchClan(req, res, req.user.clans[index].tag, true, "index", { $in: search });
+      RenderPage('index', req, res, clans, searchResults);
     }
   });
   // =====================================
