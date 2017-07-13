@@ -48,7 +48,13 @@ module.exports = function (msgid, contryCode) {
             return msgv[locationIndex] || msgid;      
         case 'Search':
             msgv = [msgid, 'Procurar'];
-            return msgv[locationIndex] || msgid;                                               
+            return msgv[locationIndex] || msgid;      
+        case 'lessThanOncePerWeek':
+            msgv = ["rarely", 'raramente'];
+            return msgv[locationIndex] || msgid;         
+        case 'moreThanOncePerWeek':
+            msgv = ["often", 'frequentemente'];
+            return msgv[locationIndex] || msgid;                                            
     }
     
     return msgid;
