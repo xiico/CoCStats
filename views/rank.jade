@@ -23,7 +23,7 @@ block content
                     if(item.rank != item.previousRank)
                       div= item.previousRank - item.rank
                 td #[div(style="position:relative") #[image( class="clan-badge" src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
-                td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
+                td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= _(item.warFrequency)]         
                 //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                 td(class="superCellFont fontNormal")= item.clanPoints
                 td= item.members 

@@ -94,7 +94,7 @@ block content
                       tr
                         td= (k+1)+(".") 
                         td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
-                        td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= item.warFrequency]         
+                        td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= _(item.warFrequency)]         
                         //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                         td(class="superCellFont")= item.clanPoints
                         td= item.members 
