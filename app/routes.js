@@ -86,7 +86,7 @@ module.exports = function (app, passport) {
   // HOME PAGE (with login links) ========
   // =====================================
   app.get('/:lang?/', function (req, res) {
-    res.locals.title = "Mail Page";
+    res.locals.title = "Main Page";
     if (req.user /*&& req.user.clans.length > 0*/) {
       var search = [];
       //If is the first time the page is loaded
@@ -261,7 +261,7 @@ module.exports = function (app, passport) {
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
-    res.locals.title = "Mail Page";
+    res.locals.title = "Main Page";
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
       if (req.user.clans.length < 10) {
         var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
@@ -308,7 +308,7 @@ module.exports = function (app, passport) {
   // =====================================
   // show the login form
   app.get('/:lang?/login', function (req, res) {
-
+    res.locals.title = "Login Page";
     // render the page and pass in any flash data if it exists
     res.render('login', { message: req.flash('loginMessage') });
   });
@@ -327,7 +327,7 @@ module.exports = function (app, passport) {
   // =====================================
   // show the signup form
   app.get('/:lang?/signup', function (req, res) {
-
+    res.locals.title = "Signup Page";
     // render the page and pass in any flash data if it exists
     res.render('signup', { message: req.flash('signupMessage') });
   });
@@ -343,6 +343,7 @@ module.exports = function (app, passport) {
   // =====================================
   // show the authentication form
   app.get('/:lang?/authenticate', function (req, res) {
+    res.locals.title = "Authenticate Page";
     res.render('authenticate', {
       user: req.user, // get the user out of session and pass to template
       url: req.url,
@@ -359,6 +360,7 @@ module.exports = function (app, passport) {
   // we will want this protected so you have to be logged in to visit
   // we will use route middleware to verify this (the isLoggedIn function)
   app.get('/:lang?/profile', isLoggedIn, function (req, res) {
+    res.locals.title = "Profile Page";
     res.render('profile', {
       //res.render('profile.ejs', {
       user: req.user, // get the user out of session and pass to template
