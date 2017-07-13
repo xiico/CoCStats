@@ -20,7 +20,7 @@ block content
                 div(class="float-left width-50 rank-font")
                   span(class=(item.rank == item.previousRank ? "glyphicon glyphicon-minus": (item.previousRank < 0 || item.rank < item.previousRank ? "glyphicon glyphicon-triangle-top color-green" : "glyphicon glyphicon-triangle-bottom color-red")))
                   if(item.rank != item.previousRank)
-                    div= item.previousRank > -1 ? item.previousRank - item.rank : "-"
+                    div= item.previousRank > 0 ? item.previousRank - item.rank : "-"
               td #[div(style="position:relative") #[image( class="clan-badge" src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
               td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= _(item.warFrequency)]         
               //td(class="superCellFont fontSmall")= item.clanLevel                                                 
