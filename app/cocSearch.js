@@ -58,7 +58,7 @@ module.exports = {
                 try {
                     var isets = 0;
                     var searched = JSON.parse(body);
-                    console.log("body length: " + body.length);
+                    console.log("body: " + body);
                     var srcd = {
                         "items": [
                             {
