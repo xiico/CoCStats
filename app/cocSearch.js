@@ -26,7 +26,7 @@ module.exports = {
 
                 path += options
                 break;
-            case 'Rank':
+            case 'rank':
                 if (!tag)
                     path = '/v1/clans?minClanPoints=55000';
                 else

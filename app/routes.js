@@ -146,7 +146,7 @@ module.exports = function (app, passport) {
   // Global Rank =========================
   // =====================================
   app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
-    db.searchClans('Rank', req.params.id, null, function (err, clans) {
+    db.searchClans('rank', req.params.id, null, function (err, clans) {
       if (!req.params.id) {
         clans.items.sort(function (a, b) {
           return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
