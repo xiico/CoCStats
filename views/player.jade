@@ -65,10 +65,11 @@ block content
       div(class="panel-heading")= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
       div(class="panel-body table-responsive")        
         div(class="col-sm-6 col-md-4")
-          div(class="thumbnail")
-            p= _("Previous Season")
-            p= _("Rank")+": " + player.legendStatistics.previousSeason.rank
-            p= _("Trophies")+": " + player.legendStatistics.previousSeason.trophies
+          if player.legendStatistics.previousSeason
+            div(class="thumbnail")
+              p= _("Previous Season")
+              p= _("Rank")+": " + player.legendStatistics.previousSeason.rank
+              p= _("Trophies")+": " + player.legendStatistics.previousSeason.trophies
         div(class="col-sm-6 col-md-4")
           div(class="thumbnail")
             p= _("Best Season")
