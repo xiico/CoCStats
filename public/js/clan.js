@@ -29,8 +29,8 @@ $.ajax({
             google.charts.setOnLoadCallback(function(){drawChart(data)});
         }
     },
-    error: function () {//remove gif
-        
+    error: function (err) {//remove gif
+        console.error(err);
     }
 });
 
