@@ -85,7 +85,7 @@ module.exports =
                 if (err)
                     throw err;
                 if (returnedClans.items || returnedClans.tag)
-                    if(searchType == "Tag" || searchType == "Rank")
+                    if(searchType == "Tag" || searchType == "rank")
                         callBack(null,returnedClans);
                     else
                         callBack(null,[], returnedClans);
@@ -99,7 +99,7 @@ module.exports =
                         });
                     else {
                         var search = {};
-                        if(searchType == "Rank") {
+                        if(searchType == "rank") {
                             search = { "location.id": tag };
                         } else {
                             search = {"tag": "#" + tag};
