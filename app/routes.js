@@ -240,7 +240,10 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/clanhistory/:id', /*isLoggedIn,*/ function (req, res) {
       db.getClanHistory(req.params.id, function (err, history) {
-        if (err) throw err;
+        if (err) {
+          console.error(err)
+          res.send("db error.")
+        }
         //var result = [["Date", "Level", "Wins", "Streak", "Points", "Members"]];
         var result = [["Date", "Points"]];
         history.forEach(function (element) {
