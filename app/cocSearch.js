@@ -59,7 +59,7 @@ module.exports = {
                 try {
                     var isets = 0;
                     var searched = JSON.parse(body);
-                    console.log("body: " + body);
+                    console.log("body size: " + body.length);
                     var srcd = {
                         "items": [
                             {
