@@ -36,7 +36,8 @@ module.exports = {
                 path += '/' + '%23' + tag.replace('#', '')
                 break;
         }
-
+        
+        console.log("searchType: " + searchType);
         console.log(path);
 
         https.get({
