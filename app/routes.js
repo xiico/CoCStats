@@ -59,7 +59,7 @@ module.exports = function (app, passport) {
     return options;
   }
 
-  function RenderPage(page, req, res, userClans, searchResults, ranks) {
+  function RenderPage(page, req, res, userClans, searchResults, message) {
     if (!res)
       return;
     var pageObjects = {
@@ -72,7 +72,7 @@ module.exports = function (app, passport) {
       clanRoles: clanRoles,
       searchResults: searchResults,
       clan: searchResults ? searchResults.items[0] : null,
-      ranks: ranks,
+      message: message ? message : "",
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
@@ -145,7 +145,7 @@ module.exports = function (app, passport) {
   // =====================================
   // Global Rank =========================
   // =====================================
-  app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {
+  app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {    
     db.searchClans('rank', req.params.id, null, function (err, clans) {
       if (!req.params.id) {
         clans.items.sort(function (a, b) {
@@ -157,7 +157,7 @@ module.exports = function (app, passport) {
             item.rank = clans.items.indexOf(item) + 1;
             item.previousRank = entries[0].items.map(function (x) { return x.tag; }).indexOf(item.tag) + 1;
           }, this);
-          RenderPage('rank', req, res, [], clans);
+          RenderPage('rank', req, res, [], clans, req.flash("rankMessage"));
         });
       } else {
         if (clans && (!clans.items[0].rank || !clans.items[0].previousRank)) {
@@ -166,7 +166,7 @@ module.exports = function (app, passport) {
             if (!item.previousRank) item.previousRank = -1;
           }, this);
         }
-        RenderPage('rank', req, res, [], clans);
+        RenderPage('rank', req, res, [], clans, req.flash("rankMessage"));
       }
     });
   });
@@ -217,9 +217,22 @@ module.exports = function (app, passport) {
   // SAVE CLAN ===========================
   // =====================================
   app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
-    req.user.clans.push({ tag: newTag, active: true });
-    req.user.save();
-    res.send({ ok: true });
+    if (req.user && req.user.clans.length < 10) {
+
+      if(req.user.clans.map(function (x) { return x.tag; }).indexOf("#" + req.params.id) < 0){
+        res.send({});
+        return;
+      }
+
+      var newTag = "#" + req.params.id;
+      for (var index = 0; index < req.user.clans.length; index++)
+        req.user.clans[index].active = false;
+
+      req.user.clans.push({ tag: newTag, active: true });
+      req.user.save();
+      res.send({ ok: true });
+    }
+    res.send({});
   });
 
   // =====================================
@@ -240,13 +253,16 @@ module.exports = function (app, passport) {
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
+    var message = "";
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
-      var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
-      for (var index = 0; index < req.user.clans.length; index++)
-        req.user.clans[index].active = false;
+      if (req.user.clans.length < 10) {
+        var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
+        for (var index = 0; index < req.user.clans.length; index++)
+          req.user.clans[index].active = false;
 
-      req.user.clans.push({ tag: newTag, active: true });
-      req.user.save();
+        req.user.clans.push({ tag: newTag, active: true });
+        req.user.save();
+      }
     }
     if (req.body.hasOwnProperty("btnDel")) {
       var indexToRemove = -1;
@@ -269,14 +285,14 @@ module.exports = function (app, passport) {
     }
     if (req.body.hasOwnProperty("btnSearch")) {
       db.searchClans("Name", req.body.searchFor, getSearchOptions(req), function (erro, userClans, searchResults) {
-        RenderPage('index', req, res, clans, searchResults);
+        RenderPage('index', req, res, clans, searchResults, req.flash("searchMessage"));
       });
     }
     else if (req.body.hasOwnProperty("btnRank")) {
         res.redirect("/rank" + (req.body.location ? "/" + req.body.location : ""))
     }
     else {
-      RenderPage('index', req, res, clans, searchResults);
+      RenderPage('index', req, res, clans, searchResults, req.flash("infoMessage"));
     }
   });
   // =====================================
@@ -321,7 +337,8 @@ module.exports = function (app, passport) {
   app.get('/:lang?/authenticate', function (req, res) {
     res.render('authenticate', {
       user: req.user, // get the user out of session and pass to template
-      url: req.url
+      url: req.url,
+      message: req.flash('authenticateMessage')
     }); // load the index.ejs file
   });
 
@@ -337,7 +354,8 @@ module.exports = function (app, passport) {
     res.render('profile', {
       //res.render('profile.ejs', {
       user: req.user, // get the user out of session and pass to template
-      url: req.url
+      url: req.url,
+      message: req.flash('profileMessage')
     });
   });
 

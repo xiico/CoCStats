@@ -2,108 +2,105 @@ extends layout
  
 
 block content
-  div(class="jumbotron")
-    //h1 #[span(class="fa fa-lock")] Node Authentication
-    // show any messages that come back with authentication
-    form(action="/" method="post")
-        ul(class="nav nav-tabs")
-          if clans
-            each tab,i in clans 
-              li #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
-            if user && user.clans.length > 0
-              li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Rem clan]
-          li(class='active') #[a(data-toggle="tab" href="#searchClan") #[span(class="glyphicon glyphicon-search")] Search clan]
-        div(class="tab-content")
-          if clans
-            each cnt, i in clans 
-              div(id="tab" + (i) class="tab-pane fade")
-                //Principal
-                div(class="media" style="margin-top:15px;")                   
-                  div(class="media-left")
-                    image(src=cnt.badgeUrls.small)
-                  div(class="media-body")
-                    ul(class="list-group")
-                      li(class="list-group-item")
-                        h4(class="media-heading")= cnt.name
-                        = cnt.description
-                    table(class="table table-condensed")
-                      tbody
-                        tr
-                          td #[strong Clan Level:]
-                          td= cnt.clanLevel                           
-                        tr
-                          td #[strong Clan Points:]
-                          td= cnt.clanPoints
-                        tr
-                          td #[strong Location:]
-                          td= cnt.location.name
-                        tr
-                          td
-                          td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
-          div(id="searchClan" class="tab-pane fade in active")
-            div(class="panel panel-default")
-              div(class="panel-body")
-                label(class="control-label" for="location") Location:
-                div(class="input-group")
-                  span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-"+countryCode alt="Brazil")]
-                  select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
-                    option(value="") Global   
-                    each location, i in locations 
-                      option(value=location.id data-flag=location.countryCode selected=(location.id == lstLocation))= location.name
-                  span(class="input-group-btn")
-                    button(class="btn btn-default" name="btnRank" type="submit") View Rank
-            h3 Find clans here.
-            div(class="input-group")
-              input(type="text" class="form-control" placeholder="Tag or clan name..." name="searchFor")
-              span(class="input-group-btn")
-                //button(class="btn btn-default" name="btnAdd" type="submit") Add!
-                button(class="btn btn-default" name="btnSearch" type="submit")= _("Search")+"!" 
-                div(class="panel panel-default")
-            a(data-toggle="collapse" class="btn btn-primary" data-target="#demo") Advanced Search
-            div(id="demo" class="collapse") 
-              div(class="form" role="form" id="divDetails")
-                div(class="form-group")
-                  label(class="control-label" for="locationsList") War Frequency:
-                  div(class="input-group")
-                    select(class="form-control" id="warFrequency" name='warFrequency')
-                      option(value="")
-                      option(value="always") Aways
-                      option(value="moreThanOncePerWeek") Twice a week
-                      option(value="oncePerWeek") Once a week
-                      option(value="lessThanOncePerWeek") Rarely
-                      option(value="never") Never
-                      option(value="unknown") Unknown
-                div(class="form-group")
-                  label(class="control-label" for="numMembers") Members:
-                  div(class="input-group" id="numMembers")  
-                    input(type="number" min="1" max="50" class="form-control" id="minMembers" name="minMembers")
-                    span(class="input-group-addon" id="sizing-addon1") to
-                    input(type="number" min="1" max="50" class="form-control" id="maxMembers" name="maxMembers")         
-                div(class="form-group")
-                  label(class="control-label" for="numMembers") Minimum clan Points:
-                  input(type="number" id="minClanPoints" name="minClanPoints" min="0" max="60000" step="5000")        
-                div(class="form-group")
-                  label(class="control-label" for="minClanLevel") Minimum clan level:
-                  input(type="number" id="minClanLevel" name="minClanLevel" min="0" max="15")                                                     
-            if(searchResults)
-              div(class="panel-heading")= _("Results")+":"
-              div(class="panel-body table-responsive searchResults")
-                table(class="table table-condensed tableResults")
-                  tbody      
-                    each item, k in searchResults.items
+  form(action="/" method="post")
+      ul(class="nav nav-tabs")
+        if clans
+          each tab,i in clans 
+            li #[a(data-toggle="tab" href="/#tab" + (clans.indexOf(tab)))=tab.tag]
+          if user && user.clans.length > 0
+            li #[a(data-toggle="tab" href="#delClan") #[span(class="glyphicon glyphicon-minus-sign")] Rem clan]
+        li(class='active') #[a(data-toggle="tab" href="#searchClan") #[span(class="glyphicon glyphicon-search")] Search clan]
+      div(class="tab-content")
+        if clans
+          each cnt, i in clans 
+            div(id="tab" + (i) class="tab-pane fade")
+              //Principal
+              div(class="media" style="margin-top:15px;")                   
+                div(class="media-left")
+                  image(src=cnt.badgeUrls.small)
+                div(class="media-body")
+                  ul(class="list-group")
+                    li(class="list-group-item")
+                      h4(class="media-heading")= cnt.name
+                      = cnt.description
+                  table(class="table table-condensed")
+                    tbody
                       tr
-                        td= (k+1)+(".") 
-                        td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
-                        td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= _(item.warFrequency)]         
-                        //td(class="superCellFont fontSmall")= item.clanLevel                                                 
-                        td(class="superCellFont")= item.clanPoints
-                        td= item.members 
-                        td #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")]
-                        td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
-          div(id="delClan" class="tab-pane fade")
-            h3 Choose a clan to remove from your list. 
+                        td #[strong Clan Level:]
+                        td= cnt.clanLevel                           
+                      tr
+                        td #[strong Clan Points:]
+                        td= cnt.clanPoints
+                      tr
+                        td #[strong Location:]
+                        td= cnt.location.name
+                      tr
+                        td
+                        td #[a(class="btn btn-primary" href="/clans/"+ cnt.tag.replace('#','') style="float:right;margin-top:10px;") Details]
+        div(id="searchClan" class="tab-pane fade in active")
+          div(class="panel panel-default")
+            div(class="panel-body")
+              label(class="control-label" for="location") Location:
+              div(class="input-group")
+                span(class="input-group-addon") #[img(src="/images/blank.gif" id="imgFlag" class="flag flag-"+countryCode alt="Brazil")]
+                select(class="form-control" id="location" name='location' onchange="changeFlag(this)")
+                  option(value="") Global   
+                  each location, i in locations 
+                    option(value=location.id data-flag=location.countryCode selected=(location.id == lstLocation))= location.name
+                span(class="input-group-btn")
+                  button(class="btn btn-default" name="btnRank" type="submit") View Rank
+          h3 Find clans here.
+          div(class="input-group")
+            input(type="text" class="form-control" placeholder="Tag or clan name..." name="searchFor")
+            span(class="input-group-btn")
+              //button(class="btn btn-default" name="btnAdd" type="submit") Add!
+              button(class="btn btn-default" name="btnSearch" type="submit")= _("Search")+"!" 
+              div(class="panel panel-default")
+          a(data-toggle="collapse" class="btn btn-primary" data-target="#demo") Advanced Search
+          div(id="demo" class="collapse") 
+            div(class="form" role="form" id="divDetails")
               div(class="form-group")
-                select(class="form-control" id="clanToDel" name='clanToDel')
-                  each cnt, i in clans 
-                    option(value=cnt.tag)= cnt.tag + ' ' + cnt.name
-              button(class="btn btn-primary" type="submit" name="btnDel" style="float:right;") Remove
+                label(class="control-label" for="locationsList") War Frequency:
+                div(class="input-group")
+                  select(class="form-control" id="warFrequency" name='warFrequency')
+                    option(value="")
+                    option(value="always") Aways
+                    option(value="moreThanOncePerWeek") Twice a week
+                    option(value="oncePerWeek") Once a week
+                    option(value="lessThanOncePerWeek") Rarely
+                    option(value="never") Never
+                    option(value="unknown") Unknown
+              div(class="form-group")
+                label(class="control-label" for="numMembers") Members:
+                div(class="input-group" id="numMembers")  
+                  input(type="number" min="1" max="50" class="form-control" id="minMembers" name="minMembers")
+                  span(class="input-group-addon" id="sizing-addon1") to
+                  input(type="number" min="1" max="50" class="form-control" id="maxMembers" name="maxMembers")         
+              div(class="form-group")
+                label(class="control-label" for="numMembers") Minimum clan Points:
+                input(type="number" id="minClanPoints" name="minClanPoints" min="0" max="60000" step="5000")        
+              div(class="form-group")
+                label(class="control-label" for="minClanLevel") Minimum clan level:
+                input(type="number" id="minClanLevel" name="minClanLevel" min="0" max="15")                                                     
+          if(searchResults)
+            div(class="panel-heading")= _("Results")+":"
+            div(class="panel-body table-responsive searchResults")
+              table(class="table table-condensed tableResults")
+                tbody      
+                  each item, k in searchResults.items
+                    tr
+                      td= (k+1)+(".") 
+                      td #[div(style="position:relative") #[image(src=item.badgeUrls.small title=item.name) #[div(class="clanLevel")= item.clanLevel]]]
+                      td #[div(class="superCellFont fontSmall") #[span= item.name]] #[div= _(item.warFrequency)]         
+                      //td(class="superCellFont fontSmall")= item.clanLevel                                                 
+                      td(class="superCellFont")= item.clanPoints
+                      td= item.members 
+                      td #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")]
+                      td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
+        div(id="delClan" class="tab-pane fade")
+          h3 Choose a clan to remove from your list. 
+            div(class="form-group")
+              select(class="form-control" id="clanToDel" name='clanToDel')
+                each cnt, i in clans 
+                  option(value=cnt.tag)= cnt.tag + ' ' + cnt.name
+            button(class="btn btn-primary" type="submit" name="btnDel" style="float:right;") Remove

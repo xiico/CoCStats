@@ -2,146 +2,145 @@ extends layout
  
 
 block content  
-  div(class="jumbotron")
-    //Principal
-    div(class="media" style="margin-top:15px;")                   
-      div(class="media-left")
-        - var url = player.league ? player.league.iconUrls.small : "https://api-assets.clashofclans.com/leagues/72/e--YMyIexEQQhE4imLoJcwhYn6Uy8KqlgyY3_kFV6t4.png"
-        image(src=url)
-      div(class="media-body")
-        ul(class="list-group")
-          li(class="list-group-item")
-            h4(class="media-heading")= player.name
-            = player.tag
-          li(class="list-group-item")
-            span= "Level: " + player.expLevel
-          li(class="list-group-item")
-            span= "Town Hall Level: " + player.townHallLevel
-          - var leagueName = player.league ? player.league.name : "Unranked"
-          li(class="list-group-item")= leagueName
-        table(class="table table-condensed")
-          tbody
-            tr
-              td #[strong= _("Trophies")+":"]
-              td= player.trophies + " " + _("Best")+": " + player.bestTrophies        
-            tr
-              td #[strong= _("War Stars")+":"]
-              td= player.warStars
-            tr
-              td #[strong= _("Attack Wins")+":"]
-              td= player.attackWins
-            tr
-              td #[strong= _("Defense Wins")+":"]
-              td= player.defenseWins
-            tr
-              td #[strong= _("Builder Hall Level")+":"]
-              td= player.builderHallLevel   
-            tr
-              td #[strong= _("Versus Trophies")+":"]
-              td= player.versusTrophies + " " + _("Best")+": " + player.versusTrophies 
-            tr
-              td #[strong= _("Versus Battle Wins")+":"]
-              td= player.versusBattleWins        
-            tr
-              td #[strong= _("Versus Battle Wins Count")+":"]
-              td= player.versusBattleWinCount       
-            tr
-              td #[strong= _("Role")+":"]
-              td= player.role   
-            tr
-              td #[strong= _("Donations")+":"]
-              td= player.donations  
-            tr
-              td #[strong= _("Current Clan")+":"]
-              td 
-                div(class="col-sm-6 col-md-4")
-                  div(class="thumbnail")
-                    img(src=player.clan.badgeUrls.small alt="clan badge")
-                    div(class="caption")= player.clan.name
-                    p= _("Level")+": " + player.clan.clanLevel
-    //Legend Stats
-    if(player.legendStatistics)
-      div(class="panel panel-default")
-        div(class="panel-heading")= _("Legend Stats")+":"
-        div(class="panel-heading")= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
-        div(class="panel-body table-responsive")        
-          div(class="col-sm-6 col-md-4")
-            div(class="thumbnail")
-              p= _("Previous Season")
-              p= _("Rank")+": " + player.legendStatistics.previousSeason.rank
-              p= _("Trophies")+": " + player.legendStatistics.previousSeason.trophies
-          div(class="col-sm-6 col-md-4")
-            div(class="thumbnail")
-              p= _("Best Season")
-              p= _("Rank")+": " + player.legendStatistics.bestSeason.rank
-              p= _("Trophies")+": " + player.legendStatistics.bestSeason.trophies
-          div(class="col-sm-6 col-md-4")
-            div(class="thumbnail")
-              p= _("Current Season")
-              p= _("Rank")+": " + player.legendStatistics.currentSeason.rank
-              p= _("Trophies")+": " + player.legendStatistics.currentSeason.trophies
-    //achievements
+  //Principal
+  div(class="media" style="margin-top:15px;")                   
+    div(class="media-left")
+      - var url = player.league ? player.league.iconUrls.small : "https://api-assets.clashofclans.com/leagues/72/e--YMyIexEQQhE4imLoJcwhYn6Uy8KqlgyY3_kFV6t4.png"
+      image(src=url)
+    div(class="media-body")
+      ul(class="list-group")
+        li(class="list-group-item")
+          h4(class="media-heading")= player.name
+          = player.tag
+        li(class="list-group-item")
+          span= "Level: " + player.expLevel
+        li(class="list-group-item")
+          span= "Town Hall Level: " + player.townHallLevel
+        - var leagueName = player.league ? player.league.name : "Unranked"
+        li(class="list-group-item")= leagueName
+      table(class="table table-condensed")
+        tbody
+          tr
+            td #[strong= _("Trophies")+":"]
+            td= player.trophies + " " + _("Best")+": " + player.bestTrophies        
+          tr
+            td #[strong= _("War Stars")+":"]
+            td= player.warStars
+          tr
+            td #[strong= _("Attack Wins")+":"]
+            td= player.attackWins
+          tr
+            td #[strong= _("Defense Wins")+":"]
+            td= player.defenseWins
+          tr
+            td #[strong= _("Builder Hall Level")+":"]
+            td= player.builderHallLevel   
+          tr
+            td #[strong= _("Versus Trophies")+":"]
+            td= player.versusTrophies + " " + _("Best")+": " + player.versusTrophies 
+          tr
+            td #[strong= _("Versus Battle Wins")+":"]
+            td= player.versusBattleWins        
+          tr
+            td #[strong= _("Versus Battle Wins Count")+":"]
+            td= player.versusBattleWinCount       
+          tr
+            td #[strong= _("Role")+":"]
+            td= player.role   
+          tr
+            td #[strong= _("Donations")+":"]
+            td= player.donations  
+          tr
+            td #[strong= _("Current Clan")+":"]
+            td 
+              div(class="col-sm-6 col-md-4")
+                div(class="thumbnail")
+                  img(src=player.clan.badgeUrls.small alt="clan badge")
+                  div(class="caption")= player.clan.name
+                  p= _("Level")+": " + player.clan.clanLevel
+  //Legend Stats
+  if(player.legendStatistics)
     div(class="panel panel-default")
-      div(class="panel-heading")= _("Achievements")+":"
-      div(class="panel-body table-responsive")
-        each achievement, k in player.achievements
-          - var cur = achievement.value;
-          - var target = achievement.target;
-          - var progress = cur / target <= 1 ? cur / target : 1;          
-          div(class="col-sm-6 col-md-4")
-            div(class="achievements-gradient")
-              img(class="stars" src="/images/"+achievement.stars+"stars.png")
-              div(class="thumbnail borderimg achievements-panel text-center bold-text")
-                p(class="superCellFont fontMedium")= achievement.name
-                //span= _("stars") + ": " + achievement.stars
-                //span= _("target") + ": " + achievement.target   
-                span= achievement.info           
-                div(class="progress")
-                  div(class="progress-bar bar superCellFont fontSmall" role="progressbar" aria-valuenow=cur aria-valuemin="0" aria-valuemax=target style="width: " + progress*100 + "%;")
-                    span= cur + " / " + target              
-                span= achievement.completionInfo 
-                  br
-                span= _("village") + ": " + achievement.village   
-    //troops
-    div(class="panel panel-default")
-      div(class="panel-heading")= _("Troops")+":"
-      div(class="panel-body table-responsive")
-        each troop, k in player.troops
-          - var troopName = "../images/"+troop.name.replace(' ','').replace('.','').replace('.','').replace('.','').replace('.','')+".png" ;
-          - var maxLevel = troop.level == troop.maxLevel ? "level-max" : "";
-          div(class="col-sm-4 col-md-3")
-            div(class="troops-gradient")
-              //img(class="troops" src="/images/barbarian.png")
-              div(class="thumbnail info-panel info-bg" style='background-image: ' + 'url('+troopName+')')
-                p(class="superCellFont fontMedium")= troop.name
-                div(class="shadow-font info-level " + maxLevel)= troop.level
-                //p= _("maxLevel") + ": " + troop.maxLevel   
-                //p= _("village") + ": " + troop.village            
-    //heroes
-    div(class="panel panel-default")
-      div(class="panel-heading")= _("Heroes")+":"
-      div(class="panel-body table-responsive")
-        each hero, k in player.heroes
-          - var heroName = "../images/"+hero.name.replace(' ','')+".png";
-          - var maxLevel = hero.level == hero.maxLevel ? "level-max" : "";        
-          div(class="col-sm-6 col-md-4")
-            div(class="heroes-gradient")
-              div(class="thumbnail  info-panel info-bg" style='background-image: ' + 'url('+heroName+')')
-                p(class="superCellFont fontMedium")= hero.name
-                div(class="shadow-font info-level " + maxLevel)= hero.level
-                //p= _("maxLevel") + ": " + hero.maxLevel   
-                //p= _("village") + ": " + hero.village    
-    //spells
-    div(class="panel panel-default")
-      div(class="panel-heading")= _("Spells")+":"
-      div(class="panel-body table-responsive")
-        each spell, k in player.spells
-          - var spellName = "../images/"+spell.name.replace(' ','')+".jpg";
-          - var maxLevel = spell.level == spell.maxLevel ? "level-max" : "";           
-          div(class="col-spell col-sm-6 col-md-4")
-            div(class="thumbnail  info-panel spell-bg" style='background-image: ' + 'url('+spellName+')')
-              p(class="superCellFont fontMedium")= spell.name
-              div(class="shadow-font info-level " + maxLevel)= spell.level
-              //p= _("maxLevel") + ": " + spell.maxLevel   
-              //p= _("village") + ": " + spell.village                                         
+      div(class="panel-heading")= _("Legend Stats")+":"
+      div(class="panel-heading")= _("Legend Trophies")+": " + player.legendStatistics.legendTrophies
+      div(class="panel-body table-responsive")        
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Previous Season")
+            p= _("Rank")+": " + player.legendStatistics.previousSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.previousSeason.trophies
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Best Season")
+            p= _("Rank")+": " + player.legendStatistics.bestSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.bestSeason.trophies
+        div(class="col-sm-6 col-md-4")
+          div(class="thumbnail")
+            p= _("Current Season")
+            p= _("Rank")+": " + player.legendStatistics.currentSeason.rank
+            p= _("Trophies")+": " + player.legendStatistics.currentSeason.trophies
+  //achievements
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Achievements")+":"
+    div(class="panel-body table-responsive")
+      each achievement, k in player.achievements
+        - var cur = achievement.value;
+        - var target = achievement.target;
+        - var progress = cur / target <= 1 ? cur / target : 1;          
+        div(class="col-sm-6 col-md-4")
+          div(class="achievements-gradient")
+            img(class="stars" src="/images/"+achievement.stars+"stars.png")
+            div(class="thumbnail borderimg achievements-panel text-center bold-text")
+              p(class="superCellFont fontMedium")= achievement.name
+              //span= _("stars") + ": " + achievement.stars
+              //span= _("target") + ": " + achievement.target   
+              span= achievement.info           
+              div(class="progress")
+                div(class="progress-bar bar superCellFont fontSmall" role="progressbar" aria-valuenow=cur aria-valuemin="0" aria-valuemax=target style="width: " + progress*100 + "%;")
+                  span= cur + " / " + target              
+              span= achievement.completionInfo 
+                br
+              span= _("village") + ": " + achievement.village   
+  //troops
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Troops")+":"
+    div(class="panel-body table-responsive")
+      each troop, k in player.troops
+        - var troopName = "../images/"+troop.name.replace(' ','').replace('.','').replace('.','').replace('.','').replace('.','')+".png" ;
+        - var maxLevel = troop.level == troop.maxLevel ? "level-max" : "";
+        div(class="col-sm-4 col-md-3")
+          div(class="troops-gradient")
+            //img(class="troops" src="/images/barbarian.png")
+            div(class="thumbnail info-panel info-bg" style='background-image: ' + 'url('+troopName+')')
+              p(class="superCellFont fontMedium")= troop.name
+              div(class="shadow-font info-level " + maxLevel)= troop.level
+              //p= _("maxLevel") + ": " + troop.maxLevel   
+              //p= _("village") + ": " + troop.village            
+  //heroes
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Heroes")+":"
+    div(class="panel-body table-responsive")
+      each hero, k in player.heroes
+        - var heroName = "../images/"+hero.name.replace(' ','')+".png";
+        - var maxLevel = hero.level == hero.maxLevel ? "level-max" : "";        
+        div(class="col-sm-6 col-md-4")
+          div(class="heroes-gradient")
+            div(class="thumbnail  info-panel info-bg" style='background-image: ' + 'url('+heroName+')')
+              p(class="superCellFont fontMedium")= hero.name
+              div(class="shadow-font info-level " + maxLevel)= hero.level
+              //p= _("maxLevel") + ": " + hero.maxLevel   
+              //p= _("village") + ": " + hero.village    
+  //spells
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Spells")+":"
+    div(class="panel-body table-responsive")
+      each spell, k in player.spells
+        - var spellName = "../images/"+spell.name.replace(' ','')+".jpg";
+        - var maxLevel = spell.level == spell.maxLevel ? "level-max" : "";           
+        div(class="col-spell col-sm-6 col-md-4")
+          div(class="thumbnail  info-panel spell-bg" style='background-image: ' + 'url('+spellName+')')
+            p(class="superCellFont fontMedium")= spell.name
+            div(class="shadow-font info-level " + maxLevel)= spell.level
+            //p= _("maxLevel") + ": " + spell.maxLevel   
+            //p= _("village") + ": " + spell.village                                         
   script(type='text/javascript' src='/js/clan.js')

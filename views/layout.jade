@@ -64,4 +64,8 @@ html
 
                 li #[a(href="/profile") #[span(class="glyphicon glyphicon-user")] #{user.local.email}]
                 li #[a(href="/logout") #[span(class="glyphicon glyphicon-log-out")] Logout]
-      block content
+      div(class="jumbotron")
+        //show any messages that come back with authentication
+        if message.length > 0
+           div(class="alert alert-danger")= message          
+        block content

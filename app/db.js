@@ -233,6 +233,7 @@ module.exports =
                     throw err;
                 if (response.length > 0)
                     callBack(null, response);
+                else callBack(null, []);
             });
         }
     }

@@ -2,66 +2,66 @@ extends layout
  
 
 block content  
-  div(class="jumbotron")
-    //Principal
-    div(class="media" style="margin-top:15px;")                   
-      div(class="media-left")
-        image(src=clan.badgeUrls.small)
-      div(class="media-body")
-        ul(class="list-group")
-          li(class="list-group-item")
-            h4(class="media-heading")= clan.name
-            = clan.description
-            button(type="button" name="btnSave" id="btnSave" data-tag=clan.tag.replace('#','') class="btn btn-primary btn-xs waiting" style="float:right;margin-top:-20px;") Save
-        table(class="table table-condensed")
-          tbody
+  //Principal
+  div(class="media" style="margin-top:15px;")                   
+    div(class="media-left")
+      image(src=clan.badgeUrls.small)
+    div(class="media-body")
+      ul(class="list-group")
+        li(class="list-group-item")
+          h4(class="media-heading")= clan.name
+          = clan.description
+          if user
+            button(type="button" name="btnSave" id="btnSave" data-tag=clan.tag.replace('#','') class="btn btn-primary btn-xs" style="float:right;margin-top:-20px;") Save
+      table(class="table table-condensed")
+        tbody
+          tr
+            td #[strong= _("Clan Type")+":"]
+            td= clan.type                            
+          tr
+            td #[strong= _("Clan Points")+":"]
+            td= clan.clanPoints
+          tr
+            td #[strong= _("Location")+":"]
+            td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Country")]
+          tr
+            td #[strong= _("War Frequency")+":"]
+            td= clan.warFrequency
+          tr
+            td #[strong= _("Clan Level")+":"]
+            td= clan.clanLevel
+          tr
+            td #[strong= _("War Wins")+":"]
+            td= clan.warWins
+          tr
+            td #[strong= _("War Wins Streak")+":"]
+            td= clan.warWinStreak
+          tr
+            td #[strong= _("Required Trophies")+":"]
+            td= clan.requiredTrophies    
+  //Chart
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Progress")+":"
+    div(class="panel-body table-responsive")
+      div(id="chart" class="chart")
+  //Members
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Members")+":"
+    div(class="panel-body table-responsive")
+      table(class="table table-condensed clanMembers tableResults")
+        tbody      
+          each member, k in clan.memberList
             tr
-              td #[strong= _("Clan Type")+":"]
-              td= clan.type                            
-            tr
-              td #[strong= _("Clan Points")+":"]
-              td= clan.clanPoints
-            tr
-              td #[strong= _("Location")+":"]
-              td #[span= clan.location.name] #[img(src="/images/blank.gif" class="flag flag-"+((clan.location.countryCode?clan.location.countryCode:'').toLowerCase()) alt="Country")]
-            tr
-              td #[strong= _("War Frequency")+":"]
-              td= clan.warFrequency
-            tr
-              td #[strong= _("Clan Level")+":"]
-              td= clan.clanLevel
-            tr
-              td #[strong= _("War Wins")+":"]
-              td= clan.warWins
-            tr
-              td #[strong= _("War Wins Streak")+":"]
-              td= clan.warWinStreak
-            tr
-              td #[strong= _("Required Trophies")+":"]
-              td= clan.requiredTrophies    
-    //Chart
-    div(class="panel panel-default")
-      div(class="panel-heading")= _("Progress")+":"
-      div(class="panel-body table-responsive")
-        div(id="chart" class="chart")
-    //Members
-    div(class="panel panel-default")
-      div(class="panel-heading")= _("Members")+":"
-      div(class="panel-body table-responsive")
-        table(class="table table-condensed clanMembers tableResults")
-          tbody      
-            each member, k in clan.memberList
-              tr
-                td #[image(src=member.league.iconUrls.tiny title=member.league.name)]                  
-                td 
-                  div(class="superCellFont fontSmall")
-                    a( class="player-link" href="/players/"+ member.tag.replace('#','') alt=member.tag)
-                      span= member.name 
-                  div= _(clanRoles(member.role))
-                td(class="superCellFont fontSmall")= member.expLevel                                                 
-                td(class="superCellFont")= member.trophies
-                td= member.donations
-                td= member.donationsReceived
-                td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
+              td #[image(src=member.league.iconUrls.tiny title=member.league.name)]                  
+              td 
+                div(class="superCellFont fontSmall")
+                  a( class="player-link" href="/players/"+ member.tag.replace('#','') alt=member.tag)
+                    span= member.name 
+                div= _(clanRoles(member.role))
+              td(class="superCellFont fontSmall")= member.expLevel                                                 
+              td(class="superCellFont")= member.trophies
+              td= member.donations
+              td= member.donationsReceived
+              td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/clan.js')

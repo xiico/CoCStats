@@ -2,6 +2,7 @@ $("#btnSave").click(function (e) {
     e.preventDefault();
     //show loading gif
     $("#btnSave").toggleClass("waiting");
+    if($("#btnSave").html() == "Saved") return;
     $.ajax({
         type: "GET",
         url: '/saveclan/' + $(e.target).attr("data-tag"),
@@ -10,6 +11,7 @@ $("#btnSave").click(function (e) {
             $("#btnSave").toggleClass("waiting");
             if (data.ok)
                 $("#btnSave").html('Saved');
+            else $("#btnSave").html(':(');
         },
         error: function () {//remove gif
             $("#btnSave").toggleClass("waiting");
