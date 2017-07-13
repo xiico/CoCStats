@@ -15,8 +15,6 @@ var ajaxRequest = {
 };
 $.ajax(ajaxRequest);
 
-
-google.charts.setOnLoadCallback(drawChart);
 function drawChart(historyData) {
 //   var data = google.visualization.arrayToDataTable([
 //     ['Year', 'Sales', /*'Expenses'*/],
