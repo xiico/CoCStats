@@ -2,7 +2,7 @@ $("#btnSave").click(function (e) {
     e.preventDefault();
     //show loading gif
     $("#btnSave").toggleClass("waiting");
-    if($("#btnSave").html() == "Saved") return;
+    if($("#btnSave").html() == "Saved" || $("#btnSave").html() == ":(" ) return;
     $.ajax({
         type: "GET",
         url: '/saveclan/' + $(e.target).attr("data-tag"),
