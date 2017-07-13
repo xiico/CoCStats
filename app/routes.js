@@ -86,6 +86,7 @@ module.exports = function (app, passport) {
   // HOME PAGE (with login links) ========
   // =====================================
   app.get('/:lang?/', function (req, res) {
+    res.locals.title = "Mail Page";
     if (req.user /*&& req.user.clans.length > 0*/) {
       var search = [];
       //If is the first time the page is loaded
@@ -127,6 +128,7 @@ module.exports = function (app, passport) {
   // CLANS DETAILS =======================
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
+    res.locals.title = "Clan Details"
     db.searchClans('Tag', req.params.id, null, function (err, clans) {
         UpdateClans([clans.tag], function(){});
         RenderPage('clan', req, res, [], { items: [clans] });
@@ -137,6 +139,7 @@ module.exports = function (app, passport) {
   // PLAYER DETAILS =======================
   // =====================================
   app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
+    res.locals.title = "Player Details";
     db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
       RenderPage('player', req, res, [], { items: [clans] });
     });
@@ -148,6 +151,7 @@ module.exports = function (app, passport) {
   app.get('/:lang?/rank/:id?', /*isLoggedIn,*/ function (req, res) {    
     db.searchClans('rank', req.params.id, null, function (err, clans) {
       if (!req.params.id) {
+        res.locals.title = "Global Rank";
         clans.items.sort(function (a, b) {
           return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
         });
@@ -160,6 +164,7 @@ module.exports = function (app, passport) {
           RenderPage('rank', req, res, [], clans, req.flash("rankMessage"));
         });
       } else {
+        res.locals.title = "Country Rank";
         if (clans && (!clans.items[0].rank || !clans.items[0].previousRank)) {
           clans.items.forEach(function (item) {
             if (!item.rank) item.rank = clans.items.indexOf(item) + 1;
@@ -256,7 +261,7 @@ module.exports = function (app, passport) {
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
-    var message = "";
+    res.locals.title = "Mail Page";
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
       if (req.user.clans.length < 10) {
         var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
