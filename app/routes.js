@@ -230,8 +230,8 @@ module.exports = function (app, passport) {
   app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
     if (req.user && req.user.clans.length < 10) {
 
-      if(req.user.clans.map(function (x) { return x.tag; }).indexOf("#" + req.params.id) < 0){
-        res.send({});
+      if(req.user.clans.map(function (x) { return x.tag; }).indexOf("#" + req.params.id) > -1){
+        res.send({error:"clan already added!"});
         return;
       }
 
@@ -243,7 +243,7 @@ module.exports = function (app, passport) {
       req.user.save();
       res.send({ ok: true });
     }
-    res.send({});
+    res.send({error:"max number of clans reached!"});
   });
 
   // =====================================
