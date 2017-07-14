@@ -27,12 +27,13 @@ block content
                     image(src=searchResults.league.iconUrls.tiny title=searchResults.league.name)
                 td 
                   div(class="superCellFont fontSmall")
-                    a( class="player-link" href="/players/"+ player.tag.replace('#','') alt=player.tag)
+                    a(class="player-link" href="/players/"+ player.tag.replace('#','') alt=player.tag)
                       span= player.name 
                   if player.clan
                     div
                       image(class="player-clan-badge" src=player.clan.badgeUrls.small)
-                      span(class="clan-name")= player.clan.name
+                      a(class="clan-link" href="/clans/"+ player.clan.tag.replace('#','') alt=player.clan.tag)
+                        span(class="clan-name")= player.clan.name
                 td(class="superCellFont fontSmall")= player.expLevel                                                 
                 td(class="superCellFont")= player.trophies
                 td= player.attackWins

@@ -144,6 +144,23 @@
     color: white;
     text-decoration: none;
 } 
+
+.clan-link {
+    color: black;
+}
+.clan-link:hover{
+    color: black;
+    text-decoration: none;
+}
+.clan-link:visited {
+    color: black;
+    text-decoration: none;
+}
+.clan-link:active {
+    color: black;
+    text-decoration: none;
+} 
+
 .text-center{
     text-align: center;
 }
