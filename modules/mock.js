@@ -607,7 +607,7 @@ module.exports =
         "tag": "#8J9222L0",
         "name": "gilgamesh",
         "type": "open",
-        "description": "",
+        "description": "✔REGRA: Doar antes de pedir. Dois ataques obrigatórios na guerra. Clã de adultos, nivel 100 ou +, herois somados nvl 40. Clã de guerra.",
         "badgeUrls": {
             "small": "https://api-assets.clashofclans.com/badges/70/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
             "large": "https://api-assets.clashofclans.com/badges/512/7GdWJFadwCtnTeCpqYeN0f7Ocz7_Hwe08uOxDMQd3UA.png",
