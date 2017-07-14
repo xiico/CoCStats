@@ -13,7 +13,8 @@ $("#btnSave").click(function (e) {
                 $("#btnSave").html('Saved');
             else $("#btnSave").html(':(');
         },
-        error: function () {//remove gif
+        error: function (error) {//remove gif
+            console.error(error);
             $("#btnSave").toggleClass("waiting");
         }
     });
