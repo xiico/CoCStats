@@ -139,7 +139,7 @@ module.exports = function (app, passport) {
   // PLAYER DETAILS =======================
   // =====================================
   app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
-    if (req.params.i && req.params.id != "rank") {
+    if (req.params.id && req.params.id != "rank") {
       res.locals.title = "Player Details";
       db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
         RenderPage('player', req, res, [], { items: [clans] });
