@@ -139,10 +139,16 @@ module.exports = function (app, passport) {
   // PLAYER DETAILS =======================
   // =====================================
   app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
-    res.locals.title = "Player Details";
-    db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
-      RenderPage('player', req, res, [], { items: [clans] });
-    });
+    if (req.params.i && req.params.id != "rank") {
+      res.locals.title = "Player Details";
+      db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
+        RenderPage('player', req, res, [], { items: [clans] });
+      });
+    } else {
+      db.getLeague("league", 29000022 , "", function(err,result){
+        RenderPage('playerRank', req, res, [], result);
+      });
+     }
   });
 
   // =====================================

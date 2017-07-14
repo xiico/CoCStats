@@ -1,0 +1,42 @@
+extends layout
+ 
+
+block content  
+  //Chart
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Progress")+":"
+    div(class="panel-body table-responsive")
+      div(id="chart" class="chart-global" data-location=params.id)      
+  //Search Results
+  if(searchResults)
+    div(class="panel panel-default")
+      div(class="panel-heading")= _("Search Results")+":"
+      div(class="panel-body table-responsive")
+        table(class="table table-condensed league-rank tableResults")
+          tbody      
+            each player, k in searchResults.items
+              tr
+                td
+                  div(class="float-left width-50 rank-font")= player.rank
+                  div(class="float-left width-50 rank-font")
+                    span(class=(player.rank == player.previousRank || !player.previousRank ? "glyphicon glyphicon-minus": (player.previousRank < 1 || player.rank < player.previousRank ? "glyphicon glyphicon-triangle-top color-green" : "glyphicon glyphicon-triangle-bottom color-red")))
+                    if(player.rank != player.previousRank)
+                      div= player.previousRank > 0 ? player.previousRank - player.rank : "-"              
+                td
+                  if searchResults.league
+                    image(src=searchResults.league.iconUrls.tiny title=searchResults.league.name)
+                td 
+                  div(class="superCellFont fontSmall")
+                    a( class="player-link" href="/players/"+ player.tag.replace('#','') alt=player.tag)
+                      span= player.name 
+                  if player.clan
+                    div
+                      image(class="player-clan-badge" src=player.clan.badgeUrls.small)
+                      span(class="clan-name")= player.clan.name
+                td(class="superCellFont fontSmall")= player.expLevel                                                 
+                td(class="superCellFont")= player.trophies
+                td= player.attackWins
+                td= player.defenseWins
+                //td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+  script(type='text/javascript' src='/js/rank.js')

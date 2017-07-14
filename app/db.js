@@ -235,6 +235,40 @@ module.exports =
                     callBack(null, response);
                 else callBack(null, []);
             });
-        }
+        },
+        getLeague: function (searchType, tag, options, callBack) {
+            cocSearch.search("/v1/leagues/" + tag, "custom", null, null, function (err, league) {
+                if (err) {
+                    console.error(err);
+                    callBack(err, null);
+                    return;
+                }
+
+                cocSearch.search("/v1/leagues/" + league.id + "/seasons", "custom", null, null, function (err, response) {
+                    if (err) {
+                        console.error(err);
+                        callBack(err, null);
+                        return;
+                    }
+                    cocSearch.search("", "league", response.items[response.items.length - 1].id, options, function (err, returnedPlayers) {
+                        if (err)
+                            throw err;
+                        if (returnedPlayers) {
+                            returnedPlayers.playerSearch = true;
+                            returnedPlayers.league = league;
+                            callBack(null, returnedPlayers);
+                        }
+                        else {
+                            if (searchType == "Tag")
+                                Player.find({ tag: "#" + tag }, function (err, players) {
+                                    if (err)
+                                        throw err;
+                                    callBack(null, players);
+                                });
+                        }
+                    });
+                });
+            });
+        },
     }
 

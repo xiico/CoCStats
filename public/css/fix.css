@@ -12,6 +12,27 @@
     width: 36px;
 }  
 
+.league-rank td:nth-of-type(4)
+{
+    background:url(../images/level.png);
+    background-size: 36px 36px;
+    background-repeat: no-repeat;
+    background-position:0 4px;   
+    text-align: center;
+    width: 36px;
+}  
+
+.league-rank td:nth-of-type(2)
+{
+    width: 36px;
+} 
+
+.clan-name {
+    font-family: "Verdana";
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .searchResults td:nth-of-type(4)
 {
     background:url(../images/trophies.png);
@@ -291,6 +312,10 @@
 
 .clan-badge{
     width: 70px;
+}
+
+.player-clan-badge{
+    width: 18px;
 }
 
 .color-red{

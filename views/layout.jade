@@ -7,6 +7,8 @@ html
     link(rel="stylesheet" href="/css/font.css")
     link(rel="stylesheet" href="/css/fix.css")
     meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="Lightweight Clash of Clans statistics")
+    meta(name="keywords" content="clash of clans, stats, fanpage, coc")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")
     script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
     <!-- load bootstrap css -->
@@ -46,12 +48,12 @@ html
       ga('create', 'UA-100571673-2', 'auto');
       ga('send', 'pageview');
 
-    script(async='', src='//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
-    script.
-      (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-6591413170167410",
-      enable_page_level_ads: true
-      });      
+    //-script(async='', src='//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+    //-script.
+    //-  (adsbygoogle = window.adsbygoogle || []).push({
+    //-  google_ad_client: "ca-pub-6591413170167410",
+    //-  enable_page_level_ads: true
+    //-  });      
 
   body  
     div(class="container")
@@ -70,6 +72,7 @@ html
                 li(class={active: url === "/profile"}) #[a(href="/profile") Profile]              
               else                
                 li(class={active: url === "/authenticate"}) #[a(href="/authenticate") Authenticate]
+              li(class={active: url === "/players/rank"}) #[a(href="/players/rank") Legend League Rank ]
             ul(class="nav navbar-nav navbar-right")
               if !user 
                 li #[a(href="/signup") #[span(class="glyphicon glyphicon-user")] Sign Up]
