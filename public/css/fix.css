@@ -33,6 +33,16 @@
     font-weight: bold;
 }
 
+.clan-name-small {
+    font-family: "Verdana";
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.text-align {
+    text-align: left;
+}
+
 .searchResults td:nth-of-type(4)
 {
     background:url(../images/trophies.png);
@@ -144,6 +154,10 @@
     color: white;
     text-decoration: none;
 } 
+.player-link:focus {
+    color: white;
+    text-decoration: none;
+} 
 
 .clan-link {
     color: black;
@@ -157,6 +171,10 @@
     text-decoration: none;
 }
 .clan-link:active {
+    color: black;
+    text-decoration: none;
+} 
+.clan-link:focus {
     color: black;
     text-decoration: none;
 } 

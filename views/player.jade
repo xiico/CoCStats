@@ -12,6 +12,11 @@ block content
         li(class="list-group-item")
           h4(class="media-heading")= player.name
           = player.tag
+          if player.clan
+            div
+              image(class="player-clan-badge" src=player.clan.badgeUrls.small)
+              a(class="clan-link" href="/clans/"+ player.clan.tag.replace('#','') alt=player.clan.tag)
+                span(class="clan-name")= player.clan.name          
         li(class="list-group-item")
           span= "Level: " + player.expLevel
         li(class="list-group-item")
@@ -50,14 +55,13 @@ block content
           tr
             td #[strong= _("Donations")+":"]
             td= player.donations  
-          tr
-            td #[strong= _("Current Clan")+":"]
-            td 
-              div(class="col-sm-6 col-md-4")
-                div(class="thumbnail")
-                  img(src=player.clan.badgeUrls.small alt="clan badge")
-                  div(class="caption")= player.clan.name
-                  p= _("Level")+": " + player.clan.clanLevel
+          //- tr
+          //-   td #[strong= _("Current Clan")+":"]
+          //-   td(class="text-align")
+          //-     a(class="clan-link" href="/clans/"+ player.clan.tag.replace('#','') alt=player.clan.tag)
+          //-       img(src=player.clan.badgeUrls.small alt="clan badge")
+          //-       div(class="caption")= player.clan.name
+          //-       p= _("Level")+": " + player.clan.clanLevel
   //Legend Stats
   if(player.legendStatistics)
     div(class="panel panel-default")
