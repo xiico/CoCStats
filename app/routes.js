@@ -242,6 +242,7 @@ module.exports = function (app, passport) {
       req.user.clans.push({ tag: newTag, active: true });
       req.user.save();
       res.send({ ok: true });
+      return;
     }
     res.send({error:"max number of clans reached!"});
   });
