@@ -5,12 +5,12 @@ block content
   //Principal
   div(class="media" style="margin-top:15px;")                   
     div(class="media-left")
-      image(src=clan.badgeUrls.small alt=clan.tag)
+      image(src=clan.badgeUrls.small alt=clan.name title=clan.tag)
     div(class="media-body")
       ul(class="list-group")
         li(class="list-group-item")
           h4(class="media-heading")= clan.name
-          - var hasClan = user && user.clans.map(function (x) { return x.tag; }).indexOf("#" + clan.tag) < 0;
+          - var hasClan = user && user.clans.map(function (x) { return x.tag; }).indexOf(clan.tag) < 0;
           button(type="button" name="btnSave" id="btnSave" data-tag=clan.tag.replace('#','') class="btn btn-primary btn-xs" style="float:right;margin-top:-20px;" + (hasClan ? "display:none;" : "" )) Save
           = clan.description
       table(class="table table-condensed")
