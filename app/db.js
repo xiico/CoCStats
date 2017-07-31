@@ -80,6 +80,12 @@ module.exports =
                 }
             });
         },
+        updatePlayer: function(playerToUpdate, callBack){
+            Player.findOneAndUpdate({ tag: playerToUpdate.tag }, playerToUpdate, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, player) {
+                if (err)
+                    return;
+            });
+        },
         searchClans: function (searchType, tag, options, callBack) {
             cocSearch.searchClans(searchType, tag, options, function (err, returnedClans) {
                 if (err)

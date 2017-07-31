@@ -140,11 +140,13 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
     if (req.params.id && req.params.id != "rank") {
-      res.locals.title = "Player Details";
-      db.searchPlayers('Tag', req.params.id, null, function (err, clans) {
-        RenderPage('player', req, res, [], { items: [clans] });
+      res.locals.title = "Player Details";      
+      db.searchPlayers('Tag', req.params.id, null, function (err, player) {
+        if(player) db.updatePlayer({tag: player.tag, name: player.name});
+        RenderPage('player', req, res, [], { items: [player] });
       });
     } else {
+      res.locals.title = "Legend Rank";   
       db.getLeague("league", 29000022 , "", function(err,result){
         RenderPage('playerRank', req, res, [], result);
       });
@@ -165,7 +167,8 @@ module.exports = function (app, passport) {
         db.getGlobalRank(true, function (err, entries) {
           clans.items.forEach(function (item) {
             item.rank = clans.items.indexOf(item) + 1;
-            item.previousRank = entries[0].items.map(function (x) { return x.tag; }).indexOf(item.tag) + 1;
+            if(entries.length > 0)
+              item.previousRank = entries[0].items.map(function (x) { return x.tag; }).indexOf(item.tag) + 1;
           }, this);
           RenderPage('rank', req, res, [], clans, req.flash("rankMessage"));
         });
