@@ -76,7 +76,7 @@ module.exports = function (app, passport) {
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
-      player: searchResults && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
+      player: searchResults && searchResults.items.length > 0 && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
       params: req.params
     };
     res.render(page, pageObjects); // load the index.ejs file
