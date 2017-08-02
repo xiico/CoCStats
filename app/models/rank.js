@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var rankSchema = mongoose.Schema({
     date: Date,
     type: String,
+    location: Number,
     entries: [
         {
             date: Date,

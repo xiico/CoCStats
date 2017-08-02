@@ -18,6 +18,37 @@ var clanRoles = function (clanRole) {
   }
 }
 
+function formatChartData(entries){
+  var clans = [];
+  entries.forEach(function (entry) {
+    entry.items.forEach(function (item) {
+      if (clans.map(function (x) { return x.tag; }).indexOf(item.tag) < 0) clans.push({ "name": item.name, "tag": item.tag });
+    }, this);
+  }, this);
+  var clanNames = ["Date"]
+  clans.forEach(function(clan) {
+    clanNames.push(clan.name);
+  }, this);
+  var chartData = [clanNames];
+  entries.forEach(function (entry) {
+    var dataPoints = [];
+    var date = ("0"+(entry.date.getMonth()+1)).slice(-2) + "-" + ("0" + entry.date.getDate()).slice(-2) + " " + ("0" + entry.date.getHours()).slice(-2) + ":00";
+    dataPoints[0] = date;
+    clans.forEach(function (clan) {
+      var itemIndex = entry.items.map(function (x) { return x.tag; }).indexOf(clan.tag);
+      if (itemIndex >= 0) {
+        dataPoints[clans.indexOf(clan) + 1] = entry.items[itemIndex].clanPoints;
+      } else dataPoints[clans.indexOf(clan) + 1] = null
+
+      //dataPoints.push(clans.indexOf(clan));
+
+    }, this);
+    chartData.push(dataPoints);
+  }, this);
+
+  return chartData;
+}
+
 module.exports = function (app, passport) {
 
   // =====================================
@@ -164,7 +195,7 @@ module.exports = function (app, passport) {
           return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
         });
 
-        db.getGlobalRank(true, function (err, entries) {
+        db.getRank({latest:true, type:"global"}, function (err, entries) {
           clans.items.forEach(function (item) {
             item.rank = clans.items.indexOf(item) + 1;
             if(entries.length > 0)
@@ -174,6 +205,7 @@ module.exports = function (app, passport) {
         });
       } else {
         res.locals.title = "Country Rank";
+        if(clans) db.updateRank(req.params.id);
         if (clans && (!clans.items[0].rank || !clans.items[0].previousRank)) {
           clans.items.forEach(function (item) {
             if (!item.rank) item.rank = clans.items.indexOf(item) + 1;
@@ -190,38 +222,13 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/rankchart/:id?', /*isLoggedIn,*/ function (req, res) {
     if (req.params.id) {
-      db.searchClans('rank', req.params.id, null, function (err, clans) {
-        res.send(clans);
+      db.getRank({ latest: false, location: req.params.id }, function (err, entries) {
+        var chartData = formatChartData(entries);
+        res.send(chartData);
       });
     } else {
-      db.getGlobalRank(false, function (err, entries) {
-        var clans = [];
-        entries.forEach(function (entry) {
-          entry.items.forEach(function (item) {
-            if (clans.map(function (x) { return x.tag; }).indexOf(item.tag) < 0) clans.push({ "name": item.name, "tag": item.tag });
-          }, this);
-        }, this);
-        var clanNames = ["Date"]
-        clans.forEach(function(clan) {
-          clanNames.push(clan.name);
-        }, this);
-        var chartData = [clanNames];
-        entries.forEach(function (entry) {
-          var points = [];
-          var date = ("0"+(entry.date.getMonth()+1)).slice(-2) + "-" + ("0" + entry.date.getDate()).slice(-2) + " " + ("0" + entry.date.getHours()).slice(-2) + ":00";
-          points[0] = date;
-          clans.forEach(function (clan) {
-            var itemIndex = entry.items.map(function (x) { return x.tag; }).indexOf(clan.tag);
-            if (itemIndex >= 0) {
-              points[clans.indexOf(clan) + 1] = entry.items[itemIndex].clanPoints;
-            } else points[clans.indexOf(clan) + 1] = null
-
-            //points.push(clans.indexOf(clan));
-
-          }, this);
-          chartData.push(points)
-        }, this);
-
+      db.getRank({ latest: false }, function (err, entries) {
+        var chartData = formatChartData(entries);
         res.send(chartData);
       });
     }

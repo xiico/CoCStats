@@ -31,7 +31,7 @@ module.exports = {
                 if (!tag)
                     path = '/v1/clans?minClanPoints=50000&limit=200';
                 else
-                    path = '/v1/locations/' + tag + '/rankings/clans?limit=40';
+                    path = '/v1/locations/' + tag + '/rankings/clans?limit=50';
                 break;
             case 'league':
                 path = '/v1/leagues/29000022/seasons/' + tag + '?limit=200';

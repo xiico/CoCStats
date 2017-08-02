@@ -80,8 +80,14 @@ module.exports =
                 }
             });
         },
-        updatePlayer: function(playerToUpdate, callBack){
+        updatePlayer: function(playerToUpdate){
             Player.findOneAndUpdate({ tag: playerToUpdate.tag }, playerToUpdate, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, player) {
+                if (err)
+                    return;
+            });
+        },
+        updateRank: function(location){
+            Rank.findOneAndUpdate({ location: location }, {date: new Date()}, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, rank) {
                 if (err)
                     return;
             });
@@ -182,9 +188,9 @@ module.exports =
             //             callBack(null, response[0].history);
             //     });
         },
-        getGlobalRank: function(latest, callBack){
+        getRank: function(params, callBack){
             var date = new Date();
-
+            var latest = params.latest;
             if(latest) {
                 date.setUTCDate(date.getUTCDate() - 7);
             } else {
@@ -197,11 +203,14 @@ module.exports =
             // date.setUTCMinutes(0);
             // date.setUTCSeconds(0);
             // date.setUTCMilliseconds(0);
+            var locationSearch = {};
+            if (params.location) locationSearch.location = parseInt(params.location);
             Rank.aggregate([
-                
                 { "$unwind": "$entries" },
-                { "$unwind": "$entries.items" },                
-                { "$match": { "entries.date": { $gte: date } } },
+                { "$unwind": "$entries.items" },
+                
+                { "$match": { $and: [locationSearch, {"entries.date": { $gte: date } }] } },
+                //{ "$match": {"location":32000006} },
                 //{ "$match": { "entries.items.clanPoints": { $gte: 59000 } } },
                 { "$sort": {"entries.items.clanPoints":-1}},
 
