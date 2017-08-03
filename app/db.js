@@ -237,6 +237,7 @@ module.exports =
             // date.setUTCMilliseconds(0);
             var locationSearch = {};
             if (params.location) locationSearch.location = parseInt(params.location);
+            else locationSearch.type = "global"
             Rank.aggregate([
                 { "$unwind": "$entries" },
                 { "$unwind": "$entries.items" },
