@@ -31,7 +31,7 @@ $.ajax({
         }
     },
     error: function (err) {//remove gif
-        console.error(err);
+        console.log("status: " + error.status, "message: " + error.responseText);
     }
 });
 

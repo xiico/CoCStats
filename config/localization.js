@@ -26,7 +26,7 @@ module.exports = function (msgid, contryCode) {
             msgv = [msgid, 'Guerras vencidas em sequência'];
             return msgv[locationIndex] || msgid;   
         case 'Required Trophies':
-            msgv = [msgid, 'Trofeis necessários'];
+            msgv = [msgid, 'Trofeus necessários'];
             return msgv[locationIndex] || msgid;        
         case 'Members':
             msgv = [msgid, 'Membros'];
@@ -54,7 +54,16 @@ module.exports = function (msgid, contryCode) {
             return msgv[locationIndex] || msgid;         
         case 'moreThanOncePerWeek':
             msgv = ["often", 'frequentemente'];
-            return msgv[locationIndex] || msgid;                                            
+            return msgv[locationIndex] || msgid;
+        case 'attackWins':
+            msgv = ["Attack Wins", 'Ataques Vitoriosos'];
+            return msgv[locationIndex] || msgid;
+        case 'defenseWins':
+            msgv = ["Defense Wins", 'Defesas Vitoriosos'];
+            return msgv[locationIndex] || msgid;   
+        case 'trophies':
+            msgv = ["Trophies", 'Trofeus'];
+            return msgv[locationIndex] || msgid;   
     }
     
     return msgid;

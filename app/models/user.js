@@ -32,7 +32,8 @@ var userSchema = mongoose.Schema({
         tag: String,
         active: Boolean
     }],
-    tags: [String]
+    tags: [String],
+    dateCreation: Date
 });
 
 // methods ======================

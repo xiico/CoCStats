@@ -2,7 +2,7 @@ doctype html
 html
   head
     title= title
-    link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    link(link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
     link(rel="stylesheet" href="/css/flags.css")
     link(rel="stylesheet" href="/css/font.css")
     link(rel="stylesheet" href="/css/fix.css")
@@ -10,7 +10,7 @@ html
     meta(name="description" content="Lightweight Clash of Clans statistics")
     meta(name="keywords" content="clash of clans, stats, fanpage, coc")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")
-    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
     <!-- load bootstrap css -->
     link(rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
     <!-- load fontawesome -->
@@ -28,6 +28,12 @@ html
         {
           width:50px;
         }        
+        .navbar-nav > li > a {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          line-height: 30px;
+        }
+
     script.
       //Control flag visibility 
       function changeFlag(ctrl)

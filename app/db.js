@@ -8,6 +8,8 @@ var cocSearch = require('../app/cocSearch');
 var Player = require('../app/models/player');
 //load up the clanHistory
 var clanHistory = require('../app/models/clanHistory');
+//load up the playerHistory
+var playerHistory = require('../app/models/playerHistory');
 // load up the Rank model
 var Rank = require('../app/models/rank');
 
@@ -172,6 +174,36 @@ module.exports =
                     "$group": {
                         "_id": "$_id",
                         "history": { "$push": "$history" }
+                    }
+                }
+            ], function (err, response) {
+                if (err)
+                    throw err;
+                if (response.length > 0)
+                    callBack(null, response[0].history);
+            });
+
+            // clanHistory.find({ tag: "#" + tag }, {"history":{$slice:28}}, function (err, response) {
+            //         if (err)
+            //             throw err;
+            //         if(response.length > 0)
+            //             callBack(null, response[0].history);
+            //     });
+        },
+        getPlayerHistory : function(tag, type, callBack){
+            playerHistory.aggregate([
+                { "$match": { tag: "#" + tag }},
+                // Unwind the array to denormalize
+                { "$unwind": "$history" },
+
+                { "$match": { "history.date": { $gte: getClanHistoryStartDate() } } },
+
+                // Group back to array form
+                {
+                    "$group": {
+                        "_id": "$_id",
+                        "history": { "$push": {data: "$history." + type,
+                                                   "date": "$history.date"} }
                     }
                 }
             ], function (err, response) {

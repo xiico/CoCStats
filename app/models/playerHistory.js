@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt-nodejs');
 var playerHistorySchema = mongoose.Schema({
     tag: String,
     history: [{
-        "tag": String,
+        "trophies": Number,
         "townHallLevel": Number,
         "expLevel": Number,
         "bestTrophies": Number,

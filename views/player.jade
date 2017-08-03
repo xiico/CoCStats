@@ -63,6 +63,25 @@ block content
           //-       div(class="caption")= player.clan.name
           //-       p= _("Level")+": " + player.clan.clanLevel
   //Legend Stats
+  div(class="panel panel-default")
+    div(class="panel-heading")= _("Statistics chart")+":"  
+    ul#tab1.nav.nav-tabs
+      li.active
+        a(href='#tab1-item1', data-toggle='tab')= _("Trophies")
+      li
+        a(href='#tab1-item2', onclick='requestChartData($("#chartAttacks"));' data-toggle='tab')= _("Attack wins")
+      li
+        a(href='#tab1-item3', onclick='requestChartData($("#chartDefenses"));' data-toggle='tab')= _("Defense wins")
+    .tab-content
+      #tab1-item1.tab-pane.fade.active.in
+        div(class="panel-body table-responsive")
+          div(id="chartTrophies" class="chart" data-tag=params.id data-type='trophies' data-type-name=_('trophies'))      
+      #tab1-item2.tab-pane.fade
+        div(class="panel-body table-responsive")
+          div(id="chartAttacks" class="chart" data-tag=params.id data-type='attackWins' data-type-name=_('attackWins'))      
+      #tab1-item3.tab-pane.fade
+        div(class="panel-body table-responsive")
+          div(id="chartDefenses" class="chart" data-tag=params.id data-type='defenseWins' data-type-name=_('defenseWins'))      
   if(player.legendStatistics)
     div(class="panel panel-default")
       div(class="panel-heading")= _("Legend Stats")+":"
@@ -147,5 +166,6 @@ block content
             p(class="superCellFont fontMedium")= spell.name
             div(class="shadow-font info-level " + maxLevel)= spell.level
             //p= _("maxLevel") + ": " + spell.maxLevel   
-            //p= _("village") + ": " + spell.village                                         
-  script(type='text/javascript' src='/js/clan.js')
+            //p= _("village") + ": " + spell.village       
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")                                              
+  script(type='text/javascript' src='/js/player.js')

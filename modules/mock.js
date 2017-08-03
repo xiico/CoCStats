@@ -684,6 +684,21 @@ module.exports =
             "previousClanRank": 3,
             "donations": 0,
             "donationsReceived": 0
+            },
+            {
+              "donationsReceived": 436,
+              "donations": 220,
+              "trophies": 5888,
+              "expLevel": 192,
+              "role": "admin",
+              "name": "✨Tauriel✨",
+              "tag": "#JY98P8VJ",
+              "league": {
+                "name": "Legend League",
+                "iconUrls": {
+                  "tiny": "https://api-assets.clashofclans.com/leagues/36/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png"
+                }
+              }
             }
         ]
     },

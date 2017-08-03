@@ -90,16 +90,19 @@ module.exports = function (app, passport) {
     return options;
   }
 
+  var _;
+
   function RenderPage(page, req, res, userClans, searchResults, message) {
+    _ = function (msgid) {
+      return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
+    }
     if (!res)
       return;
     var pageObjects = {
       user: req.user, // get the user out of session and pass to template
       url: req.url,
       clans: userClans,
-      _: function (msgid) {
-        return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
-      },
+      _: _,
       clanRoles: clanRoles,
       searchResults: searchResults,
       clan: searchResults ? searchResults.items[0] : null,
@@ -232,6 +235,26 @@ module.exports = function (app, passport) {
         res.send(chartData);
       });
     }
+  });  
+
+  // =====================================
+  // PLAYER RANK CHART ===================
+  // =====================================
+  app.get('/playerhistory/:player/:type', /*isLoggedIn,*/ function (req, res) {
+    db.getPlayerHistory(req.params.player, req.params.type, function (err, history) {
+      if (err) {
+        console.error(err)
+        res.send("db error.")
+      }
+      //var result = [["Date", "Level", "Wins", "Streak", "Points", "Members"]];
+      var result = [["Date", _(req.params.type)]];
+      history.forEach(function (element) {
+        var date = element.date.getFullYear() + "-" + ("0"+(element.date.getMonth()+1)).slice(-2) + "-" + ("0" + element.date.getDate()).slice(-2) + " " + ("0" + element.date.getHours()).slice(-2) + ":00";
+        result.push([date, element.data]);
+      }, this);
+      //RenderPage('clan', req, res, [], { items: [clans], history: result });
+      res.send(result);
+    })
   });  
 
   // =====================================
