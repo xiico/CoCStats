@@ -1,7 +1,8 @@
 // set up ======================================================================
 // get all the tools we need
+//require('dotenv').config();
+require('dotenv').config({path: __dirname + '/.env'})
 var express  = require('express');
-require('dotenv').config();
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
