@@ -29,7 +29,7 @@ module.exports = {
                 break;
             case 'rank':
                 if (!tag)
-                    path = '/v1/clans?minClanPoints=50000&limit=200';
+                    path = '/v1/clans?minClanPoints=54000';
                 else
                     path = '/v1/locations/' + tag + '/rankings/clans?limit=50';
                 break;
