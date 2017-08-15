@@ -76,12 +76,12 @@ html
               li(class={active: url === "/"}) #[a(href="/") Home ]
               if user
                 li(class={active: url === "/profile"}) #[a(href="/profile") Profile]              
-              else                
+              // else                
                 li(class={active: url === "/authenticate"}) #[a(href="/authenticate") Authenticate]
               li(class={active: url === "/players/rank"}) #[a(href="/players/rank") Players Rank ]
             ul(class="nav navbar-nav navbar-right")
               if !user 
-                li #[a(href="/signup") #[span(class="glyphicon glyphicon-user")] Sign Up]
+                //li #[a(href="/signup") #[span(class="glyphicon glyphicon-user")] Sign Up]
                 li #[a(href="/login") #[span(class="glyphicon glyphicon-log-in")] Login]
               else
 
@@ -92,3 +92,9 @@ html
         if message.length > 0
            div(class="alert alert-danger")= message          
         block content
+  .container
+    p.text-center © 2017 
+      a(href='mailto:francisco.marao@hotmail.com') Francisco Marao
+    p.text-center
+      | This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: 
+      a(href='//www.supercell.com/fan-content-policy') www.supercell.com/fan-content-policy
