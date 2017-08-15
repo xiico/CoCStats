@@ -55,7 +55,7 @@ block content
               td #[image(src=member.league.iconUrls.tiny title=member.league.name)]                  
               td 
                 div(class="superCellFont fontSmall")
-                  a( class="player-link" href="/players/"+ member.tag.replace('#','') alt=member.tag)
+                  a( class="player-link" href="/player/"+ member.tag.replace('#','') alt=member.tag)
                     span= member.name 
                 div= _(clanRoles(member.role))
               td(class="superCellFont fontSmall")= member.expLevel                                                 

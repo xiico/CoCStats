@@ -172,20 +172,27 @@ module.exports = function (app, passport) {
   // =====================================
   // PLAYER DETAILS =======================
   // =====================================
-  app.get('/:lang?/players/:id', /*isLoggedIn,*/ function (req, res) {
-    if (req.params.id && req.params.id != "rank") {
-      res.locals.title = "Player Details";      
-      db.searchPlayers('Tag', req.params.id, null, function (err, player) {
-        if(player) db.updatePlayer({tag: player.tag, name: player.name});
-        RenderPage('player', req, res, [], { items: [player] });
-      });
-    } else {
-      res.locals.title = "Legend Rank";   
-      db.getLeague("league", 29000022 , "", function(err,result){
-        RenderPage('playerRank', req, res, [], result);
-      });
-     }
+  app.get('/:lang?/player/:id', /*isLoggedIn,*/ function (req, res) {
+    res.locals.title = "Player Details";      
+    db.searchPlayers('Tag', req.params.id, null, function (err, player) {
+      if(player) db.updatePlayer(player);
+      RenderPage('player', req, res, [], { items: [player] });
+    });
+
+      // res.locals.title = "Legend Rank";   
+      // db.getLeague("league", 29000022 , "", function(err,result){
+      //   RenderPage('playerrank', req, res, [], result);
+      // });
   });
+  
+  // =====================================
+  // PLAYER RANK =========================
+  // =====================================
+  app.get('/players/rank/:location?', /*isLoggedIn,*/ function (req, res) {
+    db.getPlayerRank({ latest: false, location: req.params.location }, function (err, players) {
+      RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
+    });
+  });  
 
   // =====================================
   // Global Rank =========================
@@ -237,15 +244,6 @@ module.exports = function (app, passport) {
         res.send(chartData);
       });
     }
-  });  
-
-  // =====================================
-  // PLAYER RANK =========================
-  // =====================================
-  app.get('/playersrank/:location?', /*isLoggedIn,*/ function (req, res) {
-    db.getPlayerRank({ latest: false, location: req.params.location }, function (err, players) {
-      RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
-    });
   });  
 
   // =====================================
