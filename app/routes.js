@@ -240,6 +240,24 @@ module.exports = function (app, passport) {
   });  
 
   // =====================================
+  // PLAYER RANK =========================
+  // =====================================
+  app.get('/playersrank/:location?', /*isLoggedIn,*/ function (req, res) {
+    db.getPlayerRank({ latest: false, location: req.params.location }, function (err, players) {
+      RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
+    });
+  });  
+
+  // =====================================
+  // PLAYER CLANS =========================
+  // =====================================
+  app.get('/playerclans/:tag', /*isLoggedIn,*/ function (req, res) {
+    db.getPlayerClans(req.params.tag, function (err, clans) {
+      res.send(clans);
+    });
+  });  
+
+  // =====================================
   // PLAYER RANK CHART ===================
   // =====================================
   app.get('/playerhistory/:player/:type', /*isLoggedIn,*/ function (req, res) {

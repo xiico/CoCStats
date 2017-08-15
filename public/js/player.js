@@ -18,6 +18,25 @@ function requestChartData(chart){
     $.ajax(ajaxRequest);
 }
 
+function requestClans(div){
+    if (div.children().length) return;
+    var ajaxRequest = {
+        type: "GET",
+        url: '/playerclans/' + div.attr("data-tag") ,
+        dataType: "json",
+        success: function (data) {
+            
+            for(var i = 0, clan; clan = data[i]; i++) {
+                div.append('<a class="clan-link" href="/clans/'+clan._id.clanTag.replace('#','')+'" alt="'+clan._id.clanTag+'"><span class="clan-name">'+clan._id.clanName+'</span></a>&nbsp;('+ clan.date +')<br>');
+            }
+        },
+        error: function (error) {//remove gif
+            console.log("status: " + error.status, "message: " + error.responseText);
+        }
+    };
+    $.ajax(ajaxRequest);
+}
+
 function drawChart(historyData, chart, type) {
 //   var data = google.visualization.arrayToDataTable([
 //     ['Year', 'Sales', /*'Expenses'*/],

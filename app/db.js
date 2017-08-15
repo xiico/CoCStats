@@ -284,6 +284,69 @@ module.exports =
                 else callBack(null, []);
             });
         },
+        getPlayerRank: function (params, callBack) {
+            var locationSearch = {};
+            if (params.location) locationSearch.location = parseInt(params.location);
+            Player.aggregate([
+                { "$match": { $and: [locationSearch] } },
+                {
+                    $lookup: {
+                        from: "clans",
+                        localField: "clan.tag",
+                        foreignField: "tag",
+                        as: "player_clan"
+                    }
+                },
+                { "$sort": { "trophies": -1 } },
+                {
+                    $project:{
+                        tag : "$tag",
+                        name: "$name",
+                        location: "$player_clan.location.id",
+                        clan: "$clan",
+                        expLevel: "$expLevel",
+                        trophies: "$trophies",
+                        attackWins: "$attackWins",
+                        defenseWins: "$defenseWins"
+                    }
+                },
+                { "$limit": 200 }
+            ], function (err, response) {
+                if (err)
+                    throw err;
+                if (response.length > 0)
+                    callBack(null, {items: response});
+                else callBack(null, []);
+            });
+        },
+        getPlayerClans: function (tag, callBack) {
+            playerHistory.aggregate([
+                { "$match": { tag: "#" + tag } },
+                // Unwind the array to denormalize
+                { "$unwind": "$history" },
+                {
+                    "$group": {
+                        "_id": {
+                            "clanName": "$history.clan.name",
+                            "clanTag": "$history.clan.tag"
+                        },
+                        "date" : { $first: "$history.date" }
+                    }
+                },
+                {
+                    $project:{
+                        tag : "$_id.clanTag",
+                        name: "$_id.clanName",
+                        "date" : { $dateToString: { format: "%Y-%m-%d", date: "$date" } }
+                    }
+                }
+            ], function (err, response) {
+                if (err)
+                    throw err;
+                if (response.length > 0)
+                    callBack(null, response);
+            });
+        },
         getLeague: function (searchType, tag, options, callBack) {
             cocSearch.search("/v1/leagues/" + tag, "custom", null, null, function (err, league) {
                 if (err) {

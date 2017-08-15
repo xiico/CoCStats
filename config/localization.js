@@ -64,6 +64,9 @@ module.exports = function (msgid, contryCode) {
         case 'trophies':
             msgv = ["Trophies", 'Trofeus'];
             return msgv[locationIndex] || msgid;   
+        case 'clanParticipation':
+            msgv = ["Clan Participation", 'Participação em Clans'];
+            return msgv[locationIndex] || msgid;   
     }
     
     return msgid;
