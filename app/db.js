@@ -125,7 +125,7 @@ function savePlayer(error, obj) {
                         }
                     });
                 }
-            })
+            });
         }
     });
 }
@@ -387,6 +387,7 @@ module.exports =
                         name: "$name",
                         location: "$player_clan.location.id",
                         clan: "$clan",
+                        league: "$league",
                         expLevel: "$expLevel",
                         trophies: "$trophies",
                         attackWins: "$attackWins",

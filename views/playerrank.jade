@@ -33,7 +33,7 @@ block content
                   //-     div= player.previousRank > 0 ? player.previousRank - player.rank : "-"              
                 td
                   if player.league
-                    image(src=searchResults.league.iconUrls.tiny title=searchResults.league.name)
+                    image(src=player.league.iconUrls.tiny title=player.league.name)
                 td 
                   div(class="superCellFont fontSmall")
                     a(class="player-link" href="/players/"+ player.tag.replace('#','') alt=player.tag)
