@@ -173,12 +173,28 @@ module.exports = function (app, passport) {
   // PLAYER DETAILS =======================
   // =====================================
   app.get('/:lang?/player/:id', /*isLoggedIn,*/ function (req, res) {
-    res.locals.title = "Player Details";      
+    res.locals.title = "Player Details";
     db.searchPlayers('Tag', req.params.id, null, function (err, player) {
-      if(player) db.updatePlayer(player);
+      if (player) db.updatePlayer({
+        tag: player.tag,
+        name: player.name,
+        trophies: player.trophies,
+        date: new Date(),
+        "clan": player.clan ? {
+          "tag": player.clan.tag,
+          "name": player.clan.name,
+          "clanLevel": player.clan.clanLevel,
+          "badgeUrls": {
+            "small": player.clan.badgeUrls.small
+          } 
+        }: null,
+        expLevel: player.expLevel,
+        attackWins: player.attackWins,
+        defenseWins: player.defenseWins
+      });
       RenderPage('player', req, res, [], { items: [player] });
     });
-
+    
       // res.locals.title = "Legend Rank";   
       // db.getLeague("league", 29000022 , "", function(err,result){
       //   RenderPage('playerrank', req, res, [], result);
