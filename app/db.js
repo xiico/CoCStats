@@ -48,6 +48,79 @@ function getClanHistoryStartDate(){
     }        
 }
 
+function savePlayer(error, obj) {
+    // if(error) {
+    //     return;
+    // }
+    Player.findOneAndUpdate({ tag: obj.tag }, {tag: obj.tag, name: obj.name}, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, player) {
+        if (err){
+            console.log(timeStamp() + err);
+            return;
+        }
+        if (player) {
+            var insert = {
+                tag: obj.tag
+            };
+            player.date = new Date();
+            player.trophies = obj.trophies;
+            player.clan = obj.clan;
+            player.expLevel = obj.expLevel;
+            player.trophies = obj.trophies;
+            player.attackWins = obj.attackWins;
+            player.defenseWins = obj.defenseWins;
+            player.save(function (error) {
+                if (error){
+                    console.log(timeStamp() + error);
+                    return;
+                }
+            });
+            playerHistory.findOneAndUpdate({ tag: insert.tag }, insert, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, ph) {
+                if (err){
+                    console.log(timeStamp() + err);
+                    return;
+                }
+                if (ph) {
+                    if (!ph.history)
+                        ph.history = [];
+                    ph.history.push({
+                        "trophies": obj.trophies,
+                        "townHallLevel": obj.townHallLevel,
+                        "expLevel": obj.expLevel,
+                        "bestTrophies": obj.bestTrophies,
+                        "warStars": obj.warStars,
+                        "attackWins": obj.attackWins,
+                        "defenseWins": obj.defenseWins,
+                        "builderHallLevel": obj.builderHallLevel,
+                        "versusTrophies": obj.versusTrophies,
+                        "bestVersusTrophies": obj.bestVersusTrophies,
+                        "versusBattleWins": obj.versusBattleWins,
+                        "role": obj.role,
+                        "clan": obj.clan ? {
+                            "tag": obj.clan.tag,
+                            "name": obj.clan.name
+                        } : null,
+                        "legendStatistics": obj.legendStatistics ? {
+                            "legendTrophies": obj.legendStatistics.legendTrophies,
+                            "currentSeason": {
+                                "rank": obj.legendStatistics.currentSeason ? obj.legendStatistics.currentSeason.rank : null,
+                                "trophies": obj.legendStatistics.currentSeason ? obj.legendStatistics.currentSeason.trophies : null
+                            }
+                        } : null,
+                        "versusBattleWinCount": obj.versusBattleWinCount,
+                        "date": new Date()
+                    });
+                    ph.save(function (error) {
+                        if (error){
+                            console.log(timeStamp() + error);
+                            return;
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
+
 module.exports =
     {
         updateClans: function (clansToFind, callBack) {
@@ -83,10 +156,11 @@ module.exports =
             });
         },
         updatePlayer: function(playerToUpdate){
-            Player.findOneAndUpdate({ tag: playerToUpdate.tag }, playerToUpdate, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, player) {
-                if (err)
-                    return;
-            });
+            // Player.findOneAndUpdate({ tag: playerToUpdate.tag }, playerToUpdate, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, player) {
+            //     if (err)
+            //         return;
+            // });
+            savePlayer(null, playerToUpdate);
         },
         updateRank: function(location){
             Rank.findOneAndUpdate({ location: location }, {date: new Date()}, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, rank) {
@@ -314,8 +388,12 @@ module.exports =
             ], function (err, response) {
                 if (err)
                     throw err;
-                if (response.length > 0)
+                if (response.length > 0){
+                    response.forEach(function(element, i) {
+                        element.rank = i+1;
+                    }, this);
                     callBack(null, {items: response});
+                }
                 else callBack(null, []);
             });
         },
