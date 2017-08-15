@@ -12,7 +12,7 @@
     width: 36px;
 }  
 
-.league-rank td:nth-of-type(4)
+.league-rank tbody td:nth-of-type(4)
 {
     background:url(../images/level.png);
     background-size: 36px 36px;
@@ -20,6 +20,11 @@
     background-position:0 4px;   
     text-align: center;
     width: 36px;
+}  
+
+.league-rank thead td
+{
+    font-weight: bold;
 }  
 
 .league-rank td:nth-of-type(2)
@@ -404,4 +409,27 @@
         text-align: center;
         width: 125px;
     }
+    .league-rank tbody tr > td:nth-of-type(2),
+    .league-rank tbody tr > td:nth-of-type(4),
+    .league-rank tbody tr > td:nth-of-type(6),
+    .league-rank tbody tr > td:nth-of-type(7)
+    {
+        display: none;
+    } 
+
+    .league-rank thead tr > td:nth-of-type(3)
+    {
+        width: 120px
+    }
+    /* .league-rank thead tr > td:nth-of-type(5){
+        width: 60px;
+    } */
+
+    .league-rank thead tr > td:nth-of-type(2),
+    .league-rank thead tr > td:nth-of-type(4),
+    .league-rank thead tr > td:nth-of-type(6),
+    .league-rank thead tr > td:nth-of-type(7)
+    {
+        display: none;
+    } 
 }

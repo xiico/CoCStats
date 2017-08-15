@@ -13,6 +13,15 @@ block content
       div(class="panel-heading")= _("Search Results")+":"
       div(class="panel-body table-responsive")
         table(class="table table-condensed league-rank tableResults")
+          thead
+            tr
+              td: | #
+              td: | League
+              td: | Name
+              td: | Level
+              td: | Trophies
+              td: | Attack Wins
+              td: | Defense Wins
           tbody      
             each player, k in searchResults.items
               tr
