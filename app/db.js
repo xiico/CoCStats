@@ -68,6 +68,15 @@ function savePlayer(error, obj) {
             player.trophies = obj.trophies;
             player.attackWins = obj.attackWins;
             player.defenseWins = obj.defenseWins;
+            if (obj.league) {
+                player.league = {
+                    "name": obj.league.name,
+                    "iconUrls": {
+                        "tiny": obj.league.iconUrls.tiny,
+                    }
+                }
+            }
+            
             player.save(function (error) {
                 if (error){
                     console.log(timeStamp() + error);

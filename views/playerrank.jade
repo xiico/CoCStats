@@ -32,7 +32,7 @@ block content
                   //-   if(player.rank != player.previousRank)
                   //-     div= player.previousRank > 0 ? player.previousRank - player.rank : "-"              
                 td
-                  if searchResults.league
+                  if player.league
                     image(src=searchResults.league.iconUrls.tiny title=searchResults.league.name)
                 td 
                   div(class="superCellFont fontSmall")
