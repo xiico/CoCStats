@@ -21,6 +21,7 @@ var playerSchema = mongoose.Schema(/*{
 {
   "tag": String,
   "name": String,
+  "date": Date,
   "townHallLevel": Number,
   "expLevel": Number,
   "league": {
