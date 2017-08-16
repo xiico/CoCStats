@@ -323,13 +323,18 @@ module.exports =
             // date.setUTCSeconds(0);
             // date.setUTCMilliseconds(0);
             var locationSearch = {};
-            if (params.location) locationSearch.location = parseInt(params.location);
-            else locationSearch.type = "global"
+            var dateSearch = {};
+            if (params.location) {
+                locationSearch.location = parseInt(params.location);
+            } else {
+                locationSearch.type = "global";                
+                dateSearch = {"entries.date": { $gte: date } };
+            }
             Rank.aggregate([
                 { "$unwind": "$entries" },
                 { "$unwind": "$entries.items" },
                 
-                { "$match": { $and: [locationSearch, {"entries.date": { $gte: date } }] } },
+                { "$match": { $and: [locationSearch, dateSearch] } },
                 //{ "$match": {"location":32000006} },
                 //{ "$match": { "entries.items.clanPoints": { $gte: 59000 } } },
                 { "$sort": {"entries.items.clanPoints":-1}},
