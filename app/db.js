@@ -169,7 +169,11 @@ module.exports =
             //     if (err)
             //         return;
             // });
-            savePlayer(null, playerToUpdate);
+            Player.find({ tag: playerToUpdate.tag }, function (err, player) {
+                if (err)
+                  return {};
+                if (!player) savePlayer(null, playerToUpdate);
+              });            
         },
         updateRank: function(location){
             Rank.findOneAndUpdate({ location: location }, {date: new Date()}, { upsert: true, new: true, setDefaultsOnInsert: true }, function (err, rank) {
