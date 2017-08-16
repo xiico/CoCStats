@@ -217,6 +217,7 @@ module.exports = function (app, passport) {
         });
       } else {
         res.locals.title = "Country Rank";
+        res.locals.locationName = locations.find(function(e){return e.id = req.params.id}).name;
         if(clans) db.updateRank(req.params.id);
         if (clans && (!clans.items[0].rank || !clans.items[0].previousRank)) {
           clans.items.forEach(function (item) {
