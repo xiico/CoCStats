@@ -172,7 +172,7 @@ module.exports =
             Player.find({ tag: playerToUpdate.tag }, function (err, player) {
                 if (err)
                   return {};
-                if (!player) savePlayer(null, playerToUpdate);
+                if (!player.length) savePlayer(null, playerToUpdate);
               });            
         },
         updateRank: function(location){
