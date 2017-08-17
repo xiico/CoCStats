@@ -440,7 +440,8 @@
     .league-rank thead tr > td:nth-of-type(2),
     .league-rank thead tr > td:nth-of-type(4),
     .league-rank thead tr > td:nth-of-type(6),
-    .league-rank thead tr > td:nth-of-type(7)
+    .league-rank thead tr > td:nth-of-type(7),
+    .glyphicon-minus
     {
         display: none;
     } 
@@ -448,5 +449,9 @@
     .glyphicon-triangle-bottom{
         left: -6px;
         top: 10px;
+    }
+    .glyphicon-triangle-top{
+        left: -6px;
+        top: -8px;
     }
 }
