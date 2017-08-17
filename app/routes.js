@@ -120,7 +120,7 @@ module.exports = function (app, passport) {
   // HOME PAGE (with login links) ========
   // =====================================
   app.get('/:lang?/', function (req, res) {
-    res.locals.title = "Main Page";
+    res.locals.title = "Stats Clash - A lightweight CoC stats page";
     if (req.user /*&& req.user.clans.length > 0*/) {
       var search = [];
       //If is the first time the page is loaded
@@ -188,7 +188,8 @@ module.exports = function (app, passport) {
   // =====================================
   // PLAYER RANK =========================
   // =====================================
-  app.get('/players/rank/:location?', /*isLoggedIn,*/ function (req, res) {
+  app.get('/:lang?/players/rank/:location?', /*isLoggedIn,*/ function (req, res) {
+    res.locals.title = "Players Rank";
     db.getPlayerRank({ latest: false, location: req.params.location }, function (err, players) {
       RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
     });
@@ -320,7 +321,7 @@ module.exports = function (app, passport) {
   });
 
   app.post('/:lang?/', /*isLoggedIn,*/ function (req, res) {
-    res.locals.title = "Main Page";
+    res.locals.title = "Stats Clash - A lightweight CoC stats page";
     if (req.body.hasOwnProperty("btnAdd") || req.body.hasOwnProperty("btnAddClanTag")) {
       if (req.user.clans.length < 10) {
         var newTag = req.body.addTag ? req.body.addTag : req.body.clanTag;
