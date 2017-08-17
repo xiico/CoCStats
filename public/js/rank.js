@@ -29,7 +29,18 @@ function drawChart(historyData) {
     //curveType: 'function',
     legend: { position: 'bottom' },
     chartArea: {'width': '85%', 'height': '75%'},
+    tooltip: { trigger: 'selection' }
   };
   var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+  chart.setAction({
+      id: 'rank',
+      text: 'clan details',
+      action: function (e) {
+          selection = chart.getSelection();
+          window.location.href = historyData[0][selection[0].column].link;
+      }
+  });
+
   chart.draw(data, options);
 }

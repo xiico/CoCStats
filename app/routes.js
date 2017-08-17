@@ -27,7 +27,7 @@ function formatChartData(entries){
   }, this);
   var clanNames = ["Date"]
   clans.forEach(function(clan) {
-    clanNames.push(clan.name);
+    clanNames.push({label:clan.name,type:"number",link:'/clans/' + clan.tag.replace('#','')});//clanNames.push(clan.name);//clanNames.push({value:clan.name,text:"link"});
   }, this);
   var chartData = [clanNames];
   entries.forEach(function (entry) {
