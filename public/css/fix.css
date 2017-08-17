@@ -444,4 +444,9 @@
     {
         display: none;
     } 
+
+    .glyphicon-triangle-bottom{
+        left: -6px;
+        top: 10px;
+    }
 }
