@@ -118,10 +118,7 @@
 .divA
 {  
     position: relative;
-    
-
-  background-color : green;
-  
+    background-color : green;  
     border-radius: 8px 0 8px 8px;
     padding: 8px;
 }
@@ -377,11 +374,39 @@
 .rank-font{
     font-size: 12px;
     text-align: center;
+    position: absolute;
 }
 
 .rank-arrows{
     margin-left: 2px;
 }
+
+.rank-number{
+    position: relative;
+    width: 20px;
+}
+
+.rank-position{
+    left: -12px;
+}
+
+.rank-variation{
+    left: 12px;
+    position: absolute;
+}
+
+.glyphicon-triangle-top{
+    position: absolute;
+    top: -7px;
+    left: 12px;
+}
+
+.glyphicon-triangle-bottom{
+    position: absolute;
+    top: 10px;
+    left: 12px;
+}
+
 
 @media (min-width: 540px) and (max-width: 768px) {
   .col-spell{
@@ -446,12 +471,12 @@
         display: none;
     } 
 
-    .glyphicon-triangle-bottom{
+    /* .glyphicon-triangle-bottom{
         left: -6px;
         top: 10px;
     }
     .glyphicon-triangle-top{
         left: -6px;
         top: -8px;
-    }
+    } */
 }
