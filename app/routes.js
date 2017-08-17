@@ -206,7 +206,7 @@ module.exports = function (app, passport) {
           return parseFloat(b.clanPoints) - parseFloat(a.clanPoints);
         });
 
-        clans.items = clans.items.slice(0,199);
+        clans.items = clans.items.slice(0,200);
 
         db.getRank({latest:true, type:"global"}, function (err, entries) {
           clans.items.forEach(function (item) {
