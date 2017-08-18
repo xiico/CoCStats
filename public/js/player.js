@@ -27,6 +27,7 @@ function requestClans(div){
         success: function (data) {
             
             for(var i = 0, clan; clan = data[i]; i++) {
+                if(!clan._id.clanTag) continue;
                 div.append('<a class="clan-link" href="/clans/'+clan._id.clanTag.replace('#','')+'" alt="'+clan._id.clanTag+'"><span class="clan-name">'+clan._id.clanName+'</span></a>&nbsp;('+ clan.date +')<br>');
             }
         },
