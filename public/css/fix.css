@@ -407,6 +407,10 @@
     left: 12px;
 }
 
+.glyphicon-minus{
+    left: 12px;
+}
+
 
 @media (min-width: 540px) and (max-width: 768px) {
   .col-spell{
