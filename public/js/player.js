@@ -7,7 +7,7 @@ function requestChartData(chart){
         url: '/playerhistory/' + chart.attr("data-tag") + '/' + chart.attr("data-type") ,
         dataType: "json",
         success: function (data) {
-            if(data) {
+            if(data && data.length > 1) {
                 google.charts.setOnLoadCallback(function(){drawChart(data, chart.attr("id"), chart.attr("data-type-name"))});
             }
         },
