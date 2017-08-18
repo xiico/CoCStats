@@ -105,12 +105,12 @@ module.exports = function (app, passport) {
       _: _,
       clanRoles: clanRoles,
       searchResults: searchResults,
-      clan: searchResults ? searchResults.items[0] : null,
+      clan: searchResults && searchResults.items ? searchResults.items[0] : null,
       message: message ? message : "",
       locations: locations,
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
-      player: searchResults && searchResults.items.length > 0 && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
+      player: searchResults && searchResults.items && searchResults.items.length > 0 && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
       params: req.params
     };
     res.render(page, pageObjects); // load the index.ejs file

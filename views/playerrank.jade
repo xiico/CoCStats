@@ -27,7 +27,10 @@ block content
             each player, k in searchResults.items
               tr
                 td
-                  div(class="float-left width-50")= player.rank
+                  div.player-rank-number
+                    div(class="float-left width-50")= player.rank
+                    if player.location[0]
+                      img(src="/images/blank.gif" class="flag flag-"+((player.location[0].countryCode?player.location[0].countryCode:'UN').toLowerCase()) alt="Country" title=player.location[0].name)
                   //- div(class="float-left width-50 rank-font")
                   //-   span(class=(player.rank == player.previousRank || !player.previousRank ? "glyphicon glyphicon-minus": (player.previousRank < 1 || player.rank < player.previousRank ? "glyphicon glyphicon-triangle-top color-green" : "glyphicon glyphicon-triangle-bottom color-red")))
                   //-   if(player.rank != player.previousRank)
