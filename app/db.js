@@ -40,11 +40,11 @@ function getFirstMonday(date) {
 
 function getClanHistoryStartDate(){
     var date = new Date();
-    if(getFirstMonday(date).getDate() >= date.getDate) 
-        return getFirstMonday(date);
+    if(getFirstMonday(date).getDate() >= date.getDate()) 
+        return new Date(getFirstMonday(date).toISOString().substr(0,10));
     else {
         date.setMonth(date.getMonth() - 1);
-        return getFirstMonday(date);
+        return new Date(getFirstMonday(date).toISOString().substr(0,10));
     }        
 }
 
@@ -298,6 +298,7 @@ module.exports =
                     throw err;
                 if (response.length > 0)
                     callBack(null, response[0].history);
+                else callBack(null, []);
             });
 
             // clanHistory.find({ tag: "#" + tag }, {"history":{$slice:28}}, function (err, response) {
