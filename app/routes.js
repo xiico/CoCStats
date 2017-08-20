@@ -164,8 +164,10 @@ module.exports = function (app, passport) {
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
     res.locals.title = "Clan Details"
     db.searchClans('Tag', req.params.id, null, function (err, clans) {
-        UpdateClans([clans.tag], function(){});
-        RenderPage('clan', req, res, [], { items: [clans] });
+      if (!err && clans.tag) {
+        UpdateClans([clans.tag], function () { });
+      }
+      RenderPage('clan', req, res, [], { items: [clans] });
     });
   });
 
