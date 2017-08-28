@@ -8,6 +8,8 @@ var clansToReturn = function (err, clan) {
     ctr[ctr.length] = clan;
 };
 
+var minClanPoints = [54000];
+
 module.exports = {
     searchClans: function (searchType, tag, options, callBack) {
         var path = '/v1/clans';
@@ -29,7 +31,7 @@ module.exports = {
                 break;
             case 'rank':
                 if (!tag)
-                    path = '/v1/clans?minClanPoints=54000';
+                    path = '/v1/clans?minClanPoints='+minClanPoints;
                 else
                     path = '/v1/locations/' + tag + '/rankings/clans?limit=50';
                 break;
@@ -68,6 +70,9 @@ module.exports = {
                     console.log("body size: " + body.length);
 
                     if(body.length < 50) console.log("body content: " + body);
+
+                    if(body.items.length==0) minClanPoints[0]-=1000;
+                    if(body.items.length>200) minClanPoints[0]+=1000;
 
                     if(searched.message) console.log(searched.message);
                     var local = !!searched.message;
