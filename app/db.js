@@ -38,6 +38,11 @@ function getFirstMonday(date) {
     return date;
 }
 
+
+function timeStamp() {
+    return "[" + new Date().toISOString() + "]";
+}
+
 function getClanHistoryStartDate(){
     var date = new Date();
     if(getFirstMonday(date).getDate() >= date.getDate()) 
