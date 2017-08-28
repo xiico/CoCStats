@@ -67,7 +67,7 @@ module.exports = {
                     var searched = JSON.parse(body);
                     console.log("body size: " + body.length);
 
-                    if(body.length < 40) console.log("body content: " + body);
+                    if(body.reason) console.log("body content: " + body);
 
                     if(searched.message) console.log(searched.message);
                     var local = !!searched.message;
