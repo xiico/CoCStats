@@ -412,6 +412,14 @@ module.exports =
                 {
                     "$unwind": "$memberList"
                 },
+                {
+                    $lookup: {
+                        from: "playerhistories",
+                        localField: "memberList.tag",
+                        foreignField: "tag",
+                        as: "player_history"
+                    }
+                },
                 { "$sort": {"memberList.trophies":-1}},
                 {
                     "$project": {
@@ -429,7 +437,8 @@ module.exports =
                         league: "$memberList.league",
                         location: "$location",
                         clanRank: "$memberList.clanRank",
-                        versusTrophies: "$memberList.versusTrophies"
+                        versusTrophies: "$memberList.versusTrophies",
+                        history:{ $size: "$player_history" },
                     }
                 },
                 { "$match": { $and: [locationSearch] } },
@@ -458,6 +467,14 @@ module.exports =
                         as: "player_clan"
                     }
                 },
+                {
+                    $lookup: {
+                        from: "playerhistories",
+                        localField: "tag",
+                        foreignField: "tag",
+                        as: "player_history"
+                    }
+                },
                 { "$sort": { "trophies": -1 } },
                 {
                     $project:{
@@ -468,7 +485,8 @@ module.exports =
                         league: "$league",
                         expLevel: "$expLevel",
                         trophies: "$trophies",
-                        versusTrophies: "$versusTrophies"
+                        versusTrophies: "$versusTrophies",
+                        history:{ $size: "$player_history" },
                     }
                 },
                 { "$match": {clan : null }},

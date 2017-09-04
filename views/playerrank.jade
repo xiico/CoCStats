@@ -44,6 +44,8 @@ block content
                   div(class="superCellFont fontSmall")
                     a(class="player-link" href="/player/"+ player.tag.replace('#','') alt=player.tag)
                       span= player.name
+                      if player.history
+                        span.player-history(class="glyphicon glyphicon-stats")
                   if player.clan
                     div
                       image(class="player-clan-badge" src=player.clan.badgeUrls.small)
