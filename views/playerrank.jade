@@ -29,7 +29,7 @@ block content
                 td
                   div.player-rank-number
                     div(class="float-left width-50")= player.rank
-                    if player.location[0]
+                    if player.location
                       //- a(href='rank/'+player.location[0].id)
                       a(href='rank/'+player.location.id)
                         img(src="/images/blank.gif" class="flag flag-"+((player.location.countryCode?player.location.countryCode:'UN').toLowerCase()) alt="Country" title=player.location.name)
