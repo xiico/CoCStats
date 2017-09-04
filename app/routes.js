@@ -192,8 +192,17 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/players/rank/:location?', /*isLoggedIn,*/ function (req, res) {
     res.locals.title = "Players Rank";
-    db.getPlayerRank({ latest: false, location: req.params.location }, function (err, players) {
-      RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
+    db.getClanPlayerRank({ latest: false, location: req.params.location }, function (err, clanPlayers) {
+      db.getSoloPlayerRank({ latest: false, location: req.params.location }, function (err, soloPlayers) {
+        var concatItems = clanPlayers.items.concat(soloPlayers.items);
+        var players = clanPlayers;
+        players.items = concatItems;
+        players.items.sort(function (a, b) {
+          return parseFloat(b.trophies) - parseFloat(a.trophies);
+        });
+        players.items = players.items.slice(0,200);
+        RenderPage('playerrank', req, res, [], players, req.flash("rankMessage"));
+      });
     });
   });  
 

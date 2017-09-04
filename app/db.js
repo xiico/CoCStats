@@ -288,7 +288,7 @@ module.exports =
                 // Unwind the array to denormalize
                 { "$unwind": "$history" },
 
-                { "$match": { "history.date": { $gte: getClanHistoryStartDate() } } },
+                //{ "$match": { "history.date": { $gte: getClanHistoryStartDate() } } },
 
                 // Group back to array form
                 {
@@ -382,7 +382,7 @@ module.exports =
                 else callBack(null, []);
             });
         },
-        getPlayerRank: function (params, callBack) {
+        getClanPlayerRank: function (params, callBack) {
             var locationSearch = {};
             if (params.location) locationSearch = {'location.id':parseInt(params.location)};
             //Player.aggregate([
@@ -434,6 +434,46 @@ module.exports =
                 },
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 200 }//200
+            ], function (err, response) {
+                if (err)
+                    throw err;
+                if (response.length > 0){
+                    response.forEach(function(element, i) {
+                        element.rank = i+1;
+                    }, this);
+                    callBack(null, {items: response});
+                }
+                else callBack(null, []);
+            });
+        },
+        getSoloPlayerRank: function (params, callBack) {
+            var locationSearch = {};
+            if (params.location) locationSearch = {'location.id':parseInt(params.location)};
+            Player.aggregate([            
+                {
+                    $lookup: {
+                        from: "clans",
+                        localField: "clan.tag",
+                        foreignField: "tag",
+                        as: "player_clan"
+                    }
+                },
+                { "$sort": { "trophies": -1 } },
+                {
+                    $project:{
+                        tag : "$tag",
+                        name: "$name",
+                        location: "$player_clan.location",
+                        clan: "$clan",
+                        league: "$league",
+                        expLevel: "$expLevel",
+                        trophies: "$trophies",
+                        versusTrophies: "$versusTrophies"
+                    }
+                },
+                { "$match": {clan : null }},
+                { "$match": { $and: [locationSearch] } },
+                { "$limit": 100 }//200
             ], function (err, response) {
                 if (err)
                     throw err;

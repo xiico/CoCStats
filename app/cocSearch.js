@@ -113,7 +113,7 @@ module.exports = {
         }).on('error', function (err) {
             // handle errors with the request itself
             console.error('Error with the request:', err.message);
-            cb(err);
+            callBack(err);
         });
     }
 
