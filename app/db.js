@@ -421,7 +421,10 @@ module.exports =
                         "trophies": "$memberList.trophies",
                         "clan": {
                             "tag": "$tag",
-                            "name": "$name"
+                            "name": "$name",
+                            badgeUrls: {
+                                small: "$badgeUrls.small"
+                            },
                         },
                         league: "$memberList.league",
                         location: "$location",
