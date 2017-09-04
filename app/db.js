@@ -385,8 +385,9 @@ module.exports =
         getPlayerRank: function (params, callBack) {
             var locationSearch = {};
             if (params.location) locationSearch = {'location.id':parseInt(params.location)};
-            Player.aggregate([
-                {
+            //Player.aggregate([
+            Clan.aggregate([
+                /*{
                     $lookup: {
                         from: "clans",
                         localField: "clan.tag",
@@ -407,7 +408,27 @@ module.exports =
                         attackWins: "$attackWins",
                         defenseWins: "$defenseWins"
                     }
-                },                
+                },*///Old query
+                {
+                    "$unwind": "$memberList"
+                },
+                { "$sort": {"memberList.trophies":-1}},
+                {
+                    "$project": {
+                        "name": "$memberList.name",
+                        "tag": "$memberList.tag",
+                        "expLevel": "$memberList.expLevel",
+                        "trophies": "$memberList.trophies",
+                        "clan": {
+                            "tag": "$tag",
+                            "name": "$name"
+                        },
+                        league: "$memberList.league",
+                        location: "$location",
+                        clanRank: "$memberList.clanRank",
+                        versusTrophies: "$memberList.versusTrophies"
+                    }
+                },
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 200 }//200
             ], function (err, response) {

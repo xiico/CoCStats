@@ -21,8 +21,8 @@ block content
               td: | Name
               td: | Level
               td: | Trophies
-              td: | Attack Wins
-              td: | Defense Wins
+              td: | Clan Rank
+              td: | Versus Trophies
           tbody      
             each player, k in searchResults.items
               tr
@@ -50,8 +50,8 @@ block content
                         span(class="clan-name")= player.clan.name
                 td(class="superCellFont fontSmall")= player.expLevel                                                 
                 td(class="superCellFont")= player.trophies
-                td= player.attackWins
-                td= player.defenseWins
+                td= (player.clanRank ? player.clanRank : '-')
+                td= (player.versusTrophies ? player.versusTrophies : '-')
                 //td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/rank.js')
