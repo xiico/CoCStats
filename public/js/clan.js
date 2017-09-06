@@ -2,7 +2,7 @@ $(document).ready(function() {
         $('.table-results').DataTable({
         "pagingType": "numbers",
         "aoColumnDefs": [
-            { "sType": "html", "aTargets": [ 0 ] }
+            { "sType": "num-html", "aTargets": [ 0 ] }
           ]
         });
     } );
