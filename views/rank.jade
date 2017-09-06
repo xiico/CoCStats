@@ -24,8 +24,7 @@ block content
         tbody      
           each item, k in searchResults.items
             tr
-              td
-                | #{item.rank}
+              td(data-sort=item.rank)
                 div.rank-number
                   div.rank-position(class="float-left width-50 rank-font")= item.rank
                   div(class="float-left width-50 rank-font")
