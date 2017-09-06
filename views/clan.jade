@@ -48,7 +48,16 @@ block content
   div(class="panel panel-default")
     div(class="panel-heading")= _("Members")+":"
     div(class="panel-body table-responsive")
-      table(class="table table-condensed clanMembers tableResults")
+      table(class="table table-results table-condensed clanMembers tableResults")
+        thead
+          tr
+            th: | League
+            th: | Name
+            th: | Level
+            th: | Trophies
+            th: | Donations
+            th: | Received     
+            th: | Ratio
         tbody      
           each member, k in clan.memberList
             tr
@@ -65,3 +74,5 @@ block content
               td= (parseInt(member.donations)/parseInt(member.donationsReceived != 0 ? member.donationsReceived : 1 )).toFixed(3)
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/clan.js')
+  script(type='text/javascript' src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js')
+  link(rel="stylesheet", href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css")   

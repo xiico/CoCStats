@@ -1,3 +1,6 @@
+$(document).ready(function() {
+        $('.table-results').DataTable({"pagingType": "numbers"});
+    } );
 $("#btnSave").click(function (e) {
     e.preventDefault();
     //show loading gif
