@@ -2,7 +2,7 @@ $(document).ready(function() {
         $('.table-results').DataTable({
         "pagingType": "numbers",
         "columns": [
-            { "type": "html" },
+            { "type": "num" },
             null,
             null,
             null,
