@@ -6,6 +6,12 @@
     width: 8px;
 }
 
+.clanRank th:nth-of-type(1){
+    width: 10px;
+}
+.clanRank th:nth-of-type(2){
+    width: 55px;
+}
 .clanMembers td:nth-of-type(4)
 {
     background:url(../images/level.png);
