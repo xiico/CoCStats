@@ -1,5 +1,10 @@
 $(document).ready(function() {
-        $('.table-results').DataTable({"pagingType": "numbers"});
+        $('.table-results').DataTable({
+        "pagingType": "numbers",
+        "aoColumnDefs": [
+            { "sType": "html", "aTargets": [ 0 ] }
+          ]
+        });
     } );
 $("#btnSave").click(function (e) {
     e.preventDefault();
