@@ -105,7 +105,7 @@ block content
                       //td(class="superCellFont fontSmall")= item.clanLevel                                                 
                       td(class="superCellFont")= item.clanPoints
                       td= item.members 
-                      td #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")] #[span.hidden=item.isWarLogPublic]
+                      td(data-sort=item.isWarLogPublic) #[img(class="warLogImage" src="/images/warlog"+(item.isWarLogPublic?'':'_dis')+".png")]
                       td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
         div(id="delClan" class="tab-pane fade")
           h3 Choose a clan to remove from your list. 
