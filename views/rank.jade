@@ -12,7 +12,15 @@ block content
   if(searchResults)
     div(class="panel-heading")= _("Results")+":"
     div(class="panel-body table-responsive searchResults")
-      table(class="table table-condensed tableResults")
+      table(class="table table-results table-condensed tableResults")
+        thead
+          tr
+            th: | #
+            th: | Level
+            th: | Name
+            th: | Points
+            th: | Members
+            th: |     
         tbody      
           each item, k in searchResults.items
             tr
@@ -31,3 +39,6 @@ block content
               td #[a(class="btn btn-primary" href="/clans/"+ item.tag.replace('#','') style="float:right;margin-top:10px;") Details]
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
   script(type='text/javascript' src='/js/rank.js')
+  script(type='text/javascript' src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+  script(type='text/javascript' src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js')
+  link(rel="stylesheet", href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css")

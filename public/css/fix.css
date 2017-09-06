@@ -17,7 +17,7 @@
     background:url(../images/level.png);
     background-size: 42px 42px;
     background-repeat: no-repeat;
-    background-position: 3px 4px;   
+    background-position: 9px 4px;   
     text-align: center;
     width: 36px;
 }  
@@ -462,6 +462,14 @@
     {
         display: none;
     } 
+    .league-rank thead tr > th:nth-of-type(2),
+    .league-rank thead tr > th:nth-of-type(4),
+    .league-rank thead tr > th:nth-of-type(6),
+    .league-rank thead tr > th:nth-of-type(7)
+    {
+        display: none;
+    } 
+    
 
     .league-rank tbody tr > td:nth-of-type(3) .player-link {
         margin-right: 4px;
@@ -475,9 +483,9 @@
         display: none;
     }
 
-    .league-rank thead tr > td:nth-of-type(3)
+    .league-rank thead tr > th:nth-of-type(3)
     {
-        width: 160px
+        width: 120px
     }
     /* .league-rank thead tr > td:nth-of-type(5){
         width: 60px;

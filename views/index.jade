@@ -86,7 +86,16 @@ block content
           if(searchResults)
             div(class="panel-heading")= _("Results")+":"
             div(class="panel-body table-responsive searchResults")
-              table(class="table table-condensed tableResults")
+              table(class="table table-results table-condensed tableResults")
+                thead
+                  tr
+                    th: | #
+                    th: | Level
+                    th: | Name
+                    th: | Points
+                    th: | Members
+                    th: | War log
+                    th
                 tbody      
                   each item, k in searchResults.items
                     tr
@@ -105,3 +114,10 @@ block content
                 each cnt, i in clans 
                   option(value=cnt.tag)= cnt.tag + ' ' + cnt.name
             button(class="btn btn-primary" type="submit" name="btnDel" style="float:right;") Remove
+  script.
+    $(document).ready(function() {
+        $('.table-results').DataTable({"pagingType": "numbers"});
+    } );
+  script(type='text/javascript' src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+  script(type='text/javascript' src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js')
+  link(rel="stylesheet", href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css")    

@@ -1,3 +1,6 @@
+$(document).ready(function() {
+        $('.table-results').DataTable({"pagingType": "numbers"});
+    } );
 google.charts.load('current', {'packages':['corechart']});
 //retrieve clan history
 var ajaxRequest = {
