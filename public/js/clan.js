@@ -1,15 +1,10 @@
 $(document).ready(function() {
-        $('.table-results').DataTable(/*{
+        $('.table-results').DataTable({
         "pagingType": "numbers",
-        "columns": [
-            { "type": "num" },
-            null,
-            null,
-            null,
-            null,
-            null
+        "columnDefs": [
+            { "type": "html-num", "targets": 0 }
           ]
-        }*/);
+        });
     } );
 $("#btnSave").click(function (e) {
     e.preventDefault();
