@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        $('.table-results').DataTable({
+        $('.table-results').DataTable(/*{
         "pagingType": "numbers",
         "columns": [
             { "type": "num" },
@@ -9,7 +9,7 @@ $(document).ready(function() {
             null,
             null
           ]
-        });
+        }*/);
     } );
 $("#btnSave").click(function (e) {
     e.preventDefault();
