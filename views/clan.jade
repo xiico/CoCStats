@@ -51,6 +51,7 @@ block content
       table(class="table table-results table-condensed clanMembers tableResults")
         thead
           tr
+            th: | #
             th: | League
             th: | Name
             th: | Level
@@ -61,6 +62,7 @@ block content
         tbody      
           each member, k in clan.memberList
             tr
+              td= (k+1)+'.'
               td #[image(src=member.league.iconUrls.tiny title=member.league.name)] #[span.hidden=member.league.id]
               td 
                 div(class="superCellFont fontSmall")
