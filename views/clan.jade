@@ -61,7 +61,7 @@ block content
         tbody      
           each member, k in clan.memberList
             tr
-              td #[image(src=member.league.iconUrls.tiny title=member.league.name)]                  
+              td #[image(src=member.league.iconUrls.tiny title=member.league.name)] #[span.hidden=member.league.id]
               td 
                 div(class="superCellFont fontSmall")
                   a( class="player-link" href="/player/"+ member.tag.replace('#','') alt=member.tag)
