@@ -26,7 +26,7 @@ block content
             tr
               td
                 div.rank-number
-                  div.rank-position(class="float-left width-50 rank-font")= item.rank
+                  div.rank-position(class="float-left width-50 rank-font")= item.rank+'.'
                   div(class="float-left width-50 rank-font")
                     span(class=(item.rank == item.previousRank ? "glyphicon glyphicon-minus": (item.previousRank < 1 || item.rank < item.previousRank ? "glyphicon glyphicon-triangle-top color-green" : "glyphicon glyphicon-triangle-bottom color-red")))
                     if(item.rank != item.previousRank)
