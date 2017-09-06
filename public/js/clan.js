@@ -1,8 +1,8 @@
 $(document).ready(function() {
         $('.table-results').DataTable({
         "pagingType": "numbers",
-        "aoColumnDefs": [
-            { "sType": "num-html", "aTargets": [ 0 ] }
+        "columnDefs": [
+            { "type": "html-num", "targets": 0 }
           ]
         });
     } );
