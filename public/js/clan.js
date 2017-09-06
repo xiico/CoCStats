@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        $('.table-results').DataTable({"pagingType": "numbers"});
+        $('.table-results').DataTable();
     } );
 $("#btnSave").click(function (e) {
     e.preventDefault();
