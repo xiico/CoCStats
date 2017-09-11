@@ -194,7 +194,7 @@ module.exports = function (app, passport) {
     res.locals.title = "Players Rank";
     db.getClanPlayerRank({ latest: false, location: req.params.location }, function (err, clanPlayers) {
       db.getSoloPlayerRank({ latest: false, location: req.params.location }, function (err, soloPlayers) {
-        var concatItems = clanPlayers.items.concat(soloPlayers.items);
+        var concatItems =  soloPlayers.items ? clanPlayers.items.concat(soloPlayers.items) : clanPlayers.items;
         var players = clanPlayers;
         players.items = concatItems;
         players.items.sort(function (a, b) {
