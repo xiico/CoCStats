@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        $('.table-results').DataTable({"pagingType": "numbers"});
+        $('.table-results').DataTable({"pagingType": "numbers", stateSave: true});
     } );
 google.charts.load('current', {'packages':['corechart']});
 //retrieve clan history

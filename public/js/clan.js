@@ -1,9 +1,7 @@
 $(document).ready(function() {
         $('.table-results').DataTable({
         "pagingType": "numbers",
-        "columnDefs": [
-            { "type": "html-num", "targets": 0 }
-          ]
+        stateSave: true
         });
     } );
 $("#btnSave").click(function (e) {
