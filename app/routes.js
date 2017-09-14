@@ -163,7 +163,7 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/clans/:id', /*isLoggedIn,*/ function (req, res) {
     res.locals.title = "Clan Details"
-    db.searchClans('Tag', req.params.id, null, function (err, clans) {
+    db.searchClans('Tag', req.params.id.toUpperCase(), null, function (err, clans) {
       if (!err && clans.tag) {
         UpdateClans([clans.tag], function () { });
       }
@@ -176,7 +176,7 @@ module.exports = function (app, passport) {
   // =====================================
   app.get('/:lang?/player/:id', /*isLoggedIn,*/ function (req, res) {
     res.locals.title = "Player Details";
-    db.searchPlayers('Tag', req.params.id, null, function (err, player) {
+    db.searchPlayers('Tag', req.params.id.toUpperCase(), null, function (err, player) {
       if (player) db.updatePlayer(player);
       RenderPage('player', req, res, [], { items: [player] });
     });
@@ -263,7 +263,7 @@ module.exports = function (app, passport) {
   // PLAYER CLANS =========================
   // =====================================
   app.get('/playerclans/:tag', /*isLoggedIn,*/ function (req, res) {
-    db.getPlayerClans(req.params.tag, function (err, clans) {
+    db.getPlayerClans(req.params.tag.toUpperCase(), function (err, clans) {
       res.send(clans);
     });
   });  
@@ -272,7 +272,7 @@ module.exports = function (app, passport) {
   // PLAYER RANK CHART ===================
   // =====================================
   app.get('/playerhistory/:player/:type', /*isLoggedIn,*/ function (req, res) {
-    db.getPlayerHistory(req.params.player, req.params.type, function (err, history) {
+    db.getPlayerHistory(req.params.player.toUpperCase(), req.params.type, function (err, history) {
       if (err) {
         console.error(err)
         res.send("db error.")
@@ -291,15 +291,15 @@ module.exports = function (app, passport) {
   // =====================================
   // SAVE CLAN ===========================
   // =====================================
-  app.get('/saveclan/:id', /*isLoggedIn,*/ function (req, res) {
+  app.get('/saveclan/:tag', /*isLoggedIn,*/ function (req, res) {
     if (req.user && req.user.clans.length < 10) {
 
-      if(req.user.clans.map(function (x) { return x.tag; }).indexOf("#" + req.params.id) > -1){
+      if(req.user.clans.map(function (x) { return x.tag; }).indexOf("#" + req.params.tag.toUpperCase()) > -1){
         res.send({error:"clan already added!"});
         return;
       }
 
-      var newTag = "#" + req.params.id;
+      var newTag = "#" + req.params.tag.toUpperCase();
       for (var index = 0; index < req.user.clans.length; index++)
         req.user.clans[index].active = false;
 
@@ -314,8 +314,8 @@ module.exports = function (app, passport) {
   // =====================================
   // CLAN HISTORY ========================
   // =====================================
-  app.get('/clanhistory/:id', /*isLoggedIn,*/ function (req, res) {
-      db.getClanHistory(req.params.id, function (err, history) {
+  app.get('/clanhistory/:tag', /*isLoggedIn,*/ function (req, res) {
+      db.getClanHistory(req.params.tag.toUpperCase(), function (err, history) {
         if (err) {
           console.error(err)
           res.send("db error.")
