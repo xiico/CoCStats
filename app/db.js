@@ -45,10 +45,10 @@ function timeStamp() {
 
 function getClanHistoryStartDate(){
     var date = new Date();
-    if(getFirstMonday(date).getDate() >= date.getDate()) 
-        return new Date(getFirstMonday(date).toISOString().substr(0,10));
+    if(getFirstMonday(new Date()).getDate() <= new Date().getDate()) 
+        return new Date(getFirstMonday(new Date()).toISOString().substr(0,10));
     else {
-        date.setMonth(date.getMonth() - 1);
+        date.setMonth(new Date().getMonth() - 1);
         return new Date(getFirstMonday(date).toISOString().substr(0,10));
     }        
 }
