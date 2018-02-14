@@ -492,9 +492,7 @@ module.exports =
                 { "$match": {clan : null }},
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 100 }//200
-            ],
-                {allowDiskUse: true},
-            function (err, response) {
+            ], function (err, response) {
                 if (err)
                     throw err;
                 if (response.length > 0){
@@ -504,7 +502,7 @@ module.exports =
                     callBack(null, {items: response});
                 }
                 else callBack(null, []);
-            });
+            }).allowDiskUse(true);
         },
         getPlayerClans: function (tag, callBack) {
             playerHistory.aggregate([
