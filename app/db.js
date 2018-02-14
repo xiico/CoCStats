@@ -492,7 +492,9 @@ module.exports =
                 { "$match": {clan : null }},
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 100 }//200
-            ], function (err, response) {
+            ],
+                {allowDiskUse: true},
+            function (err, response) {
                 if (err)
                     throw err;
                 if (response.length > 0){
