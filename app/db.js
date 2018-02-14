@@ -458,7 +458,7 @@ module.exports =
         getSoloPlayerRank: function (params, callBack) {
             var locationSearch = {};
             if (params.location) locationSearch = {'location.id':parseInt(params.location)};
-            Player.aggregate([            
+            var aggregation = Player.aggregate([            
                 {
                     $lookup: {
                         from: "clans",
@@ -492,7 +492,8 @@ module.exports =
                 { "$match": {clan : null }},
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 100 }//200
-            ], function (err, response) {
+            ]);
+            aggregation.exec(function (err, response) {
                 if (err)
                     throw err;
                 if (response.length > 0){
@@ -502,7 +503,7 @@ module.exports =
                     callBack(null, {items: response});
                 }
                 else callBack(null, []);
-            }).allowDiskUse(true);
+            });
         },
         getPlayerClans: function (tag, callBack) {
             playerHistory.aggregate([
