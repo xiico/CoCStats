@@ -493,6 +493,7 @@ module.exports =
                 { "$match": { $and: [locationSearch] } },
                 { "$limit": 100 }//200
             ]);
+            aggregation.options = { allowDiskUse: true }; 
             aggregation.exec(function (err, response) {
                 if (err)
                     throw err;
