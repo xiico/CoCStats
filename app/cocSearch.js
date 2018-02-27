@@ -71,7 +71,7 @@ module.exports = {
 
                     if(body.length < 50) console.log("body content: " + body);
 
-                    if(searched.items && searched.items.length==0) minClanPoints[0]-=1000;
+                    if(searched.items && searched.items.length<100) minClanPoints[0]-=1000;
                     if(searched.items && searched.items.length>200) minClanPoints[0]+=1000;
 
                     if(searched.message) console.log(searched.message);
