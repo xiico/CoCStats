@@ -92,7 +92,7 @@ module.exports = function (app, passport) {
 
   var _;
 
-  function RenderPage(page, req, res, userClans, searchResults, message) {
+  function RenderPage(page, req, res, userClans, searchResults, message, error) {
     _ = function (msgid) {
       return localization(msgid, (!req.params.lang ? "en" : req.params.lang));
     }
@@ -111,7 +111,8 @@ module.exports = function (app, passport) {
       lstLocation: req.body.location,
       countryCode: req.body.location ? locations.filter(function (locations) { return locations.id == req.body.location; })[0].countryCode.toLowerCase() : undefined,
       player: searchResults && searchResults.items && searchResults.items.length > 0 && searchResults.items[0].playerSearch ? searchResults.items[0] : null,
-      params: req.params
+      params: req.params,
+      error: error
     };
     res.render(page, pageObjects); // load the index.ejs file
   }
@@ -178,7 +179,7 @@ module.exports = function (app, passport) {
     res.locals.title = "Player Details";
     db.searchPlayers('Tag', req.params.id.toUpperCase(), null, function (err, player) {
       if (player) db.updatePlayer(player);
-      if (err) RenderPage('error', req, res, [], {}, err.message);
+      if (err) RenderPage('error', req, res, [], {}, err.message, {status:"Player Error",stack:"Error"});
       else
         RenderPage('player', req, res, [], { items: [player] });
     });
