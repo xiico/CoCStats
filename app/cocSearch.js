@@ -85,7 +85,7 @@ module.exports = {
                         //console.log(body);
                     }
 
-                    if(searched.reason) error = {message:body.reson};
+                    if(searched.reason) error = {message:body.reason};
                     
                     if(local && searchType == "Tag") searched = mock.clan;                
 
