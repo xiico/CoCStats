@@ -85,7 +85,7 @@ module.exports = {
                         //console.log(body);
                     }
 
-                    if(searched.reason) error = body;
+                    if(searched.reason) error = searched;
                     
                     if(local && searchType == "Tag") searched = mock.clan;                
 
@@ -111,7 +111,7 @@ module.exports = {
                     return callBack(err);
                 }
 
-                callBack(searched, searched);
+                callBack(error, searched);
             });
         }).on('error', function (err) {
             // handle errors with the request itself
