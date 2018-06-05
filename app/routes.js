@@ -179,7 +179,7 @@ module.exports = function (app, passport) {
     res.locals.title = "Player Details";
     db.searchPlayers('Tag', req.params.id.toUpperCase(), null, function (err, player) {
       if (player) db.updatePlayer(player);
-      if (err) RenderPage('error', req, res, [], {}, err.message, {status:"Player Error",stack:"Error"});
+      if (err) RenderPage('error', req, res, [], {}, err, {status:"Player Error",stack:"Error"});
       else
         RenderPage('player', req, res, [], { items: [player] });
     });
