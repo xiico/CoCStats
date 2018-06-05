@@ -238,7 +238,7 @@ module.exports =
         searchPlayers: function (searchType, tag, options, callBack) {
             cocSearch.searchPlayers(searchType, tag, options, function (err, returnedPlayers) {
                 if (err)
-                    throw err;
+                callBack(err);
                 if (returnedPlayers){
                     returnedPlayers.playerSearch = true;
                     callBack(null, returnedPlayers);
