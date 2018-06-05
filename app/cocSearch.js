@@ -111,7 +111,7 @@ module.exports = {
                     return callBack(err);
                 }
 
-                callBack(error, searched);
+                callBack(searched, searched);
             });
         }).on('error', function (err) {
             // handle errors with the request itself
