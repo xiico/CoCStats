@@ -64,6 +64,7 @@ module.exports = {
 
             // do whatever we want with the response once it's done
             res.on('end', function () {
+                var error
                 try {
                     var isets = 0;
                     var searched = JSON.parse(body);
@@ -83,6 +84,8 @@ module.exports = {
                     } else {
                         //console.log(body);
                     }
+
+                    if(searched.reason) error = {message:body.reson};
                     
                     if(local && searchType == "Tag") searched = mock.clan;                
 
@@ -108,7 +111,7 @@ module.exports = {
                     return callBack(err);
                 }
 
-                callBack(null, searched);
+                callBack(error, searched);
             });
         }).on('error', function (err) {
             // handle errors with the request itself
