@@ -43,7 +43,7 @@ block content
                     span.hidden= player.league.id
                 td 
                   div(class="superCellFont fontSmall")
-                    a(class="player-link" href="/player/"+ player.tag.replace('#','') alt=player.tag)
+                    a(class="player-link" href="/player/"+ (player.tag ? player.tag : "").replace('#','') alt=player.tag)
                       span= player.name
                       if player.history
                         span.player-history(class="glyphicon glyphicon-stats")
