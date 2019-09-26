@@ -196,7 +196,7 @@ module.exports = function (app, passport) {
   app.get('/:lang?/players/rank/:location?', /*isLoggedIn,*/ function (req, res) {
     res.locals.title = "Players Rank";
     db.getClanPlayerRank({ latest: false, location: req.params.location }, function (err, clanPlayers) {
-      if(err || !clanPlayers || !clanPlayers.length) return RenderPage('error', req, res, [], {}, {}, {status:"Players Rank Error",stack:"Error"});
+      if(err || !clanPlayers || !clanPlayers.length) return RenderPage('error', req, res, [], {}, "Not Found", {status:"Players Rank Error",stack:"Page not found"});
       db.getSoloPlayerRank({ latest: false, location: req.params.location }, function (err, soloPlayers) {
         var concatItems =  soloPlayers.items ? clanPlayers.items.concat(soloPlayers.items) : clanPlayers.items;
         var players = clanPlayers;
