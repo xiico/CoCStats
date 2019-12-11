@@ -5,7 +5,7 @@ google.charts.load('current', {'packages':['corechart']});
 //retrieve clan history
 var ajaxRequest = {
     type: "GET",
-    url: '/rankchart' + ($("#chart").attr("data-location") ? "/" + $("#chart").attr("data-location") : ""),
+    url: '/rankchart' + ($("#chart").attr("data-location") ? "/" + $("#chart").attr("data-location") : "/null"),
     dataType: "json",
     success: function (data) {
         if(data) {

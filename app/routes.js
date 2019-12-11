@@ -250,7 +250,7 @@ module.exports = function (app, passport) {
   // RANK CHART ==========================
   // =====================================
   app.get('/rankchart/:id?', /*isLoggedIn,*/ function (req, res) {
-    if (req.params.id) {
+    if (req.params.id && req.params.id !== "null") {
       db.getRank({ latest: false, location: req.params.id }, function (err, entries) {
         var chartData = formatChartData(entries);
         res.send(chartData);
