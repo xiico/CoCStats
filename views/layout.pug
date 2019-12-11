@@ -79,7 +79,7 @@ html
               // else                
                 li(class={active: url === "/authenticate"}) #[a(href="/authenticate") Authenticate]
               li(class={active: url === "/players/rank"}) #[a(href="/players/rank") Players Rank ]
-              li(class={active: url === "/rank"}) #[a(href="/en/rank") Clans Rank ]
+              li(class={active: url === "/rank" || url === "/en/rank"}) #[a(href="/en/rank") Clans Rank ]
             ul(class="nav navbar-nav navbar-right")
               if !user 
                 //li #[a(href="/signup") #[span(class="glyphicon glyphicon-user")] Sign Up]
