@@ -34,7 +34,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 //app.set('view engine', 'ejs'); // set up ejs for templating
-app.set('view engine', 'jade'); // set up jade for templating
+app.set('view engine', 'pug'); // set up jade for templating
 
 // required for passport
 app.use(session({

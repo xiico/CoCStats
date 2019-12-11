@@ -372,7 +372,7 @@ module.exports = function (app, passport) {
       });
     }
     else if (req.body.hasOwnProperty("btnRank")) {
-        res.redirect("/rank" + (req.body.location ? "/" + req.body.location : ""))
+        res.redirect("/en/rank" + (req.body.location ? "/" + req.body.location : ""))
     }
     else {
       RenderPage('index', req, res, clans, searchResults, req.flash("infoMessage"));
