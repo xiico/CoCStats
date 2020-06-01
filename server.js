@@ -13,6 +13,7 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var  schedule  =  require('node-schedule');
 
 var configDB = require('./config/database.js');
 
@@ -51,4 +52,5 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // launch ======================================================================
 app.listen(port);
+schedule.scheduleJob("*/1 * * * *", e => console.log("job:", e))
 console.log('Listening on port ' + port); 
