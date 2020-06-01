@@ -150,7 +150,7 @@ block content
     div(class="panel-heading")= _("Heroes")+":"
     div(class="panel-body table-responsive")
       each hero, k in player.heroes
-        - var heroName = "../images/"+hero.name.replace(' ','')+".png";
+        - var heroName = "../images/" + hero.name.replace(' ','').replace(' ','') + ".png";
         - var maxLevel = hero.level == hero.maxLevel ? "level-max" : "";        
         div(class="col-sm-6 col-md-4")
           div(class="heroes-gradient")
