@@ -135,7 +135,7 @@ block content
     div(class="panel-heading")= _("Troops")+":"
     div(class="panel-body table-responsive")
       each troop, k in player.troops
-        - var troopName = "../images/"+troop.name.replace(' ','').replace('.','').replace('.','').replace('.','').replace('.','')+".png" ;
+        - var troopName = "../images/"+troop.name.replace(' ','').replace(' ','').replace('.','').replace('.','').replace('.','').replace('.','')+".png" ;
         - var maxLevel = troop.level == troop.maxLevel ? "level-max" : "";
         div(class="col-sm-4 col-md-3")
           div(class="troops-gradient")
